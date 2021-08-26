@@ -1,0 +1,50 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Cattleia's Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist",
+    "dev": "ts-node-dev --respawn src",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cattleia/backend.git"
+  },
+  "keywords": [
+    "backend",
+    "api",
+    "web3",
+    "eth",
+    "dapp"
+  ],
+  "author": "Aku-mi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cattleia/backend/issues"
+  },
+  "homepage": "https://github.com/Cattleia/backend#readme",
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.4",
+    "@types/mongoose": "^5.11.97",
+    "@types/morgan": "^1.9.3",
+    "morgan": "^1.10.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.3.0",
+    "argon2": "^0.28.2",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.7",
+    "web3": "^1.5.2"
+  }
+}
