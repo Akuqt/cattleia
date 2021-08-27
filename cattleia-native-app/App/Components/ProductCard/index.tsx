@@ -32,7 +32,7 @@ export const ProductCard: React.FC<Product> = props => {
         <ModalInfo show={setShow} info={props.description} />
       </Modal>
       <ImgPriceContainer>
-        <Img source={require('../../assets/images/base-3.png')} />
+        <Img source={{uri: 'asset:/images/base-3.png'}} />
       </ImgPriceContainer>
       <InfoContainer>
         <PriceInfo>

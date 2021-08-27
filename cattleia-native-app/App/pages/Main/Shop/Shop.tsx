@@ -13,7 +13,7 @@ export const Shop: React.FC<any> = ({navigation}) => {
     <Container>
       <Header>
         <Logo>
-          <Img source={require('../../../assets/images/logo.png')} />
+          <Img source={{uri: 'asset:/images/logo.png'}} />
         </Logo>
         <Filter onPress={() => navigation.openDrawer()}>
           <Text style={{fontWeight: 'bold', color: colors.fontPrimary}}>

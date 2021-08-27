@@ -22,7 +22,7 @@ export const Info: React.FC<InfoProps> = props => {
     <Container>
       <BoundContainer>
         <ImgContainer>
-          <Img source={require('../../assets/images/logo.png')} />
+          <Img source={{uri: 'asset:/images/logo.png'}} />
         </ImgContainer>
 
         <InfoContainer>
