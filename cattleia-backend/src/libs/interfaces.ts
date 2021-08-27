@@ -7,13 +7,10 @@ export interface Role extends Document {
 
 export interface User extends Document {
   _id?: mongoose.ObjectId;
+  email: string;
+  name: string;
   userName: string;
   password: string;
-  name?: string;
-  gender?: string;
-  birthDate?: Date;
-  about?: string;
-  stars: number;
   role: Role;
   tokenVersion: number;
 }

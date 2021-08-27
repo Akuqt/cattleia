@@ -37,9 +37,15 @@ export const PasswordInput: React.FC<IPassword> = props => {
         }}>
         <IonIcons name={icon.name} color="#202020" size={30} />
       </IconP>
-      <Input colors={colors} style={{borderRadius: 4}} secureTextEntry={show} />
+      <Input
+        colors={colors}
+        style={{borderRadius: 4}}
+        secureTextEntry={show}
+        onChange={props.handler}
+        value={props.value}
+      />
       {props.help && (
-        <Help onPress={props.handler}>
+        <Help onPress={props.helpHandler}>
           <HelpTxt colors={colors}>Have you forgotten your password?</HelpTxt>
         </Help>
       )}

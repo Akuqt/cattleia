@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-export interface ITheme {
+interface ITheme {
   dark: boolean;
 }
 
@@ -9,7 +9,7 @@ const initialState: ITheme = {
 };
 
 export const modeSlice = createSlice({
-  name: "mode",
+  name: 'mode',
   initialState,
   reducers: {
     setMode: (state, action: PayloadAction<boolean>) => {
@@ -18,6 +18,6 @@ export const modeSlice = createSlice({
   },
 });
 
-export const { setMode } = modeSlice.actions;
+export const {setMode} = modeSlice.actions;
 
 export default modeSlice.reducer;

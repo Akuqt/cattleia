@@ -3,6 +3,14 @@ import { User } from "../libs";
 
 const userSchema: Schema = new Schema(
   {
+    name: {
+      type: String,
+    },
+
+    email: {
+      type: String,
+    },
+
     userName: {
       type: String,
       required: true,
@@ -22,14 +30,6 @@ const userSchema: Schema = new Schema(
     tokenVersion: {
       type: Number,
       default: 0,
-    },
-
-    name: {
-      type: String,
-    },
-
-    gender: {
-      type: String,
     },
   },
   {

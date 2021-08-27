@@ -15,14 +15,15 @@ export const signIn = async (
   res: Response
 ): Promise<Response> => {
   const { userName, password } = req.body;
-  const _user: User | null = await UserModel.findOne({ userName }).populate(
-    "role"
-  );
+
+  const _user: User | null = await UserModel.findOne({
+    userName,
+  }).populate("role");
 
   if (_user) {
     const matchPass = await comparePassword(_user.password, password);
     if (!matchPass) {
-      return res.status(401).json({ ok: false });
+      return res.json({ ok: false });
     } else {
       res.cookie("jid", createRefreshToken(_user), cookieConf);
 
@@ -30,14 +31,12 @@ export const signIn = async (
         ok: true,
         user: {
           id: _user._id,
+          name: _user.name,
           userName: _user.userName,
           role: _user.role.name,
-          name: _user.name,
-          gender: _user.gender,
-          birthDate: _user.birthDate,
-          about: _user.about,
+          email: _user.email,
+          token: createAcessToken(_user),
         },
-        accessToken: createAcessToken(_user),
       });
     }
   }
@@ -48,7 +47,7 @@ export const signUp = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const { name, gender, birthDate, userName, password, role, about } = req.body;
+  const { name, userName, password, role, email } = req.body;
 
   const _user2: User | null = await UserModel.findOne({ userName });
 
@@ -57,9 +56,7 @@ export const signUp = async (
   } else {
     const _user: User = new UserModel({
       name,
-      gender,
-      birthDate,
-      about,
+      email,
       userName,
       password: await encryptPassword(password),
     });
@@ -77,6 +74,14 @@ export const signUp = async (
 
     return res.json({
       ok: true,
+      user: {
+        id: _user._id,
+        name: _user.name,
+        userName: _user.userName,
+        role: _user.role.name,
+        email: _user.email,
+        token: createAcessToken(_user),
+      },
     });
   }
 };
