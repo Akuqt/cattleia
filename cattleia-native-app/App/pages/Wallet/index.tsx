@@ -19,12 +19,15 @@ import IconI from 'react-native-vector-icons/Ionicons';
 
 export const Wallet: React.FC = () => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
+
+  const user = useSelector((state: RootState) => state.userReducer.user);
+
   const colors = darkTheme ? theme.dark : theme.light;
   return (
     <Container color={colors.bgColor}>
       <Section heigth="30%">
         <Logo source={{uri: 'asset:/images/logo.png'}} />
-        <Txt color={colors.fontPrimary}>Account: Lorem ipsum</Txt>
+        <Txt color={colors.fontPrimary}>Account: {user.userName}</Txt>
         <Txt color={colors.fontPrimary}>Address: 0xd3f8...708f</Txt>
       </Section>
       <Section heigth="40%" border>

@@ -23,9 +23,12 @@ export const userSlide = createSlice({
     saveUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+    clearUser: state => {
+      state.user = initialState.user;
+    },
   },
 });
 
-export const {saveUser} = userSlide.actions;
+export const {saveUser, clearUser} = userSlide.actions;
 
 export default userSlide.reducer;

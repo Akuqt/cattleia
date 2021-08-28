@@ -1,13 +1,15 @@
 import React from 'react';
 import {View, Text, Button} from 'react-native';
 import {theme} from '../../../utils';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../../redux/store';
+import {clearUser} from '../../../redux/user';
 
 export const Profile: React.FC<any> = ({navigation}) => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
   const user = useSelector((state: RootState) => state.userReducer.user);
+  const dispatch = useDispatch();
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text style={{color: colors.fontPrimary, marginBottom: 10}}>
@@ -29,6 +31,13 @@ export const Profile: React.FC<any> = ({navigation}) => {
         Role: {user.role}
       </Text>
       <Button title="Wallet" onPress={() => navigation.navigate('Wallet')} />
+      <Button
+        title="Log out"
+        onPress={() => {
+          dispatch(clearUser());
+          navigation.navigate('HomePage');
+        }}
+      />
     </View>
   );
 };
