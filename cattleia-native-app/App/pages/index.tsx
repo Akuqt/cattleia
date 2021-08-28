@@ -3,7 +3,7 @@ import theme from '../utils/theme';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
-import {useColorScheme} from 'react-native';
+import {StatusBar, useColorScheme} from 'react-native';
 import {RootState} from '../redux/store';
 import {HomePage} from './HomePage';
 import {Register} from './Register';
@@ -27,6 +27,10 @@ export const Pages = () => {
   const colors = darkTheme ? theme.dark : theme.light;
   return (
     <NavigationContainer>
+      <StatusBar
+        backgroundColor={colors.bgColor}
+        barStyle={!darkTheme ? 'dark-content' : 'light-content'}
+      />
       <Stack.Navigator
         initialRouteName="HomePage"
         screenOptions={{
