@@ -15,7 +15,7 @@ export const createAcessToken = (user: User): string => {
     },
     config.JWT.ACCESS,
     {
-      expiresIn: "15m",
+      expiresIn: "1d",
     }
   );
 };

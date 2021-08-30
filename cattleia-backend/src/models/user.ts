@@ -27,6 +27,11 @@ const userSchema: Schema = new Schema(
       type: Schema.Types.ObjectId,
     },
 
+    account: {
+      ref: "Account",
+      type: Schema.Types.ObjectId,
+    },
+
     tokenVersion: {
       type: Number,
       default: 0,
