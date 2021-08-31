@@ -10,10 +10,10 @@ import {Register} from './Register';
 import {setMode} from '../redux/theme';
 import {Settins} from './Settings';
 import {Product} from './Main/Shop/Product';
+import {Wallet} from './Wallet';
 import {Login} from './Login';
 import {About} from './About';
 import {Main} from './Main';
-import {Wallet} from './Wallet';
 
 const Stack = createNativeStackNavigator();
 

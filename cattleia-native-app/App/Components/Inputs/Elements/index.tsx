@@ -1,10 +1,10 @@
 import styled from 'styled-components/native';
 
-export const InputGroup = styled.View`
+export const InputGroup = styled.View<{lm?: boolean}>`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin: 20px 0px;
+  margin: ${p => (p.lm ? '6px 0px' : '20px 0px')};
   position: relative;
 `;
 
@@ -24,13 +24,27 @@ export const Label = styled.Text<{colors: any; btn?: boolean}>`
   margin-bottom: 4px;
 `;
 
-export const Btn = styled.TouchableOpacity<{colors: any}>`
+export const Btn = styled.TouchableOpacity<{
+  colors: any;
+  width?: string;
+  sec?: boolean;
+  alignLabel: 'start' | 'center' | 'end';
+}>`
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: ${p =>
+    p.alignLabel === 'start'
+      ? 'flex-start'
+      : p.alignLabel === 'center'
+      ? p.alignLabel
+      : p.alignLabel === 'end'
+      ? 'flex-end'
+      : 'center'};
   align-items: center;
-  background-color: ${p => p.colors.primary};
-  width: 330px;
+  background-color: ${p => (p.sec ? p.colors.inputBg : p.colors.primary)};
+  width: ${p => (p.width ? p.width : '330px')};
   height: 40px;
+  padding: 0px 10px;
 `;
 
 export const Help = styled.TouchableOpacity`
