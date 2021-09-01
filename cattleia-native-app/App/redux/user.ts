@@ -13,6 +13,8 @@ const initialState: Init = {
     role: '',
     id: '',
     email: '',
+    hasAccount: false,
+    balance: '0',
   },
 };
 

@@ -1,15 +1,18 @@
 import React from 'react';
 import {Header, Container, Wrapper} from '../Elements';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {theme} from '../../../utils';
 import {RootState} from '../../../redux/store';
 import {SubmitBtn, PasswordInput} from '../../../Components/Inputs';
 import {useInputHandler} from '../../../hooks';
+import {Post} from '../../../services';
+import {saveUser} from '../../../redux/user';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Alert} from 'react-native';
 
 type ParamList = {
-  MainWallet: undefined;
+  Access: undefined;
   ImportAccount: undefined;
 };
 
@@ -23,6 +26,8 @@ export const ImportAccount: React.FC<Props> = ({navigation}) => {
   });
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
+  const user = useSelector((state: RootState) => state.userReducer.user);
+  const dispatch = useDispatch();
   return (
     <Container>
       <Header colors={colors}>Import</Header>
@@ -48,7 +53,17 @@ export const ImportAccount: React.FC<Props> = ({navigation}) => {
           width="330px"
           label="Import Account"
           lm
-          handler={() => navigation.navigate('MainWallet')}
+          handler={async () => {
+            const res = await Post<{ok: boolean}>(
+              '/web3/import-account',
+              values,
+              user.token,
+            );
+            if (res.data.ok) {
+              dispatch(saveUser({...user, hasAccount: true}));
+              navigation.navigate('Access');
+            } else Alert.alert('Invalid');
+          }}
         />
       </Wrapper>
     </Container>

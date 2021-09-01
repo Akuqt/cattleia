@@ -5,11 +5,13 @@ import {theme} from '../../../utils';
 import {RootState} from '../../../redux/store';
 import {PasswordInput, SubmitBtn} from '../../../Components/Inputs';
 import {useInputHandler} from '../../../hooks';
+import {Post} from '../../../services';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Alert} from 'react-native';
 
 type ParamList = {
-  MainWallet: undefined;
+  MainWallet: {address: string; balance: string};
   Access: undefined;
 };
 
@@ -19,6 +21,7 @@ export const Access: React.FC<Props> = ({navigation}) => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
   const {values, handler} = useInputHandler({password: ''});
+  const user = useSelector((state: RootState) => state.userReducer.user);
   return (
     <Container>
       <Header colors={colors}>Go to your</Header>
@@ -33,7 +36,19 @@ export const Access: React.FC<Props> = ({navigation}) => {
           width="330px"
           label="Get Access"
           lm
-          handler={() => navigation.navigate('MainWallet')}
+          handler={async () => {
+            const res = await Post<{
+              address: string;
+              balance: string;
+              ok: boolean;
+            }>('/web3/access', values, user.token);
+            if (res.data.ok)
+              navigation.navigate('MainWallet', {
+                address: res.data.address,
+                balance: res.data.balance,
+              });
+            else Alert.alert('Invalid');
+          }}
         />
       </Wrapper>
     </Container>

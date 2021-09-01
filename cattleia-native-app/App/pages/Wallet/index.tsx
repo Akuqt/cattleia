@@ -14,9 +14,10 @@ const Stack = createNativeStackNavigator();
 export const Wallet: React.FC = () => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
+  const user = useSelector((state: RootState) => state.userReducer.user);
   return (
     <Stack.Navigator
-      initialRouteName="NoWallet"
+      initialRouteName={user.hasAccount ? 'Access' : 'NoWallet'}
       screenOptions={{
         headerShown: false,
         animation: 'slide_from_right',
