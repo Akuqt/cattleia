@@ -6,4 +6,5 @@ export interface IPassword {
   helpHandler?: () => void;
   handler: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
   value: any;
+  label?: string;
 }

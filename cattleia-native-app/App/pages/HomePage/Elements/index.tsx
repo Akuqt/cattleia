@@ -16,19 +16,3 @@ export const Title = styled.Text<{mb: string; colors: any}>`
   font-weight: bold;
   margin-bottom: ${p => p.mb};
 `;
-
-export const Btn = styled.TouchableOpacity<{bg: string}>`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: ${p => p.bg};
-  width: 200px;
-  height: 40px;
-  margin: 6px 0px;
-`;
-
-export const Txt = styled.Text<{colors: any; btn?: boolean}>`
-  color: ${p => (p.btn ? p.colors.inputTxt : p.colors.fontPrimary)};
-  margin-left: 20px;
-`;

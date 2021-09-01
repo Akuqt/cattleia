@@ -1,7 +1,8 @@
 import React from 'react';
-import {Btn, Container, Title, Txt} from './Elements';
+import {Container, Title} from './Elements';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {theme} from '../../utils';
+import {SubmitBtn} from '../../Components/Inputs';
 
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
@@ -26,42 +27,38 @@ export const HomePage: React.FC<Props> = ({navigation}) => {
         to Cattleia
       </Title>
 
-      <Btn
-        bg={colors.inputBg}
-        onPress={() => {
+      <SubmitBtn
+        lm
+        sec
+        width="170px"
+        handler={() => {
           navigation.navigate('Register');
         }}
-        style={{
-          borderRadius: 4,
-        }}>
-        <Txt btn colors={colors}>
-          Sign Up
-        </Txt>
-      </Btn>
-      <Btn
-        bg={colors.primary}
-        onPress={() => {
+        colors={colors}
+        label="Sign Up"
+        alignLabel="start"
+      />
+      <SubmitBtn
+        lm
+        width="170px"
+        handler={() => {
           navigation.navigate('Login');
         }}
-        style={{
-          borderRadius: 4,
-        }}>
-        <Txt btn colors={colors}>
-          Sign In
-        </Txt>
-      </Btn>
-      <Btn
-        bg={colors.primary}
-        onPress={() => {
+        colors={colors}
+        label="Sign In"
+        alignLabel="start"
+      />
+      <SubmitBtn
+        lm
+        sec
+        width="170px"
+        handler={() => {
           navigation.navigate('Main');
         }}
-        style={{
-          borderRadius: 4,
-        }}>
-        <Txt btn colors={colors}>
-          Profile
-        </Txt>
-      </Btn>
+        colors={colors}
+        label="Profile"
+        alignLabel="start"
+      />
     </Container>
   );
 };

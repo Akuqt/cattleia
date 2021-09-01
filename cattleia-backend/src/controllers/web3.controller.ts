@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import { Request, Response } from "express";
 import { UserModel, AccountModel } from "../models";
-import { Account, User } from "../libs";
+import { Account, User, encryptPassword, comparePassword } from "../libs";
 
 const web3 = new Web3(process.env.GANACHE);
 
@@ -15,16 +15,22 @@ const getNonce = (): string => {
   return text;
 };
 
-export const getBalance = async (req: Request, res: Response) => {
+export const access = async (req: Request, res: Response) => {
   const id = req.id;
-
+  const { password } = req.body;
   const _user: User | null = await UserModel.findById(id).populate("account");
-
   if (!_user || !_user.account.payload) return res.json({ ok: false });
+  if (!(await comparePassword(_user.account.password, password)))
+    return res.json({ ok: false });
 
-  const balance = await web3.eth.getBalance(_user.account.payload.address);
+  const balanceWeis = await web3.eth.getBalance(_user.account.payload.address);
+  const balance = web3.utils.fromWei(balanceWeis, "ether");
 
-  res.json({ balance });
+  res.json({
+    ok: true,
+    address: _user.account.payload.address,
+    balance,
+  });
 };
 
 export const createAccount = async (req: Request, res: Response) => {
@@ -35,6 +41,8 @@ export const createAccount = async (req: Request, res: Response) => {
   const _user = await UserModel.findById(_id).populate("account");
 
   if (!_user || _user.account.payload) {
+    console.log("here");
+
     return res.json({ ok: false });
   }
 
@@ -48,6 +56,8 @@ export const createAccount = async (req: Request, res: Response) => {
 
   if (!_account) return res.json({ ok: false });
 
+  _account.password = await encryptPassword(password);
+
   _account.payload = encryptedKey;
 
   await _account.save();
@@ -56,7 +66,7 @@ export const createAccount = async (req: Request, res: Response) => {
 
   _user.save();
 
-  res.json({ encryptedKey });
+  res.json({ ok: true });
 };
 
 export const importAccount = async (req: Request, res: Response) => {
@@ -75,6 +85,8 @@ export const importAccount = async (req: Request, res: Response) => {
   const encryptedKey = web3.eth.accounts.encrypt(account.privateKey, password);
 
   const _account: Account = new AccountModel({ payload: encryptedKey });
+
+  _account.password = await encryptPassword(password);
 
   await _account.save();
 
@@ -95,12 +107,16 @@ export const getPrivateKey = async (req: Request, res: Response) => {
   if (!_user || !_user.account.payload) {
     return res.json({ ok: false });
   }
+
+  if (!(await comparePassword(_user.account.password, password)))
+    return res.json({ ok: false });
+
   const payloadKey = web3.eth.accounts.decrypt(
     _user.account.payload as any,
     password
   );
 
-  res.json({ payloadKey });
+  res.json({ privateKey: payloadKey.privateKey });
 };
 
 export const transferTo = async (req: Request, res: Response) => {
@@ -111,6 +127,9 @@ export const transferTo = async (req: Request, res: Response) => {
   const _user: User | null = await UserModel.findById(id).populate("account");
 
   if (!_user || !_user.account.payload) return res.json({ ok: false });
+
+  if (!(await comparePassword(_user.account.password, password)))
+    return res.json({ ok: false });
 
   const payloadKey = web3.eth.accounts.decrypt(
     _user.account.payload as any,
@@ -134,6 +153,7 @@ export const transferTo = async (req: Request, res: Response) => {
   const result = await web3.eth.sendSignedTransaction(raw);
 
   res.json({
+    ok: true,
     status: result.status,
     hash: result.transactionHash,
     to: result.to,

@@ -30,6 +30,9 @@ export const Profile: React.FC<any> = ({navigation}) => {
       <Text style={{color: colors.fontPrimary, marginBottom: 10}}>
         Role: {user.role}
       </Text>
+      <Text style={{color: colors.fontPrimary, marginBottom: 10}}>
+        Has Account: {user.hasAccount ? 'yes' : 'no'}
+      </Text>
       <Button title="Wallet" onPress={() => navigation.navigate('Wallet')} />
       <Button
         title="Log out"

@@ -10,4 +10,7 @@ export interface User {
   email: string;
   token: string;
   role: string;
+  hasAccount: boolean;
+  balance: string;
+  address: string;
 }

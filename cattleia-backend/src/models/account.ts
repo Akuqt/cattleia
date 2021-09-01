@@ -6,6 +6,9 @@ const accountSchema = new Schema(
     payload: {
       type: Object,
     },
+    password: {
+      type: String,
+    },
   },
   {
     versionKey: false,

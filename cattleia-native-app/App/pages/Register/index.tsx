@@ -10,15 +10,20 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useInputHandler} from '../../hooks';
 import {Post} from '../../services';
 import {IAuth} from '../../types';
+import {RootState} from '../../redux/store';
+import {theme} from '../../utils';
+import {useSelector} from 'react-redux';
 
-type RootStackParamList = {
-  Main: undefined;
-  Register: {};
+type ParamList = {
+  Main: {};
+  Register: undefined;
 };
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Main'>;
+type Props = NativeStackScreenProps<ParamList, 'Main'>;
 
 export const Register: React.FC<Props> = ({navigation}) => {
+  const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
+  const colors = darkTheme ? theme.dark : theme.light;
   const {values, handler} = useInputHandler({
     email: '',
     name: '',
@@ -49,6 +54,7 @@ export const Register: React.FC<Props> = ({navigation}) => {
         handler={handler('password')}
       />
       <SubmitBtn
+        colors={colors}
         label="Sign Up"
         handler={async () => {
           const res = await Post<IAuth>('/auth/sign-up', values);

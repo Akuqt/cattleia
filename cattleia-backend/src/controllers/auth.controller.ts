@@ -18,7 +18,9 @@ export const signIn = async (
 
   const _user: User | null = await UserModel.findOne({
     userName,
-  }).populate("role");
+  })
+    .populate("role")
+    .populate("account");
 
   if (_user) {
     const matchPass = await comparePassword(_user.password, password);
@@ -36,6 +38,7 @@ export const signIn = async (
           role: _user.role.name,
           email: _user.email,
           token: createAcessToken(_user),
+          hasAccount: _user.account.payload != undefined,
         },
       });
     }
@@ -72,6 +75,7 @@ export const signUp = async (
 
     const _account = new AccountModel({
       payload: null,
+      password: "",
     });
 
     _account.save();
@@ -89,6 +93,7 @@ export const signUp = async (
         role: _user.role.name,
         email: _user.email,
         token: createAcessToken(_user),
+        hasAccount: false,
       },
     });
   }

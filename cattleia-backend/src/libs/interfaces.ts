@@ -15,6 +15,7 @@ export interface AccountPayload {
 export interface Account extends Document {
   _id?: mongoose.ObjectId;
   payload: AccountPayload;
+  password: string;
 }
 
 export interface User extends Document {

@@ -22,12 +22,12 @@ export const PasswordInput: React.FC<IPassword> = props => {
   const colors = darkTheme ? theme.dark : theme.light;
   const [show, setShow] = useState(true);
   const [icon, setIcon] = useState({
-    name: 'eye-off-outline',
+    name: 'eye-off',
     active: true,
   });
   return (
     <InputGroup>
-      <Label colors={colors}>Password</Label>
+      <Label colors={colors}>{props.label ? props.label : 'Password'}</Label>
       <IconP
         onPress={() => {
           setShow(c => !c);

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   createAccount,
-  getBalance,
+  access,
   getPrivateKey,
   importAccount,
   transferTo,
@@ -11,7 +11,7 @@ import { validateToken } from "../middlewares";
 
 const router = Router();
 
-router.get("/balance", validateToken, getBalance);
+router.post("/access", validateToken, access);
 
 router.post("/create-account", validateToken, createAccount);
 
