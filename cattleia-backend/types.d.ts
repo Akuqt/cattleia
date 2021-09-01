@@ -5,3 +5,17 @@ declare namespace Express {
     role: string;
   }
 }
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    PORT: string;
+    JWT_ACCESS: string;
+    JWT_REFRESH: string;
+    MONGODB_URI: string;
+    DAPP_TOKEN: string;
+    INFURA_MAIN: string;
+    INFURA_ROPSTEN: string;
+    INFURA_RINKEBY: string;
+    GANACHE: string;
+  }
+}

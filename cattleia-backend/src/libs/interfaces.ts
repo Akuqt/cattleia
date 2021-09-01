@@ -5,6 +5,18 @@ export interface Role extends Document {
   name: string;
 }
 
+export interface AccountPayload {
+  address: string;
+  id: string;
+  crypto: object;
+  version: number;
+}
+
+export interface Account extends Document {
+  _id?: mongoose.ObjectId;
+  payload: AccountPayload;
+}
+
 export interface User extends Document {
   _id?: mongoose.ObjectId;
   email: string;
@@ -12,6 +24,7 @@ export interface User extends Document {
   userName: string;
   password: string;
   role: Role;
+  account: Account;
   tokenVersion: number;
 }
 

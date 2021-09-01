@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.6;
+pragma solidity ^0.5.0;
 
-import "@openzeppelin/contracts/token/ERC20/";
+// import "@openzeppelin/contracts/token/ERC20/";
 
 contract CattleiaToken {
     string public name;
@@ -19,7 +19,7 @@ contract CattleiaToken {
         uint256 _value
     );
 
-    constructor(string memory _name, string memory _symbol) {
+    constructor(string memory _name, string memory _symbol) public {
         name = _name;
         symbol = _symbol;
         decimals = 18;

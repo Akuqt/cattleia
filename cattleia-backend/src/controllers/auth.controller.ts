@@ -8,7 +8,7 @@ import {
   comparePassword,
   encryptPassword,
 } from "../libs";
-import { UserModel, RoleModel } from "../models";
+import { UserModel, RoleModel, AccountModel } from "../models";
 
 export const signIn = async (
   req: Request,
@@ -69,6 +69,14 @@ export const signUp = async (
       const roleD: Role | null = await RoleModel.findOne({ name: "user" });
       _user.role = roleD!;
     }
+
+    const _account = new AccountModel({
+      payload: null,
+    });
+
+    _account.save();
+
+    _user.account = _account;
 
     await _user.save();
 
