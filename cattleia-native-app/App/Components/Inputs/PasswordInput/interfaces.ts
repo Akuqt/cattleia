@@ -1,5 +1,9 @@
+import {TextInputChangeEventData, NativeSyntheticEvent} from 'react-native';
+
 export interface IPassword {
   help?: boolean;
   policy?: boolean;
-  handler?: () => void;
+  helpHandler?: () => void;
+  handler: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
+  value: any;
 }
