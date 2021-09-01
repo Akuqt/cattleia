@@ -34,7 +34,7 @@ export const Main: React.FC = () => {
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.secondary,
       })}
-      initialRouteName="Information"
+      initialRouteName="Profile"
       backBehavior="initialRoute"
       sceneContainerStyle={{
         backgroundColor: colors.bgColor,

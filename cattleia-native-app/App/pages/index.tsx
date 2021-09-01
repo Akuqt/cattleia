@@ -20,10 +20,10 @@ const Stack = createNativeStackNavigator();
 export const Pages = () => {
   const colorScheme = useColorScheme();
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setMode(colorScheme === 'dark'));
-  }, []);
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
+  useEffect(() => {
+    dispatch(setMode(colorScheme === 'dark' || darkTheme));
+  }, []);
   const colors = darkTheme ? theme.dark : theme.light;
   return (
     <NavigationContainer>
@@ -34,11 +34,7 @@ export const Pages = () => {
           animation: 'slide_from_right',
           contentStyle: {backgroundColor: colors.bgColor},
         }}>
-        <Stack.Screen
-          name="Main"
-          component={Main}
-          options={{headerShown: false}}
-        />
+        <Stack.Screen name="Main" component={Main} />
         <Stack.Screen name="HomePage" component={HomePage} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />

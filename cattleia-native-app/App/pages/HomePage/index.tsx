@@ -9,7 +9,7 @@ import {RootState} from '../../redux/store';
 type RootStackParamList = {
   Login: undefined;
   Register: undefined;
-  HomePage: {};
+  Main: undefined;
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -48,6 +48,18 @@ export const HomePage: React.FC<Props> = ({navigation}) => {
         }}>
         <Txt btn colors={colors}>
           Sign In
+        </Txt>
+      </Btn>
+      <Btn
+        bg={colors.primary}
+        onPress={() => {
+          navigation.navigate('Main');
+        }}
+        style={{
+          borderRadius: 4,
+        }}>
+        <Txt btn colors={colors}>
+          Profile
         </Txt>
       </Btn>
     </Container>
