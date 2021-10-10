@@ -1,13 +1,13 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../redux/store';
-import {theme} from '../../utils';
-import {MainWallet} from './MainWallet';
-import {NoWallet} from './NoWallet';
 import {ImportAccount} from './ImportAccount';
 import {CreateAccount} from './CreateAccount';
+import {useSelector} from 'react-redux';
+import {MainWallet} from './MainWallet';
+import {RootState} from '../../redux/store';
+import {NoWallet} from './NoWallet';
 import {Access} from './Access';
+import {theme} from '../../utils';
 
 const Stack = createNativeStackNavigator();
 

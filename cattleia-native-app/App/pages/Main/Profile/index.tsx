@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
-import {theme} from '../../../utils';
 import {useSelector, useDispatch} from 'react-redux';
+import {View, Text, Button} from 'react-native';
 import {RootState} from '../../../redux/store';
 import {clearUser} from '../../../redux/user';
+import {theme} from '../../../utils';
 
 export const Profile: React.FC<any> = ({navigation}) => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);

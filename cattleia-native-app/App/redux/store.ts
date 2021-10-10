@@ -1,8 +1,7 @@
-import {configureStore, combineReducers} from '@reduxjs/toolkit';
 import themeReducer from './theme';
-import userReducer from './user';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import userReducer from './user';
+import {configureStore, combineReducers} from '@reduxjs/toolkit';
 import {
   persistStore,
   persistReducer,

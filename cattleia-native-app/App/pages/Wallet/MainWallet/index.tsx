@@ -1,7 +1,13 @@
 import React, {useEffect, useState} from 'react';
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconI from 'react-native-vector-icons/Ionicons';
+import {BackHandler, Modal, ToastAndroid} from 'react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useClipboard} from '@react-native-community/clipboard';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
 import {theme} from '../../../utils';
+import {Send} from '../Send';
 import {
   MainTxt,
   Option,
@@ -13,12 +19,6 @@ import {
   Balance,
   Logo,
 } from '../Elements/Wallet';
-import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
-import IconI from 'react-native-vector-icons/Ionicons';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {BackHandler, Modal, ToastAndroid} from 'react-native';
-import {useClipboard} from '@react-native-community/clipboard';
-import {Send} from '../Send';
 
 type ParamList = {
   MainWallet: {address: string; balance: string};
@@ -36,7 +36,7 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
 
   const originalAddress = route.params.address;
 
-  const [_, setClipboard] = useClipboard();
+  const [, setClipboard] = useClipboard();
 
   const [show, setShow] = useState(false);
 
@@ -66,7 +66,6 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
     <Container color={colors.bgColor}>
       <Modal
         animationType="slide"
-        transparent={true}
         visible={show}
         onRequestClose={() => {
           setShow(false);
@@ -78,7 +77,7 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
         <Txt color={colors.fontPrimary}>Account: {user.userName}</Txt>
         <Txt
           onPress={() => {
-            setClipboard(originalAddress);
+            setClipboard('0x' + originalAddress);
             ToastAndroid.show(
               'Address copied to clipboard',
               ToastAndroid.SHORT,

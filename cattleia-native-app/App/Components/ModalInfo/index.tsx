@@ -1,13 +1,17 @@
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {TouchableOpacity, Text} from 'react-native';
 import {Container, Message, Icon} from './Elements';
-import {IModalInfo} from './interfaces';
+import {TouchableOpacity, Text} from 'react-native';
 import {theme, icons} from '../../utils';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 
-export const ModalInfo: React.FC<IModalInfo> = props => {
+interface Props {
+  show: (p: boolean) => void;
+  info: string;
+}
+
+export const ModalInfo: React.FC<Props> = props => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
   return (

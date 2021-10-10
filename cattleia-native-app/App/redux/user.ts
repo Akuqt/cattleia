@@ -15,6 +15,7 @@ const initialState: Init = {
     email: '',
     hasAccount: false,
     balance: '0',
+    address: '',
   },
 };
 

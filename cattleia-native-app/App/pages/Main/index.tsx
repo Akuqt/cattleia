@@ -1,15 +1,15 @@
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {theme} from '../../utils';
-import {useSelector} from 'react-redux';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {More} from './More';
-import {Profile} from './Profile';
-import {Home} from './Home';
+import {useSelector} from 'react-redux';
 import {Information} from './Information';
-import {ShopView} from './Shop';
-import {getIcon} from '../../utils';
 import {RootState} from '../../redux/store';
+import {ShopView} from './Shop';
+import {Profile} from './Profile';
+import {getIcon} from '../../utils';
+import {theme} from '../../utils';
+import {More} from './More';
+import {Home} from './Home';
 
 const Tab = createBottomTabNavigator();
 

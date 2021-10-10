@@ -1,10 +1,10 @@
 import React from 'react';
-import {Text, SafeAreaView, FlatList} from 'react-native';
 import {Container, Filter, Grid, Header, Img, Logo} from './Elements';
+import {Text, SafeAreaView, FlatList} from 'react-native';
 import {ProductCard} from '../../../Components/ProductCard';
-import {theme} from '../../../utils';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
+import {theme} from '../../../utils';
 
 export const Shop: React.FC<any> = ({navigation}) => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);

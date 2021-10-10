@@ -1,12 +1,12 @@
 import React from 'react';
 import {Header, Container, Wrapper} from '../Elements';
 import {useSelector, useDispatch} from 'react-redux';
-import {theme} from '../../../utils';
-import {RootState} from '../../../redux/store';
 import {SubmitBtn, PasswordInput} from '../../../Components/Inputs';
 import {useInputHandler} from '../../../hooks';
-import {Post} from '../../../services';
+import {RootState} from '../../../redux/store';
 import {saveUser} from '../../../redux/user';
+import {theme} from '../../../utils';
+import {Post} from '../../../services';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Alert} from 'react-native';

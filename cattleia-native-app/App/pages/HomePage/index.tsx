@@ -1,11 +1,10 @@
 import React from 'react';
-import {Container, Title} from './Elements';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {theme} from '../../utils';
-import {SubmitBtn} from '../../Components/Inputs';
-
+import {Container, Title} from './Elements';
 import {useSelector} from 'react-redux';
+import {SubmitBtn} from '../../Components/Inputs';
 import {RootState} from '../../redux/store';
+import {theme} from '../../utils';
 
 type RootStackParamList = {
   Login: undefined;

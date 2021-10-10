@@ -1,15 +1,15 @@
 import React from 'react';
-import {Alert, View} from 'react-native';
 import {PasswordInput, PlainInput, SubmitBtn} from '../../Components/Inputs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useInputHandler} from '../../hooks';
-import {Post} from '../../services';
-import {IAuth} from '../../types';
+import {Alert, View} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {saveUser} from '../../redux/user';
-import {RootState} from '../../redux/store';
-import {theme} from '../../utils';
 import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store';
+import {saveUser} from '../../redux/user';
+import {theme} from '../../utils';
+import {IAuth} from '../../types';
+import {Post} from '../../services';
 
 type Props = NativeStackScreenProps<{Main: undefined}, 'Main'>;
 

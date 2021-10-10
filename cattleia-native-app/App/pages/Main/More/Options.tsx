@@ -1,9 +1,9 @@
 import React from 'react';
 import IonIcons from 'react-native-vector-icons/Ionicons';
-import {Alert, Text} from 'react-native';
+import {theme, icons} from '../../../utils';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
-import {theme, icons} from '../../../utils';
+import {Alert} from 'react-native';
 import {
   Container,
   Option,

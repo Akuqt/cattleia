@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import {theme} from '../../../utils';
 import {useSelector} from 'react-redux';
+import {View, Text} from 'react-native';
 import {RootState} from '../../../redux/store';
+import {theme} from '../../../utils';
 
 export const Home: React.FC = () => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);

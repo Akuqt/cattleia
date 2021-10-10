@@ -1,9 +1,8 @@
 import React, {useEffect} from 'react';
-import theme from '../utils/theme';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {StatusBar, useColorScheme} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
-import {StatusBar, useColorScheme} from 'react-native';
 import {RootState} from '../redux/store';
 import {HomePage} from './HomePage';
 import {Register} from './Register';
@@ -13,6 +12,7 @@ import {Product} from './Main/Shop/Product';
 import {Wallet} from './Wallet';
 import {Login} from './Login';
 import {About} from './About';
+import {theme} from '../utils';
 import {Main} from './Main';
 
 const Stack = createNativeStackNavigator();

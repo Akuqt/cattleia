@@ -1,4 +1,4 @@
-export default {
+export const icons = {
   shop: {
     filled: 'pricetags',
     outline: 'pricetags-outline',

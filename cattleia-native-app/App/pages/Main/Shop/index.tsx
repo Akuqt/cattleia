@@ -1,11 +1,11 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {DrawerContentView} from '../../../Components/DrawerContentView';
-import {Shop} from './Shop';
-import {theme} from '../../../utils';
+import {Body, Header} from './DrawerContent';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
-import {Body, Header} from './DrawerContent';
+import {theme} from '../../../utils';
+import {Shop} from './Shop';
 
 const DrawerN = createDrawerNavigator();
 

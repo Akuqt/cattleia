@@ -1,13 +1,17 @@
 import React from 'react';
-
+import {TextInputChangeEventData, NativeSyntheticEvent} from 'react-native';
 import {InputGroup, Input, Label} from '../Elements';
-
-import {theme} from '../../../utils';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
-import {IEmail} from '../PlainInput/interfaces';
+import {theme} from '../../../utils';
 
-export const EmailInput: React.FC<IEmail> = props => {
+interface Props {
+  label: string;
+  handler: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
+  value: any;
+}
+
+export const EmailInput: React.FC<Props> = props => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
   return (

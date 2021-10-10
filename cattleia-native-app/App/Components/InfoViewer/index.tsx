@@ -1,4 +1,7 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store';
+import {theme} from '../../utils';
 import {
   Container,
   BtnContainer,
@@ -10,12 +13,19 @@ import {
   InfoTxt,
   BoundContainer,
 } from './Elements';
-import {InfoProps} from './interfaces';
-import {theme} from '../../utils';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../redux/store';
 
-export const Info: React.FC<InfoProps> = props => {
+interface Props {
+  mb: string;
+  info: string[];
+  handler?: () => void;
+  back?: {
+    show: boolean;
+    handler?: () => void;
+  };
+  last?: boolean;
+}
+
+export const Info: React.FC<Props> = props => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
   return (

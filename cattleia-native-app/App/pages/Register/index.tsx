@@ -1,18 +1,18 @@
 import React from 'react';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useInputHandler} from '../../hooks';
 import {Alert, View} from 'react-native';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store';
+import {IAuth} from '../../types';
+import {theme} from '../../utils';
+import {Post} from '../../services';
 import {
   EmailInput,
   PasswordInput,
   PlainInput,
   SubmitBtn,
 } from '../../Components/Inputs';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useInputHandler} from '../../hooks';
-import {Post} from '../../services';
-import {IAuth} from '../../types';
-import {RootState} from '../../redux/store';
-import {theme} from '../../utils';
-import {useSelector} from 'react-redux';
 
 type ParamList = {
   Main: {};

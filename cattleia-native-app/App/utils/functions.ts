@@ -1,4 +1,4 @@
-import icons from './icons';
+import {icons} from './icons';
 
 export const getIcon = (name: string, focused: boolean): string => {
   let iconName;

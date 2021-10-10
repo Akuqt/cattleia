@@ -1,9 +1,9 @@
 import React from 'react';
 import {Header, Container, Wrapper} from '../Elements';
 import {useSelector} from 'react-redux';
-import {theme} from '../../../utils';
-import {RootState} from '../../../redux/store';
 import {SubmitBtn} from '../../../Components/Inputs';
+import {RootState} from '../../../redux/store';
+import {theme} from '../../../utils';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 

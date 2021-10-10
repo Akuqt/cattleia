@@ -1,8 +1,17 @@
 import React from 'react';
 import {InputGroup, Btn, Label} from '../Elements';
-import {ISubmit} from './interfaces';
 
-export const SubmitBtn: React.FC<ISubmit> = props => {
+interface Props {
+  label: string;
+  handler: () => void;
+  width?: string;
+  colors: any;
+  lm?: boolean;
+  sec?: boolean;
+  alignLabel?: 'start' | 'center' | 'end';
+}
+
+export const SubmitBtn: React.FC<Props> = props => {
   return (
     <InputGroup lm={props.lm}>
       <Btn

@@ -1,5 +1,5 @@
-import {useState} from 'react';
 import {TextInputChangeEventData, NativeSyntheticEvent} from 'react-native';
+import {useState} from 'react';
 
 type Event = NativeSyntheticEvent<TextInputChangeEventData>;
 

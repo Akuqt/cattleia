@@ -1,13 +1,17 @@
 import React from 'react';
-
+import {TextInputChangeEventData, NativeSyntheticEvent} from 'react-native';
 import {InputGroup, Input, Label} from '../Elements';
-import {IPlain} from './interfaces';
-
-import {theme} from '../../../utils';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
+import {theme} from '../../../utils';
 
-export const PlainInput: React.FC<IPlain> = props => {
+interface Props {
+  label: string;
+  handler: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
+  value: any;
+}
+
+export const PlainInput: React.FC<Props> = props => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
   return (

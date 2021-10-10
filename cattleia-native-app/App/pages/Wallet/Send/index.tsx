@@ -1,12 +1,12 @@
 import React from 'react';
-import {Header, Container, Wrapper} from '../Elements';
-import {useSelector} from 'react-redux';
-import {theme} from '../../../utils';
-import {RootState} from '../../../redux/store';
 import {PlainInput, SubmitBtn, PasswordInput} from '../../../Components/Inputs';
+import {Header, Container, Wrapper} from '../Elements';
 import {useInputHandler} from '../../../hooks';
-import {Post} from '../../../services';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../redux/store';
+import {theme} from '../../../utils';
 import {Alert} from 'react-native';
+import {Post} from '../../../services';
 
 export const Send: React.FC = () => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
@@ -16,7 +16,7 @@ export const Send: React.FC = () => {
   return (
     <Container
       style={{
-        backgroundColor: '#ffffff',
+        backgroundColor: colors.bgColor,
       }}>
       <Header colors={colors}>Send</Header>
       <Wrapper mt="20px 0px">

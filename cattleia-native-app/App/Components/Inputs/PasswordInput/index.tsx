@@ -1,4 +1,10 @@
 import React, {useState} from 'react';
+import IonIcons from 'react-native-vector-icons/Ionicons';
+import {TextInputChangeEventData, NativeSyntheticEvent} from 'react-native';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../redux/store';
+import {Alert} from 'react-native';
+import {theme} from '../../../utils';
 import {
   InputGroup,
   Input,
@@ -10,14 +16,17 @@ import {
   Policy,
   PolicyTxt2,
 } from '../Elements';
-import IonIcons from 'react-native-vector-icons/Ionicons';
-import {IPassword} from './interfaces';
-import {Alert} from 'react-native';
-import {theme} from '../../../utils';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../../redux/store';
 
-export const PasswordInput: React.FC<IPassword> = props => {
+interface Props {
+  help?: boolean;
+  policy?: boolean;
+  helpHandler?: () => void;
+  handler: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
+  value: any;
+  label?: string;
+}
+
+export const PasswordInput: React.FC<Props> = props => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
   const [show, setShow] = useState(true);

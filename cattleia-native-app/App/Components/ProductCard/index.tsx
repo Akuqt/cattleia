@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity, Modal} from 'react-native';
-import {ModalInfo} from '../ModalInfo';
-import {Product} from './interfaces';
 import {theme, icons} from '../../utils';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
+import {ModalInfo} from '../ModalInfo';
 import {
   Container,
   ImgPriceContainer,
@@ -16,7 +15,15 @@ import {
   InfoContainer,
 } from './Elements';
 
-export const ProductCard: React.FC<Product> = props => {
+interface Props {
+  name: string;
+  description: string;
+  price: number;
+  image?: string;
+  handler: () => void;
+}
+
+export const ProductCard: React.FC<Props> = props => {
   const [show, setShow] = useState(false);
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;

@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Text, Switch, Image} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
+import {View, Text, Switch} from 'react-native';
 import {OptionContainer} from './Elements';
-import {setMode} from '../../redux/theme';
 import {RootState} from '../../redux/store';
+import {setMode} from '../../redux/theme';
 import {theme} from '../../utils';
 
 export const Settins: React.FC = () => {

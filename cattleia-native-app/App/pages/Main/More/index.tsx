@@ -2,8 +2,8 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
-import {theme} from '../../../utils';
 import {Options} from './Options';
+import {theme} from '../../../utils';
 
 const Stack = createNativeStackNavigator();
 
