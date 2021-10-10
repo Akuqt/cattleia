@@ -1,7 +1,6 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../redux/store';
-import {theme} from '../../utils';
+import GestureRecognizer from 'react-native-swipe-gestures';
+import {Theme} from '../../utils';
 import {
   Container,
   BtnContainer,
@@ -15,51 +14,61 @@ import {
 } from './Elements';
 
 interface Props {
+  colors: Theme['light'] | Theme['dark'];
   mb: string;
   info: string[];
-  handler?: () => void;
+  next?: () => void;
   back?: {
     show: boolean;
     handler?: () => void;
   };
+  onSwipeLeft?: () => void;
+  onSwipeRight?: () => void;
   last?: boolean;
 }
 
 export const Info: React.FC<Props> = props => {
-  const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
-  const colors = darkTheme ? theme.dark : theme.light;
   return (
-    <Container>
-      <BoundContainer>
-        <ImgContainer>
-          <Img source={{uri: 'asset:/images/logo.png'}} />
-        </ImgContainer>
+    <GestureRecognizer
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+      onSwipeLeft={props.onSwipeLeft}
+      onSwipeRight={props.onSwipeRight}>
+      <Container>
+        <BoundContainer>
+          <ImgContainer>
+            <Img source={{uri: 'asset:/images/logo.png'}} />
+          </ImgContainer>
 
-        <InfoContainer>
-          {props.info.map((info, i) => (
-            <InfoTxt colors={colors} mb={props.mb} key={i}>
-              {info}
-            </InfoTxt>
-          ))}
-        </InfoContainer>
-      </BoundContainer>
+          <InfoContainer>
+            {props.info.map((info, i) => (
+              <InfoTxt colors={props.colors} mb={props.mb} key={i}>
+                {info}
+              </InfoTxt>
+            ))}
+          </InfoContainer>
+        </BoundContainer>
 
-      <BtnContainer>
-        {props.back?.show ? (
-          <Btn onPress={props.back.handler}>
-            <BtnTxt colors={colors}>Back</BtnTxt>
-          </Btn>
-        ) : (
-          <BtnTxt colors={colors}></BtnTxt>
-        )}
-        {!props.last ? (
-          <Btn onPress={props.handler}>
-            <BtnTxt colors={colors}>Next</BtnTxt>
-          </Btn>
-        ) : (
-          <BtnTxt colors={colors}></BtnTxt>
-        )}
-      </BtnContainer>
-    </Container>
+        <BtnContainer>
+          {props.back?.show ? (
+            <Btn onPress={props.back.handler}>
+              <BtnTxt colors={props.colors}>Back</BtnTxt>
+            </Btn>
+          ) : (
+            <BtnTxt colors={props.colors}></BtnTxt>
+          )}
+          {!props.last ? (
+            <Btn onPress={props.next}>
+              <BtnTxt colors={props.colors}>Next</BtnTxt>
+            </Btn>
+          ) : (
+            <BtnTxt colors={props.colors}></BtnTxt>
+          )}
+        </BtnContainer>
+      </Container>
+    </GestureRecognizer>
   );
 };
