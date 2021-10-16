@@ -1,5 +1,5 @@
 import React from 'react';
-import {PasswordInput, PlainInput, SubmitBtn} from '../../Components/Inputs';
+import {PasswordInput, PlainInput, SubmitBtn} from '../../Components';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useInputHandler} from '../../hooks';
 import {Alert, View} from 'react-native';

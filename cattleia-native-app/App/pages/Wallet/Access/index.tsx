@@ -1,6 +1,6 @@
 import React from 'react';
 import {Header, Container, Wrapper} from '../Elements';
-import {PasswordInput, SubmitBtn} from '../../../Components/Inputs';
+import {PasswordInput, SubmitBtn} from '../../../Components';
 import {useInputHandler} from '../../../hooks';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';

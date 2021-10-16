@@ -12,7 +12,7 @@ import {
   PasswordInput,
   PlainInput,
   SubmitBtn,
-} from '../../Components/Inputs';
+} from '../../Components';
 
 type ParamList = {
   Main: {};

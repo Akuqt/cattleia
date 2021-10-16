@@ -2,7 +2,7 @@ import React from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Container, Title} from './Elements';
 import {useSelector} from 'react-redux';
-import {SubmitBtn} from '../../Components/Inputs';
+import {SubmitBtn} from '../../Components';
 import {RootState} from '../../redux/store';
 import {theme} from '../../utils';
 

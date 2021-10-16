@@ -1,5 +1,5 @@
 import React from 'react';
-import {Info} from '../../../../Components/InfoViewer';
+import {Info} from '../../../../Components';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../../redux/store';
 import {theme} from '../../../../utils';

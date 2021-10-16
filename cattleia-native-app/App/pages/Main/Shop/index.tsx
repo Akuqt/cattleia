@@ -1,6 +1,6 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {DrawerContentView} from '../../../Components/DrawerContentView';
+import {DrawerContentView} from '../../../Components';
 import {Body, Header} from './DrawerContent';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';

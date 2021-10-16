@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container, Filter, Grid, Header, Img, Logo} from './Elements';
 import {Text, SafeAreaView, FlatList} from 'react-native';
-import {ProductCard} from '../../../Components/ProductCard';
+import {ProductCard} from '../../../Components';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
 import {theme} from '../../../utils';
