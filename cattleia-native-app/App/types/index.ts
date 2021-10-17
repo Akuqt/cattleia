@@ -13,4 +13,11 @@ export interface User {
   hasAccount: boolean;
   balance: string;
   address: string;
+  rank: {
+    points: number;
+    next: {
+      points: number;
+      name: string;
+    };
+  };
 }
