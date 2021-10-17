@@ -84,7 +84,13 @@ export const importAccount = async (req: Request, res: Response) => {
 
   const encryptedKey = web3.eth.accounts.encrypt(account.privateKey, password);
 
-  const _account: Account = new AccountModel({ payload: encryptedKey });
+  const _account: Account | null = await AccountModel.findById(
+    _user.account._id
+  );
+
+  if (!_account) return res.json({ ok: false });
+
+  _account.payload = encryptedKey;
 
   _account.password = await encryptPassword(password);
 
