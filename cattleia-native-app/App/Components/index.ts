@@ -5,3 +5,4 @@ export * from './Inputs';
 export * from './InfoViewer';
 export * from './ProductCard';
 export * from './UserCard';
+export * from './RankCard';

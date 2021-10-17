@@ -9,13 +9,18 @@ export const Container = styled.View`
   padding: 20px 30px 10px 20px;
 `;
 
-export const AvatarContainer = styled.View`
+export const AvatarContainer = styled.View<{bc: string}>`
   height: 130px;
-  background-color: tomato;
   width: 130px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-top-right-radius: 65px;
+  border-top-left-radius: 65px;
+  border-bottom-right-radius: 65px;
+  border-bottom-left-radius: 65px;
+  border-width: 1px;
+  border-color: ${p => p.bc};
 `;
 
 export const InfoContainer = styled.View`
@@ -45,7 +50,6 @@ export const NameContainer = styled.View`
 
 export const Name = styled.TextInput<{border?: boolean; fc: string}>`
   color: ${p => p.fc};
-  font-size: 16px;
-  border-bottom-width: ${p => (p.border ? '1px' : '0px')};
-  border-bottom-color: ${p => p.fc};
+  font-size: 20px;
+  font-weight: bold;
 `;

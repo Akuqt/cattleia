@@ -29,14 +29,10 @@ export const UserCard: React.FC<Props> = props => {
 
   return (
     <Container>
-      <AvatarContainer
-        style={{
-          borderRadius: 65,
-        }}>
+      <AvatarContainer bc={props.theme.fontPrimary}>
         <Text>Avatar</Text>
       </AvatarContainer>
       <InfoContainer>
-        <Text style={{color: props.theme.fontPrimary}}>Name</Text>
         <TextContainer>
           <NameContainer>
             <Name

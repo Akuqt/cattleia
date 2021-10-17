@@ -22,14 +22,14 @@ export const Tabs: React.FC = () => {
         tabBarIndicatorStyle: {
           backgroundColor: colors.primary,
           width: 80,
-          height: 3,
+          height: 2,
           position: 'absolute',
           left: '15.25%',
         },
         tabBarPressColor: '#e5e5e55f',
         tabBarContentContainerStyle: {
           backgroundColor: colors.tabBarBg,
-          marginBottom: 3,
+          marginBottom: 2,
         },
       }}
       sceneContainerStyle={{
