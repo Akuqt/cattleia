@@ -26,7 +26,7 @@ export const Account: React.FC<Props> = ({navigation}) => {
 
   return (
     <Container>
-      <RankCard points={200} next={{name: 'Bronze', points: 300}} />
+      <RankCard rank={user.rank} />
       <Hero bg="#c4c4c466">
         <Txt fs="16px" color={theme.fontPrimary} bold>
           HOW TO EARN POINTS?

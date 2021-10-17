@@ -11,11 +11,12 @@ import {
   NameContainer,
   TextContainer,
 } from './Elements';
+import {User} from '../../types';
 
 interface Props {
   name: string;
   avatar?: any;
-  rank: string;
+  rank: User['rank'];
   theme: Theme['dark'] | Theme['light'];
 }
 
@@ -59,7 +60,7 @@ export const UserCard: React.FC<Props> = props => {
             )}
           </EditIcon>
         </TextContainer>
-        <Text style={{color: props.theme.fontPrimary}}>{props.rank}</Text>
+        <Text style={{color: props.theme.fontPrimary}}>{props.rank.name}</Text>
       </InfoContainer>
     </Container>
   );

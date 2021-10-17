@@ -1,5 +1,6 @@
 import React from 'react';
 import {Image} from 'react-native';
+import {User} from '../../types';
 import {
   Circle,
   Container,
@@ -13,11 +14,7 @@ import {
 } from './Elements';
 
 interface Props {
-  points: number;
-  next: {
-    name: string;
-    points: number;
-  };
+  rank: User['rank'];
 }
 
 export const RankCard: React.FC<Props> = props => {
@@ -30,24 +27,24 @@ export const RankCard: React.FC<Props> = props => {
           </Txt>
           <Txt
             bold
-            color={'#e885b6'}
+            color={props.rank.color}
             fs="36px"
             style={{
               marginTop: 8,
               marginBottom: -20,
             }}>
-            {props.points}
+            {props.rank.points}
           </Txt>
         </Points>
         <Goal>
           <Txt color="#808080" fs="13px" italic>
             Next Level
           </Txt>
-          <Txt color="#e885b6" fs="14px" italic>
-            {props.next.name}
+          <Txt color={props.rank.next.color} fs="14px" italic>
+            {props.rank.next.name}
           </Txt>
           <Txt color="#808080" fs="12px" italic>
-            {props.next.points} Points
+            {props.rank.next.points} Points
           </Txt>
         </Goal>
       </Information>
@@ -55,8 +52,8 @@ export const RankCard: React.FC<Props> = props => {
         <Circle radius={12} />
         <ProgressIndicator>
           <Line
-            progress={(props.points / props.next.points) * 100 + '%'}
-            color={'green'}
+            progress={(props.rank.points / props.rank.next.points) * 100 + '%'}
+            color={props.rank.next.color}
           />
         </ProgressIndicator>
         <Circle radius={45}>

@@ -24,7 +24,7 @@ export const Profile: React.FC<Props> = ({navigation}) => {
       style={{
         flex: 1,
       }}>
-      <UserCard theme={colors} name={user.name} rank="Gold" />
+      <UserCard theme={colors} name={user.name} rank={user.rank} />
       <Tabs />
     </View>
   );

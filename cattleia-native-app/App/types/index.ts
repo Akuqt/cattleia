@@ -15,7 +15,10 @@ export interface User {
   address: string;
   rank: {
     points: number;
+    name: string;
+    color: string;
     next: {
+      color: string;
       points: number;
       name: string;
     };
