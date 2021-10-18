@@ -31,4 +31,12 @@ export const icons = {
     filled: 'help-circle',
     outline: 'help-circle-outline',
   },
+  logOut: {
+    filled: 'log-out',
+    outline: 'log-out-outline',
+  },
+  wallet: {
+    filled: 'wallet',
+    outline: 'wallet-outline',
+  },
 };

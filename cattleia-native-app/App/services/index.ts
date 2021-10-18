@@ -8,24 +8,34 @@ export const Post = async <T>(
   body: object,
   token: string = '',
 ): Promise<AxiosResponse<T>> => {
-  return await axios.post(url, body, {
-    withCredentials: true,
-    baseURL: base,
-    headers: {
-      Authorization: `bearer ${token}`,
-    },
-  });
+  return await axios
+    .post(url, body, {
+      withCredentials: true,
+      timeout: 2000,
+      baseURL: base,
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    })
+    .catch(_e => {
+      return {} as AxiosResponse<T>;
+    });
 };
 
 export const Get = async <T>(
   url: string,
   token: string = '',
 ): Promise<AxiosResponse<T>> => {
-  return await axios.get(url, {
-    withCredentials: true,
-    baseURL: base,
-    headers: {
-      Authorization: `bearer ${token}`,
-    },
-  });
+  return await axios
+    .get(url, {
+      withCredentials: true,
+      timeout: 2000,
+      baseURL: base,
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    })
+    .catch(_e => {
+      return {} as AxiosResponse<T>;
+    });
 };

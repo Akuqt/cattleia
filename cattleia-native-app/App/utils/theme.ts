@@ -9,6 +9,8 @@ export const theme = {
     tabBarBg: '#282a2f',
     bgColor: '#272a2f',
     inputTxt: '#000000',
+    tabBarIndicatorActive: '#ffffff',
+    tabBarIndicatorInactive: '#808080',
   },
   light: {
     primary: '#E885B6',
@@ -20,6 +22,8 @@ export const theme = {
     tabBarBg: '#ffffff',
     bgColor: '#ffffff',
     inputTxt: '#000000',
+    tabBarIndicatorActive: '#000000',
+    tabBarIndicatorInactive: '#808080',
   },
 };
 

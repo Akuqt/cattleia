@@ -13,4 +13,14 @@ export interface User {
   hasAccount: boolean;
   balance: string;
   address: string;
+  rank: {
+    points: number;
+    name: string;
+    color: string;
+    next: {
+      color: string;
+      points: number;
+      name: string;
+    };
+  };
 }

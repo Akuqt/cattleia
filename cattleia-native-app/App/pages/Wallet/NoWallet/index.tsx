@@ -1,7 +1,7 @@
 import React from 'react';
 import {Header, Container, Wrapper} from '../Elements';
 import {useSelector} from 'react-redux';
-import {SubmitBtn} from '../../../Components/Inputs';
+import {SubmitBtn} from '../../../Components';
 import {RootState} from '../../../redux/store';
 import {theme} from '../../../utils';
 

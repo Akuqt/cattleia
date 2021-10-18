@@ -1,5 +1,5 @@
 import React from 'react';
-import {PlainInput, SubmitBtn, PasswordInput} from '../../../Components/Inputs';
+import {PlainInput, SubmitBtn, PasswordInput} from '../../../Components';
 import {Header, Container, Wrapper} from '../Elements';
 import {useInputHandler} from '../../../hooks';
 import {useSelector} from 'react-redux';

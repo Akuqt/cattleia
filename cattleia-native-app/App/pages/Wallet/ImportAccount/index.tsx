@@ -1,7 +1,7 @@
 import React from 'react';
 import {Header, Container, Wrapper} from '../Elements';
 import {useSelector, useDispatch} from 'react-redux';
-import {SubmitBtn, PasswordInput} from '../../../Components/Inputs';
+import {SubmitBtn, PasswordInput} from '../../../Components';
 import {useInputHandler} from '../../../hooks';
 import {RootState} from '../../../redux/store';
 import {saveUser} from '../../../redux/user';

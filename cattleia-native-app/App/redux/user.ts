@@ -16,6 +16,13 @@ const initialState: Init = {
     hasAccount: false,
     balance: '0',
     address: '',
+    rank: {
+      points: 200,
+      next: {
+        points: 300,
+        name: 'Bronze',
+      },
+    },
   },
 };
 
