@@ -3,7 +3,7 @@ import { User } from "./interfaces";
 import { sign } from "jsonwebtoken";
 import { CookieOptions } from "express";
 import { hash, verify } from "argon2";
-import { RoleModel } from "../models";
+import { RoleModel, RankModel } from "../models";
 
 export const createAcessToken = (user: User): string => {
   return sign(
@@ -58,6 +58,24 @@ export const initRoles = async (): Promise<void> => {
     const values = await Promise.all([
       new RoleModel({ name: "user" }).save(),
       new RoleModel({ name: "admin" }).save(),
+    ]);
+    console.log(values);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const initRanks = async (): Promise<void> => {
+  try {
+    const count = await RankModel.estimatedDocumentCount();
+    if (count > 0) {
+      return;
+    }
+    const values = await Promise.all([
+      new RankModel({ name: "newbie", points: 0 }).save(),
+      new RankModel({ name: "bronze", points: 200 }).save(),
+      new RankModel({ name: "silver", points: 500 }).save(),
+      new RankModel({ name: "gold", points: 1000 }).save(),
     ]);
     console.log(values);
   } catch (error) {

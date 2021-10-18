@@ -2,13 +2,15 @@ import { Request, Response } from "express";
 import {
   User,
   Role,
+  Rank,
   cookieConf,
   createAcessToken,
   createRefreshToken,
   comparePassword,
   encryptPassword,
 } from "../libs";
-import { UserModel, RoleModel, AccountModel } from "../models";
+import { getRank, rankColor } from "../libs";
+import { UserModel, RoleModel, AccountModel, RankModel } from "../models";
 
 export const signIn = async (
   req: Request,
@@ -20,6 +22,7 @@ export const signIn = async (
     userName,
   })
     .populate("role")
+    .populate("rank")
     .populate("account");
 
   if (_user) {
@@ -28,6 +31,8 @@ export const signIn = async (
       return res.json({ ok: false });
     } else {
       res.cookie("jid", createRefreshToken(_user), cookieConf);
+
+      const { current, next } = await getRank(_user.rank.points);
 
       return res.json({
         ok: true,
@@ -39,6 +44,16 @@ export const signIn = async (
           email: _user.email,
           token: createAcessToken(_user),
           hasAccount: _user.account.payload != undefined,
+          rank: {
+            color: rankColor(current.name),
+            name: current.name,
+            points: _user.rank.points,
+            next: {
+              color: rankColor(next.name),
+              name: next.name,
+              points: next.points,
+            },
+          },
         },
       });
     }
@@ -73,6 +88,8 @@ export const signUp = async (
       _user.role = roleD!;
     }
 
+    const _ranks: Rank[] = await RankModel.find();
+
     const _account = new AccountModel({
       payload: null,
       password: "",
@@ -81,6 +98,8 @@ export const signUp = async (
     _account.save();
 
     _user.account = _account;
+
+    _user.rank = _ranks[0];
 
     await _user.save();
 
@@ -91,6 +110,16 @@ export const signUp = async (
         name: _user.name,
         userName: _user.userName,
         role: _user.role.name,
+        rank: {
+          color: rankColor(_user.rank.name),
+          name: _user.rank.name,
+          points: _user.rank.points,
+          next: {
+            color: rankColor(_ranks[1].name),
+            name: _ranks[1].name,
+            points: _ranks[1].points,
+          },
+        },
         email: _user.email,
         token: createAcessToken(_user),
         hasAccount: false,

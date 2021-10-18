@@ -5,6 +5,12 @@ export interface Role extends Document {
   name: string;
 }
 
+export interface Rank extends Document {
+  _id?: mongoose.ObjectId;
+  name: string;
+  points: number;
+}
+
 export interface AccountPayload {
   address: string;
   id: string;
@@ -25,6 +31,7 @@ export interface User extends Document {
   userName: string;
   password: string;
   role: Role;
+  rank: Rank;
   account: Account;
   tokenVersion: number;
 }

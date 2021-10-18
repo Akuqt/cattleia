@@ -27,6 +27,11 @@ const userSchema: Schema = new Schema(
       type: Schema.Types.ObjectId,
     },
 
+    rank: {
+      points: Number,
+      name: String,
+    },
+
     account: {
       ref: "Account",
       type: Schema.Types.ObjectId,

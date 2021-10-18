@@ -3,13 +3,14 @@ import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import config from "./config";
-import { initRoles } from "./libs";
+import { initRoles, initRanks } from "./libs";
 
 //Inits
 const app = express();
 import "./database";
 
 initRoles();
+initRanks();
 
 //import Routes
 import routes from "./routes";
