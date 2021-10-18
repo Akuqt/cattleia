@@ -22,3 +22,5 @@ export const theme = {
     inputTxt: '#000000',
   },
 };
+
+export type Theme = typeof theme;
