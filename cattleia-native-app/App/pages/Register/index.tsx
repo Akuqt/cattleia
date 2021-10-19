@@ -15,8 +15,9 @@ import {
 } from '../../Components';
 
 type ParamList = {
-  Main: {};
+  Main: undefined;
   Register: undefined;
+  Verify: undefined;
 };
 
 type Props = NativeStackScreenProps<ParamList, 'Main'>;
@@ -57,11 +58,13 @@ export const Register: React.FC<Props> = ({navigation}) => {
         colors={colors}
         label="Sign Up"
         handler={async () => {
-          const res = await Post<IAuth>('/auth/sign-up', values);
-          Alert.alert(JSON.stringify(res.data.ok));
-          //navigation.navigate('Main');
+          // const res = await Post<IAuth>('/auth/sign-up', values);
+          // Alert.alert(JSON.stringify(res.data.ok));
+          navigation.navigate('Verify');
         }}
       />
     </View>
   );
 };
+
+export * from './Verify';
