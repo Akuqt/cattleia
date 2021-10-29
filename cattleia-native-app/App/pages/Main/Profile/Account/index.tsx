@@ -5,13 +5,14 @@ import {useSelector, useDispatch} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {icons, theme as colors} from '../../../../utils';
 import {RootState, clearUser} from '../../../../redux';
-import {RankCard} from '../../../../Components';
+import {RankCard, Accordion} from '../../../../Components';
+import {ScrollView} from 'react-native';
 
 type Props = NativeStackScreenProps<
   {
     Account: undefined;
     Wallet: undefined;
-    Login: undefined;
+    HomePage: undefined;
   },
   'Account'
 >;
@@ -25,54 +26,89 @@ export const Account: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
 
   return (
-    <Container>
-      <RankCard rank={user.rank} />
-      <Hero bg="#c4c4c466">
-        <Txt fs="16px" color={theme.fontPrimary} bold>
-          HOW TO EARN POINTS?
-        </Txt>
-        <Ionicons
-          name={icons.information.outline}
-          size={24}
-          color={theme.fontPrimary}
+    <ScrollView>
+      <Container>
+        <RankCard rank={user.rank} />
+        <Hero bg="#c4c4c466" mt="10px">
+          <Txt fs="14px" color={theme.fontPrimary} bold>
+            HOW TO EARN POINTS?
+          </Txt>
+          <Ionicons
+            name={icons.information.outline}
+            size={24}
+            color={theme.fontPrimary}
+          />
+        </Hero>
+        <Hero bg="transparent" orientation="column" mt="10px">
+          <Txt color={theme.primary} fs="14px" bold mb="10px">
+            Levels
+          </Txt>
+          <Txt color={theme.fontPrimary} fs="12px">
+            Unlock exclusive benefits at each level. Earn points by shopping,
+            sharing your opinion and much more.
+          </Txt>
+        </Hero>
+        <Accordion
+          theme={theme}
+          margin="10px 0px 0px 0px"
+          borderTop
+          title="Bronze"
+          img={{
+            uri: 'asset:/images/bronze.png',
+            width: 22,
+            height: 25,
+          }}
         />
-      </Hero>
-      <Hero bg="transparent" orientation="column">
-        <Txt color={theme.primary} fs="18px" bold mb="10px">
-          Levels
-        </Txt>
-        <Txt color={theme.fontPrimary} fs="16px">
-          Unlock exclusive benefits at each level. Earn points by shopping,
-          sharing your opinion and much more.
-        </Txt>
-      </Hero>
-      <Hero bg="#c4c4c466" heigth="50px" />
-      <Hero bg="transparent" orientation="column">
-        <OptionsContainer onPress={() => navigation.navigate('Wallet')}>
-          <Option>
-            <Ionicons name={icons.wallet.outline} size={25} />
-          </Option>
-          <Option ml="10px">
-            <Txt color={theme.fontPrimary} fs="14px" bold>
-              Wallet
-            </Txt>
-          </Option>
-        </OptionsContainer>
-        <OptionsContainer
-          onPress={() => {
-            dispatch(clearUser());
-            navigation.navigate('Login');
-          }}>
-          <Option>
-            <Ionicons name={icons.logOut.outline} size={25} />
-          </Option>
-          <Option ml="10px">
-            <Txt color={theme.fontPrimary} fs="14px" bold>
-              Log Out
-            </Txt>
-          </Option>
-        </OptionsContainer>
-      </Hero>
-    </Container>
+        <Accordion
+          theme={theme}
+          margin="0px"
+          borderTop
+          title="Silver"
+          img={{
+            uri: 'asset:/images/silver.png',
+            width: 22,
+            height: 25,
+          }}
+        />
+        <Accordion
+          theme={theme}
+          margin="0px"
+          borderTop
+          borderBottom
+          title="Gold"
+          img={{
+            uri: 'asset:/images/gold.png',
+            width: 22,
+            height: 25,
+          }}
+        />
+        <Hero bg="transparent" orientation="column" mt="2px">
+          <OptionsContainer onPress={() => navigation.navigate('Wallet')}>
+            <Option>
+              <Ionicons name={icons.wallet.outline} size={24} />
+            </Option>
+            <Option ml="10px">
+              <Txt color={theme.fontPrimary} fs="12px" bold>
+                Wallet
+              </Txt>
+            </Option>
+          </OptionsContainer>
+          <OptionsContainer
+            onPress={() => {
+              dispatch(clearUser());
+              navigation.navigate('HomePage');
+            }}>
+            <Option>
+              <Ionicons name={icons.logOut.outline} size={24} />
+            </Option>
+            <Option ml="10px">
+              <Txt color={theme.fontPrimary} fs="12px" bold>
+                Log Out
+              </Txt>
+            </Option>
+          </OptionsContainer>
+        </Hero>
+      </Container>
+    </ScrollView>
   );
 };

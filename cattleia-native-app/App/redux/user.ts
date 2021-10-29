@@ -17,8 +17,11 @@ const initialState: Init = {
     balance: '0',
     address: '',
     rank: {
+      color: '#000',
+      name: '',
       points: 200,
       next: {
+        color: '#000',
         points: 300,
         name: 'Bronze',
       },

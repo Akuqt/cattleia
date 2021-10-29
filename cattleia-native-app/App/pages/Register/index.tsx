@@ -1,11 +1,12 @@
 import React from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useInputHandler} from '../../hooks';
 import {Alert, View} from 'react-native';
-import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
-import {IAuth} from '../../types';
+import {saveUser} from '../../redux';
 import {theme} from '../../utils';
+import {IAuth} from '../../types';
 import {Post} from '../../services';
 import {
   EmailInput,
@@ -31,6 +32,7 @@ export const Register: React.FC<Props> = ({navigation}) => {
     userName: '',
     password: '',
   });
+  const dispatch = useDispatch();
 
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -58,9 +60,13 @@ export const Register: React.FC<Props> = ({navigation}) => {
         colors={colors}
         label="Sign Up"
         handler={async () => {
-          // const res = await Post<IAuth>('/auth/sign-up', values);
-          // Alert.alert(JSON.stringify(res.data.ok));
-          navigation.navigate('Verify');
+          const res = await Post<IAuth>('/auth/sign-up', values);
+          if (res.data.ok) {
+            dispatch(saveUser(res.data.user));
+            navigation.navigate('Verify');
+          } else {
+            Alert.alert('Something went wrong!');
+          }
         }}
       />
     </View>

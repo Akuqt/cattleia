@@ -140,7 +140,7 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
               color={colors.secondary}
               size={30}
             />
-            <MainTxt color={colors.fontPrimary}>21020.0012 CTT</MainTxt>
+            <MainTxt color={colors.fontPrimary}>0 CTT</MainTxt>
           </Grapper>
           <IconI
             name="chevron-forward-outline"

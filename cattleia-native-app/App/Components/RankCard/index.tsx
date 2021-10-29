@@ -22,7 +22,7 @@ export const RankCard: React.FC<Props> = props => {
     <Container>
       <Information>
         <Points>
-          <Txt color="#808080" fs="15px">
+          <Txt color="#808080" fs="12px">
             TOTAL POINTS
           </Txt>
           <Txt
@@ -30,8 +30,8 @@ export const RankCard: React.FC<Props> = props => {
             color={props.rank.color}
             fs="36px"
             style={{
-              marginTop: 8,
-              marginBottom: -20,
+              marginTop: 12,
+              marginBottom: -18,
             }}>
             {props.rank.points}
           </Txt>

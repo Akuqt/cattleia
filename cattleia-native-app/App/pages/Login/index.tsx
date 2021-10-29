@@ -31,7 +31,10 @@ export const Login: React.FC<Props> = ({navigation}) => {
     return () => backHandler.remove();
   }, []);
 
-  const {values, handler} = useInputHandler({userName: '', password: ''});
+  const {values, handler, clearValues} = useInputHandler({
+    userName: '',
+    password: '',
+  });
   const dispatch = useDispatch();
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
@@ -55,6 +58,7 @@ export const Login: React.FC<Props> = ({navigation}) => {
           const res = await Post<IAuth>('/auth/sign-in', values);
           if (!!res.data?.ok) {
             dispatch(saveUser(res.data.user));
+            clearValues();
             navigation.navigate('Main');
           } else Alert.alert('Invalid');
         }}

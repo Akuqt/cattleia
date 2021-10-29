@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useSelector} from 'react-redux';
 import {Information} from './Information';
+import {BackHandler} from 'react-native';
 import {RootState} from '../../redux/store';
 import {ShopView} from './Shop';
 import {Profile} from './Profile';
@@ -13,9 +14,23 @@ import {Home} from './Home';
 
 const Tab = createBottomTabNavigator();
 
-export const Main: React.FC = () => {
+export const Main: React.FC<any> = ({navigation}) => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
+
+  useEffect(() => {
+    const backAction = () => {
+      navigation.navigate('Main');
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -35,7 +50,7 @@ export const Main: React.FC = () => {
         tabBarInactiveTintColor: colors.secondary,
       })}
       initialRouteName="Profile"
-      backBehavior="initialRoute"
+      backBehavior="order"
       sceneContainerStyle={{
         backgroundColor: colors.bgColor,
       }}>

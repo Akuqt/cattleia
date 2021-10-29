@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ImportAccount} from './ImportAccount';
 import {CreateAccount} from './CreateAccount';
+import {BackHandler} from 'react-native';
 import {useSelector} from 'react-redux';
 import {MainWallet} from './MainWallet';
 import {RootState} from '../../redux/store';
@@ -11,7 +12,21 @@ import {theme} from '../../utils';
 
 const Stack = createNativeStackNavigator();
 
-export const Wallet: React.FC = () => {
+export const Wallet: React.FC<any> = ({navigation}) => {
+  useEffect(() => {
+    const backAction = () => {
+      navigation.navigate('Main');
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
   const user = useSelector((state: RootState) => state.userReducer.user);

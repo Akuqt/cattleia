@@ -39,4 +39,12 @@ export const icons = {
     filled: 'wallet',
     outline: 'wallet-outline',
   },
+  chevronUp: {
+    filled: 'chevron-up',
+    outline: 'chevron-up-outline',
+  },
+  chevronDown: {
+    filled: 'chevron-down',
+    outline: 'chevron-down-outline',
+  },
 };
