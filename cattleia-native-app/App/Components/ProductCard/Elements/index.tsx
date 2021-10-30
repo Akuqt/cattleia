@@ -4,7 +4,9 @@ export const Container = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 188px;
+  height: 150px;
+  margin: 4px 0px;
+  padding: 0px 15px;
 `;
 
 export const Img = styled.Image`
@@ -12,35 +14,31 @@ export const Img = styled.Image`
   height: 100%;
 `;
 
-export const PriceInfo = styled.View`
-  display: flex;
-  flex-direction: row;
-  width: 140px;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 export const ImgPriceContainer = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 200px;
+  align-items: center;
+  width: 50%;
   height: 100%;
+  background-color: #8080802f;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 `;
 
 export const InfoContainer = styled.View`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: flex-start;
-  width: 100%;
-  height: 100%;
+  width: 50%;
 `;
 
-export const Price = styled.Text`
-  font-weight: bold;
-`;
-
-export const Txt = styled.Text<{colors: any}>`
-  color: ${p => p.colors.fontPrimary};
-  padding: 0px 6px;
+export const Txt = styled.Text<{color: string; bold?: boolean; fs: string}>`
+  color: ${p => p.color};
+  margin: 10px 10px 0px 20px;
+  font-weight: ${p => (p.bold ? 'bold' : 'normal')};
+  font-size: ${p => p.fs};
 `;

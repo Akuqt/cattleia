@@ -1,16 +1,9 @@
-import React, {useState} from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {TouchableOpacity, Modal} from 'react-native';
-import {theme, icons} from '../../utils';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../redux/store';
-import {ModalInfo} from '../ModalInfo';
+import React from 'react';
+import {Theme} from '../../utils';
 import {
   Container,
   ImgPriceContainer,
   Img,
-  PriceInfo,
-  Price,
   Txt,
   InfoContainer,
 } from './Elements';
@@ -20,39 +13,32 @@ interface Props {
   description: string;
   price: number;
   image?: string;
-  handler: () => void;
+  onPress: () => void;
+  theme: Theme['dark'] | Theme['light'];
+  shop?: boolean;
 }
 
 export const ProductCard: React.FC<Props> = props => {
-  const [show, setShow] = useState(false);
-  const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
-  const colors = darkTheme ? theme.dark : theme.light;
   return (
-    <Container onPress={() => props.handler()}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={show}
-        onRequestClose={() => {
-          setShow(c => !c);
-        }}>
-        <ModalInfo show={setShow} info={props.description} />
-      </Modal>
+    <Container onPress={() => props.onPress()}>
       <ImgPriceContainer>
         <Img source={{uri: 'asset:/images/base-3.png'}} />
       </ImgPriceContainer>
       <InfoContainer>
-        <PriceInfo>
-          <Txt colors={colors}>{props.name}</Txt>
-          <Price style={{color: colors.fontPrimary}}>${props.price}</Price>
-          <TouchableOpacity onPress={() => setShow(true)}>
-            <Ionicons
-              name={icons.information.filled}
-              color={colors.secondary}
-              size={20}
-            />
-          </TouchableOpacity>
-        </PriceInfo>
+        <Txt color={props.theme.fontPrimary} bold fs="15px">
+          {props.name}
+        </Txt>
+        <Txt
+          color={props.theme.fontPrimary}
+          fs={props.shop ? '18px' : '15px'}
+          bold={!!!props.shop}>
+          {props.price === 0 ? 'free' : `$${props.price}`}
+        </Txt>
+        {props.shop && (
+          <Txt color={props.theme.fontPrimary} fs="14px">
+            {props.description}
+          </Txt>
+        )}
       </InfoContainer>
     </Container>
   );

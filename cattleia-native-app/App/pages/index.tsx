@@ -14,6 +14,7 @@ import {Login} from './Login';
 import {About} from './About';
 import {theme} from '../utils';
 import {Main} from './Main';
+import {Cart} from './Main/Shop/Cart';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +48,7 @@ export const Pages = () => {
         <Stack.Screen name="About" component={About} />
         <Stack.Screen name="Product" component={Product} />
         <Stack.Screen name="Wallet" component={Wallet} />
+        <Stack.Screen name="Cart" component={Cart} />
       </Stack.Navigator>
     </NavigationContainer>
   );
