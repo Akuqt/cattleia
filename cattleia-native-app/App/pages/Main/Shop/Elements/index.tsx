@@ -42,7 +42,7 @@ export const Footer = styled.View<{border?: boolean}>`
   align-items: center;
   flex-direction: row;
   border-top-width: ${p => (p.border ? '1px' : '0px')};
-  border-top-color: #808080;
+  border-top-color: #c4c4c4;
   padding: 0px 20px;
 `;
 
@@ -84,19 +84,21 @@ export const Btn = styled.TouchableOpacity<{
   bg: string;
   width: string;
   margin: string;
+  round?: boolean;
+  height: string;
 }>`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   width: ${p => p.width};
-  height: 22px;
+  height: ${p => p.height};
   margin: ${p => p.margin};
   background-color: ${p => p.bg};
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-bottom-left-radius: ${p => (p.round ? '20px' : '4px')};
+  border-bottom-right-radius: ${p => (p.round ? '20px' : '4px')};
+  border-top-left-radius: ${p => (p.round ? '20px' : '4px')};
+  border-top-right-radius: ${p => (p.round ? '20px' : '4px')};
 `;
 
 export const SafeArea = styled.SafeAreaView``;

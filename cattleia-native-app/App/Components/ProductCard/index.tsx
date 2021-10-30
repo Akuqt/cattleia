@@ -1,11 +1,14 @@
 import React from 'react';
-import {Theme} from '../../utils';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Theme, icons} from '../../utils';
 import {
   Container,
   ImgPriceContainer,
   Img,
   Txt,
   InfoContainer,
+  BtnContainer,
+  Btn,
 } from './Elements';
 
 interface Props {
@@ -16,15 +19,17 @@ interface Props {
   onPress: () => void;
   theme: Theme['dark'] | Theme['light'];
   shop?: boolean;
+  centerInfo?: boolean;
+  disabled?: boolean;
 }
 
 export const ProductCard: React.FC<Props> = props => {
   return (
-    <Container onPress={() => props.onPress()}>
+    <Container onPress={props.onPress} disabled={props.disabled}>
       <ImgPriceContainer>
-        <Img source={{uri: 'asset:/images/base-3.png'}} />
+        <Img source={{uri: props.image}} />
       </ImgPriceContainer>
-      <InfoContainer>
+      <InfoContainer center={props.centerInfo}>
         <Txt color={props.theme.fontPrimary} bold fs="15px">
           {props.name}
         </Txt>
@@ -34,12 +39,23 @@ export const ProductCard: React.FC<Props> = props => {
           bold={!!!props.shop}>
           {props.price === 0 ? 'free' : `$${props.price}`}
         </Txt>
-        {props.shop && (
+        {!!props.shop && (
           <Txt color={props.theme.fontPrimary} fs="14px">
             {props.description}
           </Txt>
         )}
       </InfoContainer>
+      {!!!props.shop && (
+        <BtnContainer>
+          <Btn onPress={props.onPress}>
+            <Ionicons
+              name={icons.trash.outline}
+              color={props.theme.primary}
+              size={25}
+            />
+          </Btn>
+        </BtnContainer>
+      )}
     </Container>
   );
 };

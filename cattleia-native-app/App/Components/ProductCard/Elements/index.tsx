@@ -10,8 +10,12 @@ export const Container = styled.TouchableOpacity`
 `;
 
 export const Img = styled.Image`
-  width: 150px;
-  height: 100%;
+  width: 155px;
+  height: 85%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 `;
 
 export const ImgPriceContainer = styled.View`
@@ -28,12 +32,27 @@ export const ImgPriceContainer = styled.View`
   border-top-right-radius: 10px;
 `;
 
-export const InfoContainer = styled.View`
+export const InfoContainer = styled.View<{center?: boolean}>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: ${p => (p.center ? 'center' : 'flex-start')};
+  width: 30%;
+`;
+
+export const BtnContainer = styled.View`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: flex-start;
-  width: 50%;
+  width: 20%;
+  padding: 10px 0px;
+`;
+
+export const Btn = styled.TouchableOpacity`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Txt = styled.Text<{color: string; bold?: boolean; fs: string}>`

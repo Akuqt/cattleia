@@ -67,7 +67,7 @@ export const Product: React.FC<Props> = ({
         <Img
           round
           source={{
-            uri: 'https://images.pexels.com/photos/3732527/pexels-photo-3732527.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+            uri: product?.img,
           }}
           style={{width: 300, height: 300}}
         />
@@ -85,12 +85,19 @@ export const Product: React.FC<Props> = ({
             pt="0px"
             justify="flex-start"
             align="center">
-            <Btn bg={colors.primary} width="55px" margin="5px">
+            <Btn
+              round
+              height="22px"
+              bg={colors.primary}
+              width="55px"
+              margin="5px">
               <Txt fs="14px" color="#000" bold>
                 Buy
               </Txt>
             </Btn>
             <Btn
+              height="22px"
+              round
               disabled={product?.onCart}
               bg={colors.inputBg}
               width="100px"

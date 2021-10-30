@@ -1,13 +1,12 @@
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {theme, getProductFilter} from '../../../utils';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {DrawerScreenProps} from '@react-navigation/drawer';
+import {DrawerActions} from '@react-navigation/native';
 import {ProductCard} from '../../../Components';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
 import {FlatList} from 'react-native';
-import {theme} from '../../../utils';
 import {
   Container,
   HeaderBtn,
@@ -18,28 +17,32 @@ import {
   Txt,
   SafeArea,
 } from './Elements';
+import {Product} from '../../../types';
 
-type Props = CompositeScreenProps<
-  NativeStackScreenProps<
-    {
-      Product: {
-        id: string;
-      };
-      Shop: undefined;
-      Cart: {id: string};
-    },
-    'Shop'
-  >,
-  DrawerScreenProps<{Filters: undefined}>
+type Nav = NativeStackScreenProps<
+  {
+    Product: {
+      id: string;
+    };
+    Shop: undefined;
+    Cart: {id: string};
+  },
+  'Shop'
 >;
 
-export const Shop: React.FC<Props> = ({navigation}) => {
+interface Props {
+  filter: keyof Product;
+  type: '1' | '2' | '0';
+}
+
+export const Shop: React.FC<Props & Nav> = ({navigation, filter, type}) => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
   const products = useSelector(
     (state: RootState) => state.shopReducer.shop,
   ).products;
   const cart = useSelector((state: RootState) => state.shopReducer.shop).cart;
+
   return (
     <Container
       pt="20px"
@@ -68,7 +71,9 @@ export const Shop: React.FC<Props> = ({navigation}) => {
           </HeaderBtn>
           <HeaderBtn
             margin="40px 30px 0px 0px"
-            onPress={() => navigation.openDrawer()}>
+            onPress={() => {
+              navigation.dispatch(DrawerActions.openDrawer());
+            }}>
             <Txt bold color={colors.fontPrimary} fs="15px">
               FILTERS
             </Txt>
@@ -81,7 +86,7 @@ export const Shop: React.FC<Props> = ({navigation}) => {
         }}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={products}
+          data={getProductFilter(filter, products, type)}
           renderItem={current => (
             <Grid>
               <ProductCard
@@ -89,6 +94,7 @@ export const Shop: React.FC<Props> = ({navigation}) => {
                 name={current.item.name}
                 description={current.item.description1}
                 price={current.item.price}
+                image={current.item.img}
                 onPress={() => {
                   navigation.navigate('Product', {id: current.item.id});
                 }}

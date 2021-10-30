@@ -47,4 +47,8 @@ export const icons = {
     filled: 'chevron-down',
     outline: 'chevron-down-outline',
   },
+  trash: {
+    filled: 'trash',
+    outline: 'trash-outline',
+  },
 };

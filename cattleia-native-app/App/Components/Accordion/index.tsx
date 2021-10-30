@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Container, Header, Title, Content, Group, Img} from './Elements';
 import {icons, Theme} from '../../utils';
@@ -18,6 +18,7 @@ interface Props {
 
 export const Accordion: React.FC<Props> = props => {
   const [show, setShow] = useState(false);
+
   return (
     <Container m={props.margin} bb={props.borderBottom} bt={props.borderTop}>
       <Header onPress={() => setShow(c => !c)}>
@@ -50,7 +51,7 @@ export const Accordion: React.FC<Props> = props => {
         )}
       </Header>
 
-      {show && <Content />}
+      {show && <Content>{props.children}</Content>}
     </Container>
   );
 };

@@ -3,6 +3,25 @@ export interface IAuth {
   ok: boolean;
 }
 
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description1: string;
+  description2: string;
+  onCart: boolean;
+  img: string;
+}
+
+export interface Shop {
+  products: Product[];
+  cart: {
+    count: number;
+    products: Product[];
+    total: number;
+  };
+}
+
 export interface User {
   id: string;
   name: string;

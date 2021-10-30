@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {ProductCard, SubmitBtn} from '../../../../Components';
 import {BackHandler, FlatList} from 'react-native';
 import {removeCartProduct} from '../../../../redux';
+import {ProductCard} from '../../../../Components';
 import {RootState} from '../../../../redux/store';
 import {theme} from '../../../../utils';
 import {
@@ -16,6 +16,7 @@ import {
   Header,
   Footer,
   HeaderBtn,
+  Btn,
 } from '../Elements';
 
 type Props = NativeStackScreenProps<
@@ -95,12 +96,14 @@ export const Cart: React.FC<Props> = ({
             renderItem={current => (
               <Grid>
                 <ProductCard
+                  disabled
+                  centerInfo
                   theme={colors}
                   name={current.item.name}
                   description={current.item.description2}
                   price={current.item.price}
+                  image={current.item.img}
                   onPress={() => {
-                    // navigation.navigate('Product', {id: current.item.id});
                     dispatch(removeCartProduct({id: current.item.id}));
                   }}
                 />
@@ -109,32 +112,41 @@ export const Cart: React.FC<Props> = ({
           />
         ) : (
           <Container
-            pt="10px"
+            pt="40px"
             direction="column"
             align="center"
             justify="center">
-            <Txt color={colors.fontPrimary} fs="15px">
-              No products
+            <Txt color={colors.fontPrimary} fs="16px" bold>
+              Your cart is currently empty :(
             </Txt>
           </Container>
         )}
       </SafeArea>
       <Footer border>
-        <SubmitBtn
-          handler={() => {}}
-          colors={colors}
-          label="Pay"
-          width="100px"
-        />
+        <Btn
+          disabled={cart.count === 0}
+          height="30px"
+          margin="10px 0px"
+          onPress={() => {}}
+          bg={colors.primary}
+          width="80px">
+          <Txt color={colors.fontPrimary} fs="15px" bold>
+            Pay
+          </Txt>
+        </Btn>
 
-        <SubmitBtn
-          handler={() => {
+        <Btn
+          height="30px"
+          margin="10px 0px"
+          onPress={() => {
             navigation.navigate('Shop');
           }}
-          colors={colors}
-          label="Continue Shopping"
-          width="200px"
-        />
+          bg={colors.gray}
+          width="180px">
+          <Txt color={colors.fontPrimary} fs="15px" bold>
+            Continue Shopping
+          </Txt>
+        </Btn>
       </Footer>
     </Container>
   );

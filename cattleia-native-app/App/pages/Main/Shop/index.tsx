@@ -1,22 +1,55 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {DrawerContentView} from '../../../Components';
-import {Body, Header} from './DrawerContent';
+import {DrawerActions} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
 import {theme} from '../../../utils';
+import {Filter} from './Filter';
 import {Shop} from './Shop';
+import {Product} from '../../../types';
 
 const DrawerN = createDrawerNavigator();
 
-export const ShopView: React.FC<any> = () => {
+type Props = NativeStackScreenProps<
+  {
+    Product: {
+      id: string;
+    };
+    Shop: undefined;
+    Cart: {id: string};
+  },
+  'Shop'
+>;
+
+export const ShopView: React.FC<Props> = props => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
+
+  const [filter, setFilter] = useState<{
+    type: '1' | '2' | '0';
+    filter: keyof Product;
+  }>({
+    type: '0',
+    filter: 'name',
+  });
+
   return (
     <DrawerN.Navigator
       initialRouteName="Shop"
-      drawerContent={props => (
-        <DrawerContentView {...props} header={Header} body={Body} />
+      drawerContent={p => (
+        <DrawerContentView
+          {...p}
+          body={() => (
+            <Filter
+              handler={value => {
+                setFilter(value as any);
+                props.navigation.dispatch(DrawerActions.closeDrawer());
+              }}
+            />
+          )}
+        />
       )}
       screenOptions={{
         drawerPosition: 'right',
@@ -28,13 +61,13 @@ export const ShopView: React.FC<any> = () => {
       }}>
       <DrawerN.Screen
         name="Shop"
-        component={Shop}
         options={{
           sceneContainerStyle: {
             backgroundColor: colors.bgColor,
           },
-        }}
-      />
+        }}>
+        {_ => <Shop {...props} {...filter} />}
+      </DrawerN.Screen>
     </DrawerN.Navigator>
   );
 };

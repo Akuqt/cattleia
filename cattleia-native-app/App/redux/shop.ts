@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {Product, Shop} from '../types';
 
-const products = [
+const products: Product[] = [
   {
     name: 'Tree 1',
     description1: 'Some Tree 1',
@@ -8,6 +9,7 @@ const products = [
     id: '1',
     price: 10000,
     onCart: false,
+    img: 'https://images.pexels.com/photos/1367219/pexels-photo-1367219.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
   },
   {
     name: 'Tree 2',
@@ -16,6 +18,7 @@ const products = [
     id: '2',
     price: 30000,
     onCart: false,
+    img: 'https://images.pexels.com/photos/670741/pexels-photo-670741.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
   },
   {
     name: 'Tree 3',
@@ -24,6 +27,7 @@ const products = [
     id: '3',
     price: 4000,
     onCart: false,
+    img: 'https://images.pexels.com/photos/6843678/pexels-photo-6843678.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
   },
   {
     name: 'Tree 4',
@@ -32,6 +36,7 @@ const products = [
     id: '4',
     price: 0,
     onCart: false,
+    img: 'https://images.pexels.com/photos/7784602/pexels-photo-7784602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
   },
   {
     name: 'Tree 5',
@@ -40,6 +45,7 @@ const products = [
     id: '5',
     price: 3000,
     onCart: false,
+    img: 'https://images.pexels.com/photos/6357190/pexels-photo-6357190.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
   },
   {
     name: 'Tree 6',
@@ -48,6 +54,7 @@ const products = [
     id: '6',
     price: 5000,
     onCart: false,
+    img: 'https://images.pexels.com/photos/4019666/pexels-photo-4019666.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
   },
   {
     name: 'Tree 7',
@@ -56,6 +63,7 @@ const products = [
     id: '7',
     price: 1000,
     onCart: false,
+    img: 'https://images.pexels.com/photos/212185/pexels-photo-212185.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
   },
   {
     name: 'Tree 8',
@@ -64,6 +72,7 @@ const products = [
     id: '8',
     price: 0,
     onCart: false,
+    img: 'https://images.pexels.com/photos/1031962/pexels-photo-1031962.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
   },
   {
     name: 'Tree 9',
@@ -72,34 +81,9 @@ const products = [
     id: '9',
     price: 8000,
     onCart: false,
-  },
-  {
-    name: 'Tree 10',
-    description1: 'Some Tree 10',
-    description2: 'Long descriptiona about tree 10 bla bla',
-    id: '10',
-    price: 20000,
-    onCart: false,
+    img: 'https://images.pexels.com/photos/4019667/pexels-photo-4019667.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
   },
 ];
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  description1: string;
-  description2: string;
-  onCart: boolean;
-}
-
-interface Shop {
-  products: Product[];
-  cart: {
-    count: number;
-    products: Product[];
-    total: number;
-  };
-}
 
 interface Init {
   shop: Shop;
