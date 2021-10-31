@@ -12,6 +12,7 @@ type Props = NativeStackScreenProps<
   {
     Product: {id: string};
     Shop: undefined;
+    PaymentType: {id: string};
     Cart: {id: string};
   },
   'Product'
@@ -86,6 +87,9 @@ export const Product: React.FC<Props> = ({
             justify="flex-start"
             align="center">
             <Btn
+              onPress={() => {
+                navigation.navigate('PaymentType', {id});
+              }}
               round
               height="22px"
               bg={colors.primary}

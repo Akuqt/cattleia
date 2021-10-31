@@ -4,6 +4,7 @@ import {StatusBar, useColorScheme} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {Register, Verify} from './Register';
+import {PaymentType, CreditCard, Crypto} from './Main/Shop/Payment';
 import {RootState} from '../redux/store';
 import {HomePage} from './HomePage';
 import {setMode} from '../redux/theme';
@@ -49,6 +50,9 @@ export const Pages = () => {
         <Stack.Screen name="Product" component={Product} />
         <Stack.Screen name="Wallet" component={Wallet} />
         <Stack.Screen name="Cart" component={Cart} />
+        <Stack.Screen name="PaymentType" component={PaymentType} />
+        <Stack.Screen name="CreditCard" component={CreditCard} />
+        <Stack.Screen name="Crypto" component={Crypto} />
       </Stack.Navigator>
     </NavigationContainer>
   );

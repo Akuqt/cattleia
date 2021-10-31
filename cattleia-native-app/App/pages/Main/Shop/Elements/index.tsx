@@ -102,3 +102,24 @@ export const Btn = styled.TouchableOpacity<{
 `;
 
 export const SafeArea = styled.SafeAreaView``;
+
+export const Option = styled.TouchableOpacity<{
+  height: string;
+  margin: string;
+  bt?: boolean;
+  bb?: boolean;
+  padding: string;
+}>`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-top-width: ${p => (p.bt ? '1px' : '0px')};
+  border-bottom-width: ${p => (p.bb ? '1px' : '0px')};
+  border-top-color: #c4c4c4;
+  border-bottom-color: #c4c4c4;
+  width: 100%;
+  height: ${p => p.height};
+  margin: ${p => p.margin};
+  padding: ${p => p.padding};
+`;

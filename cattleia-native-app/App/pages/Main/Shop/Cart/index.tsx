@@ -20,7 +20,12 @@ import {
 } from '../Elements';
 
 type Props = NativeStackScreenProps<
-  {Cart: {id: string}; Product: {id: string}; Shop: undefined},
+  {
+    Cart: {id: string};
+    Product: {id: string};
+    Shop: undefined;
+    PaymentType: {id: string};
+  },
   'Cart'
 >;
 
@@ -127,7 +132,9 @@ export const Cart: React.FC<Props> = ({
           disabled={cart.count === 0}
           height="30px"
           margin="10px 0px"
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate('PaymentType', {id: '-1'});
+          }}
           bg={colors.primary}
           width="80px">
           <Txt color={colors.fontPrimary} fs="15px" bold>
