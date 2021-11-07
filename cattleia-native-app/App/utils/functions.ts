@@ -38,3 +38,39 @@ export const getProductFilter = (
       return products.slice().sort(sort('id'));
   }
 };
+
+export const moneyFormat = (prop: number): string => {
+  let neg = false;
+
+  if (prop < 0) {
+    neg = true;
+    prop = -prop;
+  }
+
+  let money = prop.toString();
+
+  let b: string[] = [];
+
+  while (money.length >= 4) {
+    b.push(',' + money.slice(money.length - 3, money.length));
+    money = money.slice(0, money.length - 3);
+  }
+
+  let k = b.reverse().join().replace(/,,/g, ',');
+
+  return (neg ? '- ' + money : '' + money) + k + '.00 COP';
+};
+
+export const formatAddress = (address: string, lon: number): string => {
+  if (address.startsWith('0x')) {
+    address = address.slice(2, address.length);
+  } else {
+    return address;
+  }
+  return (
+    '0x' +
+    address.slice(0, lon) +
+    '...' +
+    address.slice(address.length - lon, address.length)
+  );
+};

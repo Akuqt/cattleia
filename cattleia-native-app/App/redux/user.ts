@@ -14,7 +14,7 @@ const initialState: Init = {
     id: '',
     email: '',
     hasAccount: false,
-    balance: '0',
+    balance: 0,
     address: '',
     rank: {
       color: '#000',
