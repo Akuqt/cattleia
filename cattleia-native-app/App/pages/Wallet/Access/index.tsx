@@ -1,6 +1,6 @@
 import React from 'react';
 import {Header, Container, Wrapper} from '../Elements';
-import {PasswordInput, SubmitBtn} from '../../../Components';
+import {Plain, SubmitBtn} from '../../../Components';
 import {useInputHandler} from '../../../hooks';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
@@ -27,7 +27,19 @@ export const Access: React.FC<Props> = ({navigation}) => {
       <Header colors={colors}>Go to your</Header>
       <Header colors={colors}>Wallet</Header>
       <Wrapper mt="30px 0px">
-        <PasswordInput handler={handler('password')} value={values.password} />
+        <Plain
+          width="330px"
+          height="40px"
+          bg={colors.inputBg}
+          fontColor={colors.fontPrimary}
+          fs="16px"
+          margin="15px 0px"
+          label="Password"
+          type="Password"
+          lableFs="15px"
+          value={values.password}
+          handler={handler('password')}
+        />
       </Wrapper>
       <Wrapper mt="-10px 0px 0px 0px">
         <SubmitBtn

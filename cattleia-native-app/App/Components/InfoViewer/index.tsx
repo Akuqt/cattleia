@@ -25,6 +25,7 @@ interface Props {
   onSwipeLeft?: () => void;
   onSwipeRight?: () => void;
   last?: boolean;
+  img?: string;
 }
 
 export const Info: React.FC<Props> = props => {
@@ -39,9 +40,11 @@ export const Info: React.FC<Props> = props => {
       onSwipeRight={props.onSwipeRight}>
       <Container>
         <BoundContainer>
-          <ImgContainer>
-            <Img source={{uri: 'asset:/images/logo.png'}} />
-          </ImgContainer>
+          {props.img && (
+            <ImgContainer>
+              <Img source={{uri: props.img}} />
+            </ImgContainer>
+          )}
 
           <InfoContainer>
             {props.info.map((info, i) => (

@@ -3,7 +3,7 @@ import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Container, Txt, Img, Logo, Header, Option} from '../Elements';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {BackHandler} from 'react-native';
+import {useBackHandler} from '../../../../hooks';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../../redux/store';
 import {theme} from '../../../../utils';
@@ -26,12 +26,22 @@ export const PaymentType: React.FC<Props> = ({
   },
 }) => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
+
   const colors = darkTheme ? theme.dark : theme.light;
 
   const shop = useSelector((state: RootState) => state.shopReducer.shop);
 
   const [ids, setIds] = useState<string[]>([]);
+
   const [total, setTotal] = useState(0);
+
+  useBackHandler(() => {
+    if (id === '-1') {
+      navigation.navigate('Cart', {id: '-1'});
+    } else {
+      navigation.navigate('Product', {id});
+    }
+  });
 
   useEffect(() => {
     if (id !== '-1') {
@@ -42,22 +52,6 @@ export const PaymentType: React.FC<Props> = ({
       const _ids = shop.cart.products.map(p => p.id);
       setIds(_ids);
     }
-
-    const backAction = () => {
-      if (id === '-1') {
-        navigation.navigate('Cart', {id: '-1'});
-      } else {
-        navigation.navigate('Product', {id});
-      }
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove();
   }, [id]);
 
   return (
@@ -69,7 +63,13 @@ export const PaymentType: React.FC<Props> = ({
       pt="10px">
       <Header>
         <Logo mb="2px">
-          <Img source={{uri: 'asset:/images/logo.png'}} />
+          <Img
+            source={{
+              uri: darkTheme
+                ? 'asset:/images/logo2.png'
+                : 'asset:/images/logo.png',
+            }}
+          />
         </Logo>
       </Header>
       <Container

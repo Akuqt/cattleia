@@ -1,6 +1,6 @@
 import React from 'react';
-import {PlainInput, SubmitBtn, PasswordInput} from '../../../Components';
 import {Header, Container, Wrapper} from '../Elements';
+import {SubmitBtn, Plain} from '../../../Components';
 import {useInputHandler} from '../../../hooks';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
@@ -20,16 +20,45 @@ export const Send: React.FC = () => {
       }}>
       <Header colors={colors}>Send</Header>
       <Wrapper mt="20px 0px">
-        <PlainInput label="To" handler={handler('to')} value={values.to} />
-        <PlainInput
-          label="Value"
-          handler={handler('value')}
-          value={values.value}
+        <Plain
+          width="330px"
+          height="40px"
+          bg={colors.inputBg}
+          fontColor={colors.fontPrimary}
+          fs="16px"
+          margin="15px 0px"
+          label="To"
+          type="Text"
+          lableFs="15px"
+          value={values.to}
+          handler={handler('to')}
         />
-        <PasswordInput
+        <Plain
+          width="330px"
+          height="40px"
+          bg={colors.inputBg}
+          fontColor={colors.fontPrimary}
+          fs="16px"
+          margin="15px 0px"
+          label="Value"
+          type="Number"
+          lableFs="15px"
+          value={values.value}
+          handler={handler('value')}
+        />
+
+        <Plain
+          width="330px"
+          height="40px"
+          bg={colors.inputBg}
+          fontColor={colors.fontPrimary}
+          fs="16px"
+          margin="15px 0px"
           label="Password"
-          handler={handler('password')}
+          type="Password"
+          lableFs="15px"
           value={values.password}
+          handler={handler('password')}
         />
       </Wrapper>
       <Wrapper mt="0px 0px 0px 0px">

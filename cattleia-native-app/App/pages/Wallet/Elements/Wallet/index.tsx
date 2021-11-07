@@ -76,3 +76,24 @@ export const Option = styled.TouchableOpacity<{
   width: ${p => p.width};
   padding: ${p => p.padding};
 `;
+
+export const Btn = styled.TouchableOpacity<{
+  bg: string;
+  width: string;
+  margin: string;
+  round?: boolean;
+  height: string;
+}>`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: ${p => p.width};
+  height: ${p => p.height};
+  margin: ${p => p.margin};
+  background-color: ${p => p.bg};
+  border-bottom-left-radius: ${p => (p.round ? '20px' : '4px')};
+  border-bottom-right-radius: ${p => (p.round ? '20px' : '4px')};
+  border-top-left-radius: ${p => (p.round ? '20px' : '4px')};
+  border-top-right-radius: ${p => (p.round ? '20px' : '4px')};
+`;

@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconI from 'react-native-vector-icons/Ionicons';
-import {BackHandler, Modal, ToastAndroid} from 'react-native';
+import {Modal, ToastAndroid, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {formatAddress, theme} from '../../../utils';
+import {useBackHandler} from '../../../hooks';
 import {useClipboard} from '@react-native-community/clipboard';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
-import {theme} from '../../../utils';
 import {Send} from '../Send';
 import {
   MainTxt,
@@ -18,6 +19,7 @@ import {
   Container,
   Balance,
   Logo,
+  Btn,
 } from '../Elements/Wallet';
 
 type ParamList = {
@@ -40,28 +42,10 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
 
   const [show, setShow] = useState(false);
 
-  const address =
-    '0x' +
-    originalAddress.substring(0, 4) +
-    '...' +
-    originalAddress.substring(
-      originalAddress.length - 4,
-      originalAddress.length,
-    );
+  useBackHandler(() => {
+    navigation.navigate('Profile');
+  });
 
-  useEffect(() => {
-    const backAction = () => {
-      navigation.navigate('Profile');
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove();
-  }, []);
   return (
     <Container color={colors.bgColor}>
       <Modal
@@ -75,17 +59,36 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
       <Section heigth="30%">
         <Logo source={{uri: 'asset:/images/logo.png'}} />
         <Txt color={colors.fontPrimary}>Account: {user.userName}</Txt>
-        <Txt
-          onPress={() => {
-            setClipboard('0x' + originalAddress);
-            ToastAndroid.show(
-              'Address copied to clipboard',
-              ToastAndroid.SHORT,
-            );
-          }}
-          color={colors.fontPrimary}>
-          Address: {address}
-        </Txt>
+        <View
+          style={{
+            width: '100%',
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Txt color={colors.fontPrimary} style={{height: '100%', margin: 0}}>
+            Address: {formatAddress('0x' + originalAddress, 4)}
+          </Txt>
+          <Btn
+            bg={colors.bgColor}
+            margin="0px 0px 10px 10px"
+            width="auto"
+            height="auto"
+            onPress={() => {
+              setClipboard('0x' + originalAddress);
+              ToastAndroid.show(
+                'Address copied to clipboard',
+                ToastAndroid.SHORT,
+              );
+            }}>
+            <IconI
+              name="clipboard-outline"
+              color={colors.fontPrimary}
+              size={20}
+            />
+          </Btn>
+        </View>
       </Section>
       <Section heigth="40%" border>
         <Balance>

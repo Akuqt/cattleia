@@ -74,3 +74,29 @@ export const formatAddress = (address: string, lon: number): string => {
     address.slice(address.length - lon, address.length)
   );
 };
+
+export const newArray = <T>(length: number, init: T): T[] => {
+  const k = Array<T>(length);
+  for (let i = 0; i < k.length; i++) {
+    k[i] = init;
+  }
+  return k;
+};
+
+export const newObject = (
+  keys: number,
+  init: string,
+  base: string,
+  values?: string[],
+): {[k: string]: string} => {
+  const k = newArray(keys, init);
+  const obj = k.reduce(
+    (a, v, i) => ({
+      ...a,
+      [base + i]: values?.length === keys ? values[i] : v,
+    }),
+    {},
+  );
+
+  return obj;
+};

@@ -1,22 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, ActivityIndicator, ToastAndroid} from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Txt, Btn, Container, Header, Logo, Img} from '../Elements';
+import {useBackHandler, useInputHandler} from '../../../../hooks';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {moneyFormat, theme} from '../../../../utils';
 import {useSelector} from 'react-redux';
 import {Get, Post} from '../../../../services';
 import {RootState} from '../../../../redux';
+import {Plain} from '../../../../Components';
 import {
   StripeProvider,
   useStripe,
   CardField,
 } from '@stripe/stripe-react-native';
 
-import {EmailInput, PlainInput} from '../../../../Components';
-import {useInputHandler} from '../../../../hooks';
-
 type Props = NativeStackScreenProps<
-  {CreditCard: {ids: string[]; total: number}; Shop: undefined},
+  {
+    CreditCard: {ids: string[]; total: number};
+    Shop: undefined;
+    PaymentType: {id: string};
+  },
   'CreditCard'
 >;
 
@@ -26,9 +29,10 @@ export const CreditCard: React.FC<Props> = ({
     params: {ids, total},
   },
 }) => {
-  const colors = useSelector((state: RootState) => state.themeReducer.dark)
-    ? theme.dark
-    : theme.light;
+  const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
+
+  const colors = darkTheme ? theme.dark : theme.light;
+
   const {confirmPayment} = useStripe();
   const [publishableKey, setPublishableKey] = useState('');
   const [key, setKey] = useState('');
@@ -42,6 +46,10 @@ export const CreditCard: React.FC<Props> = ({
 
   const [loading, setLoading] = useState(true);
   const [loader, setLoader] = useState(false);
+
+  useBackHandler(() => {
+    navigation.navigate('PaymentType', {id: ids.length === 1 ? ids[0] : '-1'});
+  });
 
   useEffect(() => {
     (async () => {
@@ -104,41 +112,72 @@ export const CreditCard: React.FC<Props> = ({
           full>
           <Header>
             <Logo mb="20px">
-              <Img source={{uri: 'asset:/images/logo.png'}} />
+              <Img
+                source={{
+                  uri: darkTheme
+                    ? 'asset:/images/logo2.png'
+                    : 'asset:/images/logo.png',
+                }}
+              />
             </Logo>
           </Header>
-          <EmailInput
-            handler={handler('email')}
+
+          <Plain
+            width="100%"
+            height="40px"
+            bg={colors.inputBg}
+            fontColor={colors.fontPrimary}
+            fs="16px"
+            margin="15px 0px"
             label="Email *"
+            type="Email"
             value={values.email}
+            lableFs="15px"
+            handler={handler('email')}
           />
-          <PlainInput
-            handler={handler('name')}
+          <Plain
+            width="100%"
+            height="40px"
+            bg={colors.inputBg}
+            fontColor={colors.fontPrimary}
+            fs="16px"
+            margin="15px 0px 20px 0px"
             label="Name *"
+            lableFs="15px"
+            type="Text"
             value={values.name}
+            handler={handler('name')}
           />
-          <CardField
-            postalCodeEnabled={false}
-            placeholder={{
-              number: '4242 4242 4242 4242',
-            }}
-            cardStyle={{
-              backgroundColor: colors.inputBg,
-              textColor: colors.fontPrimary,
-              placeholderColor: colors.fontPrimary,
-              borderRadius: 5,
-            }}
-            style={{
-              width: '100%',
-              height: 40,
-              marginVertical: 20,
-            }}
-            onCardChange={cardDetails => {}}
-          />
+          <Container
+            direction="column"
+            justify="center"
+            align="flex-start"
+            pt="7px"
+            width="100%">
+            <Txt color={colors.fontPrimary} fs="14px" style={{marginBottom: 4}}>
+              Card *
+            </Txt>
+            <CardField
+              postalCodeEnabled={false}
+              placeholder={{
+                number: '4242 4242 4242 4242',
+              }}
+              cardStyle={{
+                backgroundColor: colors.inputBg,
+                textColor: colors.fontPrimary,
+                placeholderColor: colors.fontPrimary,
+                borderRadius: 5,
+              }}
+              style={{
+                width: '100%',
+                height: 40,
+              }}
+            />
+          </Container>
           <Btn
             disabled={values.email === '' || values.name === ''}
             height="40px"
-            margin="30px"
+            margin="50px 0px"
             width="200px"
             bg={loading ? colors.primary : 'green'}
             onPress={handleSheet}>

@@ -1,19 +1,22 @@
 import React, {useState} from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Txt, Btn, Container, Header, Logo, Img, HeaderBtn} from '../Elements';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {formatAddress, moneyFormat, theme} from '../../../../utils';
-import {useInputHandler} from '../../../../hooks';
-import {PasswordInput} from '../../../../Components';
-import {useClipboard} from '@react-native-community/clipboard';
 import {ActivityIndicator, ToastAndroid} from 'react-native';
+import {useBackHandler, useInputHandler} from '../../../../hooks';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useClipboard} from '@react-native-community/clipboard';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../../redux';
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Plain} from '../../../../Components';
 import {Post} from '../../../../services';
 
 type Props = NativeStackScreenProps<
-  {Crypto: {ids: string[]; total: number}},
+  {
+    Crypto: {ids: string[]; total: number};
+    Shop: undefined;
+    PaymentType: {id: string};
+  },
   'Crypto'
 >;
 
@@ -30,9 +33,9 @@ export const Crypto: React.FC<Props> = ({
     params: {ids, total},
   },
 }) => {
-  const colors = useSelector((state: RootState) => state.themeReducer.dark)
-    ? theme.dark
-    : theme.light;
+  const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
+
+  const colors = darkTheme ? theme.dark : theme.light;
 
   const {handler, values, clearValues} = useInputHandler({password: ''});
 
@@ -48,6 +51,10 @@ export const Crypto: React.FC<Props> = ({
 
   const txValue = (total * 0.000057) / 1000;
 
+  useBackHandler(() => {
+    navigation.navigate('PaymentType', {id: ids.length === 1 ? ids[0] : '-1'});
+  });
+
   return (
     <Container
       direction="column"
@@ -58,7 +65,13 @@ export const Crypto: React.FC<Props> = ({
       full>
       <Header>
         <Logo mb="30px">
-          <Img source={{uri: 'asset:/images/logo.png'}} />
+          <Img
+            source={{
+              uri: darkTheme
+                ? 'asset:/images/logo2.png'
+                : 'asset:/images/logo.png',
+            }}
+          />
         </Logo>
         <Container direction="row" justify="center" align="center" pt="0px">
           <HeaderBtn margin="40px 20px 0px 0px" disabled>
@@ -152,10 +165,17 @@ export const Crypto: React.FC<Props> = ({
         justify="center"
         align="flex-start"
         pt="20px">
-        <PasswordInput
+        <Plain
           value={values.password}
           label="Password *"
           handler={handler('password')}
+          width="330px"
+          height="40px"
+          type="Password"
+          bg={colors.inputBg}
+          fs="16px"
+          fontColor={colors.fontPrimary}
+          margin="15px 0px"
         />
       </Container>
 

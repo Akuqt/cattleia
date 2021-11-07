@@ -1,12 +1,11 @@
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Container, Header, Logo, Img, Btn, Txt, HeaderBtn} from '../Elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {setCartProduct} from '../../../../redux';
 import {RootState} from '../../../../redux/store';
 import {theme} from '../../../../utils';
-
-import {Container, Header, Logo, Img, Btn, Txt, HeaderBtn} from '../Elements';
 
 type Props = NativeStackScreenProps<
   {
@@ -24,9 +23,8 @@ export const Product: React.FC<Props> = ({
   },
   navigation,
 }) => {
-  const colors = useSelector((state: RootState) => state.themeReducer.dark)
-    ? theme.dark
-    : theme.light;
+  const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
+  const colors = darkTheme ? theme.dark : theme.light;
 
   const cart = useSelector((state: RootState) => state.shopReducer.shop).cart;
 
@@ -35,6 +33,7 @@ export const Product: React.FC<Props> = ({
   ).products.find(p => p.id === id);
 
   const dispatch = useDispatch();
+
   return (
     <Container
       pt="10px"
@@ -44,7 +43,13 @@ export const Product: React.FC<Props> = ({
       full>
       <Header border>
         <Logo mb="15px">
-          <Img source={{uri: 'asset:/images/logo.png'}} />
+          <Img
+            source={{
+              uri: darkTheme
+                ? 'asset:/images/logo2.png'
+                : 'asset:/images/logo.png',
+            }}
+          />
         </Logo>
 
         <HeaderBtn

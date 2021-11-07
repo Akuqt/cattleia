@@ -52,7 +52,13 @@ export const Shop: React.FC<Props & Nav> = ({navigation, filter, type}) => {
       align="flex-start">
       <Header border>
         <Logo mb="4px">
-          <Img source={{uri: 'asset:/images/logo.png'}} />
+          <Img
+            source={{
+              uri: darkTheme
+                ? 'asset:/images/logo2.png'
+                : 'asset:/images/logo.png',
+            }}
+          />
         </Logo>
         <Container direction="row" justify="center" align="center" pt="0px">
           <HeaderBtn

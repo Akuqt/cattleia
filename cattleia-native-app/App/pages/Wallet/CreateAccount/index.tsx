@@ -1,7 +1,7 @@
 import React from 'react';
 import {Header, Container, Wrapper} from '../Elements';
 import {useSelector, useDispatch} from 'react-redux';
-import {PasswordInput, SubmitBtn} from '../../../Components';
+import {SubmitBtn, Plain} from '../../../Components';
 import {useInputHandler} from '../../../hooks';
 import {RootState} from '../../../redux/store';
 import {saveUser} from '../../../redux/user';
@@ -29,11 +29,32 @@ export const CreateAccount: React.FC<Props> = ({navigation}) => {
       <Header colors={colors}>Create</Header>
       <Header colors={colors}>Account</Header>
       <Wrapper mt="30px 0px">
-        <PasswordInput handler={handler('password')} value={values.password} />
-        <PasswordInput
+        <Plain
+          width="330px"
+          height="40px"
+          bg={colors.inputBg}
+          fontColor={colors.fontPrimary}
+          fs="16px"
+          margin="15px 0px"
+          label="Password"
+          type="Password"
+          lableFs="15px"
+          value={values.password}
+          handler={handler('password')}
+        />
+
+        <Plain
+          width="330px"
+          height="40px"
+          bg={colors.inputBg}
+          fontColor={colors.fontPrimary}
+          fs="16px"
+          margin="15px 0px"
           label="Confirm Password"
-          handler={handler('password2')}
+          type="Password"
+          lableFs="15px"
           value={values.password2}
+          handler={handler('password2')}
         />
       </Wrapper>
       <Wrapper mt="-10px 0px 0px 0px">

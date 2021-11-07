@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
-import {PasswordInput, PlainInput, SubmitBtn} from '../../Components';
+import React from 'react';
+import {useBackHandler, useInputHandler} from '../../hooks';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useInputHandler} from '../../hooks';
-import {Alert, View, BackHandler} from 'react-native';
+import {SubmitBtn, Plain} from '../../Components';
 import {useDispatch} from 'react-redux';
+import {Alert, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import {saveUser} from '../../redux/user';
@@ -12,44 +12,58 @@ import {IAuth} from '../../types';
 import {Post} from '../../services';
 
 type Props = NativeStackScreenProps<
-  {Main: undefined; HomePage: undefined},
-  'Main'
+  {Main: undefined; HomePage: undefined; Login: undefined},
+  'Login'
 >;
 
 export const Login: React.FC<Props> = ({navigation}) => {
-  useEffect(() => {
-    const backAction = () => {
-      navigation.navigate('HomePage');
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove();
-  }, []);
+  useBackHandler(() => {
+    navigation.navigate('HomePage');
+  });
 
   const {values, handler, clearValues} = useInputHandler({
     userName: '',
     password: '',
   });
+
   const dispatch = useDispatch();
+
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
+
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <PlainInput
+      <Plain
+        width="330px"
+        height="40px"
+        bg={colors.inputBg}
+        fontColor={colors.fontPrimary}
+        fs="16px"
+        margin="15px 0px"
         label="User Name"
-        handler={handler('userName')}
+        lableFs="15px"
+        type="Text"
         value={values.userName}
+        handler={handler('userName')}
       />
-      <PasswordInput
-        help
-        helpHandler={() => {}}
-        handler={handler('password')}
+      <Plain
+        width="330px"
+        height="40px"
+        bg={colors.inputBg}
+        fontColor={colors.fontPrimary}
+        fs="16px"
+        margin="15px 0px"
+        label="Password"
+        type="Password"
+        lableFs="15px"
         value={values.password}
+        handler={handler('password')}
+        password={{
+          help: {
+            color: colors.primary,
+            handler: () => {},
+          },
+        }}
       />
       <SubmitBtn
         colors={colors}

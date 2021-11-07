@@ -1,5 +1,9 @@
-import {TextInputChangeEventData, NativeSyntheticEvent} from 'react-native';
-import {useState} from 'react';
+import {
+  TextInputChangeEventData,
+  NativeSyntheticEvent,
+  BackHandler,
+} from 'react-native';
+import {useEffect, useState} from 'react';
 
 type Event = NativeSyntheticEvent<TextInputChangeEventData>;
 
@@ -9,4 +13,20 @@ export const useInputHandler = <T>(initialState: T) => {
     setState({...state, [k]: e.nativeEvent.text});
   };
   return {values: state, handler, clearValues: () => setState(initialState)};
+};
+
+export const useBackHandler = (handler: () => void) => {
+  useEffect(() => {
+    const backAction = () => {
+      handler();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
 };

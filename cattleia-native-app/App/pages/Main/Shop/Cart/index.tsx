@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {BackHandler, FlatList} from 'react-native';
 import {removeCartProduct} from '../../../../redux';
+import {useBackHandler} from '../../../../hooks';
 import {ProductCard} from '../../../../Components';
 import {RootState} from '../../../../redux/store';
+import {FlatList} from 'react-native';
 import {theme} from '../../../../utils';
 import {
   Grid,
@@ -35,31 +36,20 @@ export const Cart: React.FC<Props> = ({
     params: {id},
   },
 }) => {
-  const colors = useSelector((state: RootState) => state.themeReducer.dark)
-    ? theme.dark
-    : theme.light;
+  const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
+  const colors = darkTheme ? theme.dark : theme.light;
 
   const cart = useSelector((state: RootState) => state.shopReducer.shop).cart;
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const backAction = () => {
-      if (id !== '-1') {
-        navigation.navigate('Product', {id});
-      } else {
-        navigation.navigate('Shop');
-      }
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove();
-  }, []);
+  useBackHandler(() => {
+    if (id !== '-1') {
+      navigation.navigate('Product', {id});
+    } else {
+      navigation.navigate('Shop');
+    }
+  });
 
   return (
     <Container
@@ -70,7 +60,13 @@ export const Cart: React.FC<Props> = ({
       full>
       <Header border>
         <Logo mb="15px">
-          <Img source={{uri: 'asset:/images/logo.png'}} />
+          <Img
+            source={{
+              uri: darkTheme
+                ? 'asset:/images/logo2.png'
+                : 'asset:/images/logo.png',
+            }}
+          />
         </Logo>
 
         <Container
