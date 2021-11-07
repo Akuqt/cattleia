@@ -3,9 +3,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StatusBar, useColorScheme} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
+import {Register, Verify} from './Register';
 import {RootState} from '../redux/store';
 import {HomePage} from './HomePage';
-import {Register} from './Register';
 import {setMode} from '../redux/theme';
 import {Settins} from './Settings';
 import {Product} from './Main/Shop/Product';
@@ -32,7 +32,7 @@ export const Pages = () => {
         barStyle={!darkTheme ? 'dark-content' : 'light-content'}
       />
       <Stack.Navigator
-        initialRouteName="HomePage"
+        initialRouteName="Main"
         screenOptions={{
           headerShown: false,
           animation: 'slide_from_right',
@@ -42,6 +42,7 @@ export const Pages = () => {
         <Stack.Screen name="HomePage" component={HomePage} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Verify" component={Verify} />
         <Stack.Screen name="Settings" component={Settins} />
         <Stack.Screen name="About" component={About} />
         <Stack.Screen name="Product" component={Product} />

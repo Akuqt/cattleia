@@ -73,12 +73,12 @@ export const ProgressIndicator = styled.View`
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  height: 3px;
+  height: 4px;
   background-color: #e885b6;
 `;
 
 export const Line = styled.View<{progress: string; color: string}>`
-  height: 3px;
+  height: 4px;
   width: ${p => p.progress};
   background-color: ${p => p.color};
 `;
