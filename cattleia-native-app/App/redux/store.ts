@@ -1,6 +1,7 @@
 import themeReducer from './theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import userReducer from './user';
+import shopReducer from './shop';
 import {configureStore, combineReducers} from '@reduxjs/toolkit';
 import {
   persistStore,
@@ -21,6 +22,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   themeReducer: persistReducer(persistConfig, themeReducer),
   userReducer: persistReducer(persistConfig, userReducer),
+  shopReducer: persistReducer(persistConfig, shopReducer),
 });
 
 export const store = configureStore({

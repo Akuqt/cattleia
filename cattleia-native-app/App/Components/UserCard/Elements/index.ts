@@ -10,15 +10,15 @@ export const Container = styled.View`
 `;
 
 export const AvatarContainer = styled.View<{bc: string}>`
-  height: 130px;
-  width: 130px;
+  height: 100px;
+  width: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top-right-radius: 65px;
-  border-top-left-radius: 65px;
-  border-bottom-right-radius: 65px;
-  border-bottom-left-radius: 65px;
+  border-top-right-radius: 50px;
+  border-top-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 50px;
   border-width: 1px;
   border-color: ${p => p.bc};
 `;
@@ -50,6 +50,6 @@ export const NameContainer = styled.View`
 
 export const Name = styled.TextInput<{border?: boolean; fc: string}>`
   color: ${p => p.fc};
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
 `;

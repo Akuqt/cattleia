@@ -6,20 +6,17 @@ import {
 } from '@react-navigation/drawer';
 
 interface Props {
-  header?: React.FC;
   body?: React.FC;
 }
 
 export const DrawerContentView: React.FC<DrawerContentComponentProps & Props> =
   props => {
-    const Header = props.header as React.FC;
     const Body = props.body as React.FC;
     return (
       <Container>
-        <DrawerContentScrollView {...props}>
-          <Header />
-        </DrawerContentScrollView>
-        <DrawerContentScrollView {...props}>
+        <DrawerContentScrollView
+          {...props}
+          style={{width: '100%', height: '100%'}}>
           <Body />
         </DrawerContentScrollView>
       </Container>

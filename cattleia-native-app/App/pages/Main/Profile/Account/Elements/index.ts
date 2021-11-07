@@ -12,6 +12,7 @@ export const Hero = styled.View<{
   bg: string;
   orientation?: 'row' | 'column';
   heigth?: string;
+  mt: string;
 }>`
   display: flex;
   flex-direction: ${p => (p.orientation ? p.orientation : 'row')};
@@ -21,7 +22,7 @@ export const Hero = styled.View<{
   width: 100%;
   background-color: ${p => p.bg};
   padding: 10px 20px;
-  margin: 10px 0px 0px 0px;
+  margin: ${p => p.mt} 0px 0px 0px;
   height: ${p => (p.heigth ? p.heigth : 'auto')};
 `;
 
