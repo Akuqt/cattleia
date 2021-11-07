@@ -18,6 +18,7 @@
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.0.3",
     "@reduxjs/toolkit": "^1.6.1",
+    "@stripe/stripe-react-native": "0.1.4",
     "axios": "^0.21.1",
     "immutable": "3.8.2",
     "react": "17.0.1",

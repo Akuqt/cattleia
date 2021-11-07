@@ -17,5 +17,7 @@ declare namespace NodeJS {
     INFURA_ROPSTEN: string;
     INFURA_RINKEBY: string;
     GANACHE: string;
+    STRIPE_SECRET: string;
+    STRIPE_PUBLISHABLE: string;
   }
 }

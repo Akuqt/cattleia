@@ -30,7 +30,7 @@ export interface User {
   token: string;
   role: string;
   hasAccount: boolean;
-  balance: string;
+  balance: number;
   address: string;
   rank: {
     points: number;

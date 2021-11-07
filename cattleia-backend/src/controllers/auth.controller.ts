@@ -1,3 +1,4 @@
+import Web3 from "web3";
 import { Request, Response } from "express";
 import {
   User,
@@ -11,6 +12,8 @@ import {
 } from "../libs";
 import { getRank, rankColor } from "../libs";
 import { UserModel, RoleModel, AccountModel, RankModel } from "../models";
+
+const web3 = new Web3(process.env.GANACHE);
 
 export const signIn = async (
   req: Request,
@@ -34,6 +37,15 @@ export const signIn = async (
 
       const { current, next } = await getRank(_user.rank.points);
 
+      let balance = "";
+
+      if (_user.account.payload) {
+        const balanceWeis = await web3.eth.getBalance(
+          _user.account.payload.address
+        );
+        balance = web3.utils.fromWei(balanceWeis, "ether");
+      }
+
       return res.json({
         ok: true,
         user: {
@@ -44,6 +56,7 @@ export const signIn = async (
           email: _user.email,
           token: createAcessToken(_user),
           hasAccount: _user.account.payload != undefined,
+          balance,
           rank: {
             color: rankColor(current.name),
             name: current.name,

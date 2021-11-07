@@ -10,4 +10,6 @@ export default {
   CORS: {
     ORIGIN: ["*"],
   },
+  STRIPE_SECRET: process.env.STRIPE_SECRET,
+  STRIPE_PUBLISHABLE: process.env.STRIPE_PUBLISHABLE,
 };
