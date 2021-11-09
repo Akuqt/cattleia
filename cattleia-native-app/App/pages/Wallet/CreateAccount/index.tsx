@@ -1,15 +1,14 @@
 import React from 'react';
 import {Header, Container, Wrapper} from '../Elements';
 import {useSelector, useDispatch} from 'react-redux';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {SubmitBtn, Plain} from '../../../Components';
 import {useInputHandler} from '../../../hooks';
+import {ToastAndroid} from 'react-native';
 import {RootState} from '../../../redux/store';
 import {saveUser} from '../../../redux/user';
 import {theme} from '../../../utils';
 import {Post} from '../../../services';
-
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Alert} from 'react-native';
 
 type ParamList = {
   Access: undefined;
@@ -71,6 +70,10 @@ export const CreateAccount: React.FC<Props> = ({navigation}) => {
               ok: boolean;
               balance: number;
               address: string;
+              error: {
+                message: string;
+                code: number;
+              };
             }>('/web3/create-account', values, user.token);
             if (res.data.ok) {
               dispatch(
@@ -84,7 +87,12 @@ export const CreateAccount: React.FC<Props> = ({navigation}) => {
                 }),
               );
               navigation.navigate('Access');
-            } else Alert.alert('Invalid');
+            } else {
+              ToastAndroid.show(
+                `Error: ${res.data.error.message} [${res.data.error.code}]`,
+                ToastAndroid.SHORT,
+              );
+            }
           }}
         />
       </Wrapper>

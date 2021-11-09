@@ -25,6 +25,9 @@ export const Send: React.FC = () => {
     if (u !== '' && parseFloat(u) > user.account.balance) {
       u = user.account.balance + '';
     }
+    if (u.length > 4 && parseFloat(u) < 0.001) {
+      u = '0.001';
+    }
     setValue(u);
   }, [value]);
 
@@ -54,7 +57,7 @@ export const Send: React.FC = () => {
           labelFontColor={colors.fontPrimary}
           fs="16px"
           margin="15px 0px"
-          label="To"
+          label="To *"
           type="Text"
           lableFs="15px"
           length={42}
@@ -76,8 +79,8 @@ export const Send: React.FC = () => {
           labelFontColor={colors.fontPrimary}
           fs="16px"
           margin="15px 0px"
-          label="Value"
-          placeholder={`0 - ${user.account.balance}`}
+          label="Value *"
+          placeholder={`0.001 - ${user.account.balance}`}
           type="Number"
           lableFs="15px"
           value={value}
@@ -95,7 +98,7 @@ export const Send: React.FC = () => {
           labelFontColor={colors.fontPrimary}
           fs="16px"
           margin="15px 0px"
-          label="Password"
+          label="Password *"
           type="Password"
           lableFs="15px"
           length={42}
@@ -110,6 +113,7 @@ export const Send: React.FC = () => {
           width="330px"
           label="Send"
           lm
+          disabled={loading}
           handler={async () => {
             setLoading(true);
             const res = await Post<{
@@ -117,13 +121,23 @@ export const Send: React.FC = () => {
               status: boolean;
               hash: string;
               to: string;
-            }>('/web3/transfer-to', {...values, value}, user.token);
+              error: {message: string; code: number};
+            }>(
+              '/web3/transfer-to',
+              {...values, value: value !== '' ? value : '0.001'},
+              user.token,
+            );
             if (res.data.ok) {
               ToastAndroid.show(
                 'Success -> Use the Tx Hash to see the Tx status! (EtherScan)',
                 ToastAndroid.SHORT,
               );
-            } else ToastAndroid.show('There was an Error', ToastAndroid.SHORT);
+            } else {
+              ToastAndroid.show(
+                `Error: ${res.data.error.message} [${res.data.error.code}]`,
+                ToastAndroid.SHORT,
+              );
+            }
             setLoading(false);
           }}
         />

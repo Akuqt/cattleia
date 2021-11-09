@@ -1,6 +1,10 @@
 export interface IAuth {
   user: User;
   ok: boolean;
+  error: {
+    message: string;
+    code: number;
+  };
 }
 
 export interface Product {

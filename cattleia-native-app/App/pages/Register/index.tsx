@@ -1,9 +1,9 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {ToastAndroid, View} from 'react-native';
 import {Plain, SubmitBtn} from '../../Components';
 import {useInputHandler} from '../../hooks';
-import {Alert, View} from 'react-native';
 import {RootState} from '../../redux/store';
 import {saveUser} from '../../redux';
 import {theme} from '../../utils';
@@ -105,7 +105,10 @@ export const Register: React.FC<Props> = ({navigation}) => {
             dispatch(saveUser(res.data.user));
             navigation.navigate('Verify');
           } else {
-            Alert.alert('Something went wrong!');
+            ToastAndroid.show(
+              `Error: ${res.data.error.message} [${res.data.error.code}]`,
+              ToastAndroid.SHORT,
+            );
           }
         }}
       />
