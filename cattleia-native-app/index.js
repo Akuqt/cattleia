@@ -1,5 +1,5 @@
-import {name as appName} from './app.json';
+import {name as cattleiaName} from './cattleia.json';
 import {AppRegistry} from 'react-native';
 import App from './App';
 
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent(cattleiaName, () => App);

@@ -3,7 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'app' do
+target 'cattleia' do
   config = use_native_modules!
 
   use_react_native!(
@@ -14,7 +14,7 @@ target 'app' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
-  target 'appTests' do
+  target 'cattleiaTests' do
     inherit! :complete
     # Pods for testing
   end
