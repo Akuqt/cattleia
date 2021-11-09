@@ -33,14 +33,18 @@ export const Verify: React.FC<Props> = ({navigation}) => {
         slotWidth="45px"
         slotHeigth="40px"
         length={6}
-        init={'123450'}
+        init={'1'}
         onComplete={code => {
           if (code === '123456') navigation.navigate('Main');
         }}
       />
       <Img>
         <Image
-          source={{uri: 'asset:/images/logo.png'}}
+          source={{
+            uri: darkTheme
+              ? 'asset:/images/logo2.png'
+              : 'asset:/images/logo.png',
+          }}
           style={{width: '50%', height: '50%'}}
         />
       </Img>

@@ -67,13 +67,22 @@ export const CreateAccount: React.FC<Props> = ({navigation}) => {
           label="Create Account"
           lm
           handler={async () => {
-            const res = await Post<{ok: boolean}>(
-              '/web3/create-account',
-              values,
-              user.token,
-            );
+            const res = await Post<{
+              ok: boolean;
+              balance: number;
+              address: string;
+            }>('/web3/create-account', values, user.token);
             if (res.data.ok) {
-              dispatch(saveUser({...user, hasAccount: true}));
+              dispatch(
+                saveUser({
+                  ...user,
+                  account: {
+                    address: res.data.address,
+                    balance: res.data.balance,
+                    hasAccount: res.data.ok,
+                  },
+                }),
+              );
               navigation.navigate('Access');
             } else Alert.alert('Invalid');
           }}

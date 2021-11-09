@@ -22,7 +22,7 @@ export const Wallet: React.FC<any> = ({navigation}) => {
   const user = useSelector((state: RootState) => state.userReducer.user);
   return (
     <Stack.Navigator
-      initialRouteName={user.hasAccount ? 'Access' : 'NoWallet'}
+      initialRouteName={user.account.hasAccount ? 'Access' : 'NoWallet'}
       screenOptions={{
         headerShown: false,
         animation: 'slide_from_right',

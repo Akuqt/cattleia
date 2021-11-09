@@ -36,7 +36,7 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
 
   const colors = darkTheme ? theme.dark : theme.light;
 
-  const originalAddress = user.address;
+  const originalAddress = user.account.address;
 
   const [, setClipboard] = useClipboard();
 
@@ -99,7 +99,9 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
       <Section heigth="40%" border>
         <Balance>
           <IconM name="ethereum" color={colors.secondary} size={70} />
-          <MainTxt color={colors.fontPrimary}>{user.balance} ETH</MainTxt>
+          <MainTxt color={colors.fontPrimary}>
+            {(user.account.balance * 1).toFixed(4)} ETH
+          </MainTxt>
         </Balance>
         <MainBtns>
           <Option direction="column" width="30%" padding="0px" justify="center">

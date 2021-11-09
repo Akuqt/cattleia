@@ -29,9 +29,11 @@ export interface User {
   email: string;
   token: string;
   role: string;
-  hasAccount: boolean;
-  balance: number;
-  address: string;
+  account: {
+    hasAccount: boolean;
+    balance: number;
+    address: string;
+  };
   rank: {
     points: number;
     name: string;

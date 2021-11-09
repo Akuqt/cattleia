@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import {
   TextInputChangeEventData,
@@ -17,10 +17,15 @@ import {
   Policy,
   PolicyTxt2,
 } from '../Elements';
+import {useClipboard} from '@react-native-community/clipboard';
 
 interface Props {
-  handler: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
+  handler: (
+    e: NativeSyntheticEvent<TextInputChangeEventData>,
+    txt?: string,
+  ) => void;
   onKeyPress?: (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => void;
+  format?: (txt: string) => string;
   value: string;
   label?: string;
   password?: {
@@ -47,6 +52,8 @@ interface Props {
   length?: number;
   aling?: 'center' | 'left' | 'right';
   placeholder?: string;
+  clipboard?: boolean;
+  disabled?: boolean;
 }
 
 const getKeyboardType = (prop: Props['type']): KeyboardTypeOptions => {
@@ -68,6 +75,11 @@ export const Plain: React.FC<Props> = props => {
     name: 'eye-off',
     active: true,
   });
+
+  const [text, setText] = useState('');
+
+  const [clipboard, _] = useClipboard();
+
   return (
     <Container width={props.width} mg={props.margin}>
       <Label2 color={props.labelFontColor} fs={props.lableFs}>
@@ -84,6 +96,19 @@ export const Plain: React.FC<Props> = props => {
           <IonIcons name={icon.name} color="#202020" size={30} />
         </IconP>
       )}
+      {props.clipboard && props.type !== 'Password' && (
+        <IconP
+          onPress={() => {
+            if (!!props.format) {
+              setText(props.format(clipboard));
+              props.handler(null as any, clipboard);
+            } else {
+              props.handler(null as any, clipboard);
+            }
+          }}>
+          <IonIcons name="clipboard-outline" color="#202020" size={30} />
+        </IconP>
+      )}
       <Input2
         bg={props.bg}
         color={props.fontColor}
@@ -94,11 +119,25 @@ export const Plain: React.FC<Props> = props => {
         placeholderTextColor="#808080"
         style={{borderRadius: 5, textAlign: props.aling || 'left'}}
         secureTextEntry={show && props.type === 'Password'}
-        onChange={props.handler}
-        value={props.value}
+        onChange={e => {
+          if (props.format) setText(props.format(e.nativeEvent.text));
+          else props.handler(e);
+        }}
+        editable={!!!props.disabled}
+        value={!!props.format ? text : props.value}
         keyboardType={getKeyboardType(props.type)}
         maxLength={props.length || 20}
-        onKeyPress={props.onKeyPress}
+        onKeyPress={e => {
+          if (props.format) {
+            if (e.nativeEvent.key === 'Backspace') {
+              setText(c => c.substring(0, c.length - 1));
+            }
+          }
+          props.onKeyPress && props.onKeyPress(e);
+        }}
+        onEndEditing={e => {
+          props.format && setText(e.nativeEvent.text);
+        }}
       />
       {props.password?.help && (
         <Help onPress={props.password?.help.handler}>

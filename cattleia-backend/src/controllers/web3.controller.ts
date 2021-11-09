@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { UserModel, AccountModel } from "../models";
 import { Account, User, encryptPassword, comparePassword } from "../libs";
 
-const web3 = new Web3(process.env.GANACHE);
+const web3 = new Web3(process.env.INFURA_RINKEBY);
 
 const getNonce = (): string => {
   let text = "";
@@ -66,7 +66,7 @@ export const createAccount = async (req: Request, res: Response) => {
 
   _user.save();
 
-  res.json({ ok: true });
+  res.json({ ok: true, address: _account.payload.address, balance: 0 });
 };
 
 export const importAccount = async (req: Request, res: Response) => {
@@ -100,7 +100,10 @@ export const importAccount = async (req: Request, res: Response) => {
 
   await _user.save();
 
-  res.json({ ok: true });
+  const balanceWeis = await web3.eth.getBalance(_user.account.payload.address);
+  const balance = web3.utils.fromWei(balanceWeis, "ether");
+
+  res.json({ ok: true, address: _account.payload.address, balance });
 };
 
 export const getPrivateKey = async (req: Request, res: Response) => {

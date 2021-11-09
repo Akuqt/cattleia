@@ -76,6 +76,7 @@ export const ImportAccount: React.FC<Props> = ({navigation}) => {
           type="Password"
           lableFs="15px"
           value={values.privateKey}
+          length={64}
           handler={handler('privateKey')}
         />
       </Wrapper>
@@ -87,13 +88,22 @@ export const ImportAccount: React.FC<Props> = ({navigation}) => {
           label="Import Account"
           lm
           handler={async () => {
-            const res = await Post<{ok: boolean}>(
-              '/web3/import-account',
-              values,
-              user.token,
-            );
+            const res = await Post<{
+              ok: boolean;
+              balance: number;
+              address: string;
+            }>('/web3/import-account', values, user.token);
             if (res.data.ok) {
-              dispatch(saveUser({...user, hasAccount: true}));
+              dispatch(
+                saveUser({
+                  ...user,
+                  account: {
+                    hasAccount: res.data.ok,
+                    address: res.data.address,
+                    balance: res.data.balance,
+                  },
+                }),
+              );
               navigation.navigate('Access');
             } else Alert.alert('Invalid');
           }}

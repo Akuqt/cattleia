@@ -1,25 +1,29 @@
 import React, {useEffect, useState} from 'react';
+import {formatAddress, numberFormat, theme} from '../../../utils';
+import {ActivityIndicator, ToastAndroid} from 'react-native';
 import {Header, Container, Wrapper} from '../Elements';
-import {numberFormat, theme} from '../../../utils';
 import {SubmitBtn, Plain} from '../../../Components';
 import {useInputHandler} from '../../../hooks';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
-import {Alert} from 'react-native';
 import {Post} from '../../../services';
 
 export const Send: React.FC = () => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
   const user = useSelector((state: RootState) => state.userReducer.user);
-  const {values, handler} = useInputHandler({to: '', password: ''});
+  const {values, handler} = useInputHandler({
+    to: '',
+    password: '',
+  });
+  const [loading, setLoading] = useState(false);
 
   const [value, setValue] = useState('');
 
   useEffect(() => {
     let u = numberFormat(value);
-    if (u !== '' && parseFloat(u) > user.balance) {
-      u = user.balance + '';
+    if (u !== '' && parseFloat(u) > user.account.balance) {
+      u = user.account.balance + '';
     }
     setValue(u);
   }, [value]);
@@ -29,7 +33,18 @@ export const Send: React.FC = () => {
       style={{
         backgroundColor: colors.bgColor,
       }}>
-      <Header color={colors.primary}>Send</Header>
+      <Header color={colors.primary}>
+        Send{' '}
+        {loading && (
+          <ActivityIndicator
+            color={colors.fontPrimary}
+            size="small"
+            style={{
+              marginRight: 10,
+            }}
+          />
+        )}
+      </Header>
       <Wrapper mt="20px 0px">
         <Plain
           width="330px"
@@ -42,7 +57,15 @@ export const Send: React.FC = () => {
           label="To"
           type="Text"
           lableFs="15px"
+          length={42}
           value={values.to}
+          clipboard
+          disabled
+          format={e => {
+            const k = e.startsWith('0x') ? e : '0x' + e;
+            if (k.length > 42) return formatAddress(k.substring(0, 43), 6);
+            else return formatAddress(k, 6);
+          }}
           handler={handler('to')}
         />
         <Plain
@@ -54,7 +77,7 @@ export const Send: React.FC = () => {
           fs="16px"
           margin="15px 0px"
           label="Value"
-          placeholder={`0 - ${user.balance}`}
+          placeholder={`0 - ${user.account.balance}`}
           type="Number"
           lableFs="15px"
           value={value}
@@ -75,6 +98,7 @@ export const Send: React.FC = () => {
           label="Password"
           type="Password"
           lableFs="15px"
+          length={42}
           value={values.password}
           handler={handler('password')}
         />
@@ -87,15 +111,20 @@ export const Send: React.FC = () => {
           label="Send"
           lm
           handler={async () => {
+            setLoading(true);
             const res = await Post<{
               ok: boolean;
               status: boolean;
               hash: string;
               to: string;
-            }>('/web3/transfer-to', values, user.token);
+            }>('/web3/transfer-to', {...values, value}, user.token);
             if (res.data.ok) {
-              Alert.alert(`Status: ${res.data.status}`);
-            } else Alert.alert('Invalid');
+              ToastAndroid.show(
+                'Success -> Use the Tx Hash to see the Tx status! (EtherScan)',
+                ToastAndroid.SHORT,
+              );
+            } else ToastAndroid.show('There was an Error', ToastAndroid.SHORT);
+            setLoading(false);
           }}
         />
       </Wrapper>

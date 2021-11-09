@@ -100,13 +100,13 @@ export const Register: React.FC<Props> = ({navigation}) => {
         colors={colors}
         label="Sign Up"
         handler={async () => {
-          // const res = await Post<IAuth>('/auth/sign-up', values);
-          // if (res.data.ok) {
-          //   dispatch(saveUser(res.data.user));
-          // } else {
-          //   Alert.alert('Something went wrong!');
-          // }
-          navigation.navigate('Verify');
+          const res = await Post<IAuth>('/auth/sign-up', values);
+          if (res.data.ok) {
+            dispatch(saveUser(res.data.user));
+            navigation.navigate('Verify');
+          } else {
+            Alert.alert('Something went wrong!');
+          }
         }}
       />
     </View>

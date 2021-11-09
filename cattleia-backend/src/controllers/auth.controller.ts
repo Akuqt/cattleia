@@ -38,12 +38,14 @@ export const signIn = async (
       const { current, next } = await getRank(_user.rank.points);
 
       let balance = "";
+      let address = "";
 
       if (_user.account.payload) {
         const balanceWeis = await web3.eth.getBalance(
           _user.account.payload.address
         );
         balance = web3.utils.fromWei(balanceWeis, "ether");
+        address = _user.account.payload.address;
       }
 
       return res.json({
@@ -55,9 +57,11 @@ export const signIn = async (
           role: _user.role.name,
           email: _user.email,
           token: createAcessToken(_user),
-          hasAccount: _user.account.payload != undefined,
-          balance,
-          address: _user.account.payload.address,
+          account: {
+            hasAccount: _user.account.payload !== null,
+            balance,
+            address,
+          },
           rank: {
             color: rankColor(current.name),
             name: current.name,
@@ -117,11 +121,14 @@ export const signUp = async (
 
     let balance = "";
 
+    let address = "";
+
     if (_user.account.payload) {
       const balanceWeis = await web3.eth.getBalance(
         _user.account.payload.address
       );
       balance = web3.utils.fromWei(balanceWeis, "ether");
+      address = _user.account.payload.address;
     }
 
     await _user.save();
@@ -133,8 +140,11 @@ export const signUp = async (
         name: _user.name,
         userName: _user.userName,
         role: _user.role.name,
-        balance,
-        address: _user.account.payload.address,
+        account: {
+          hasAccount: false,
+          balance,
+          address,
+        },
         rank: {
           color: rankColor(_user.rank.name),
           name: _user.rank.name,
@@ -147,7 +157,6 @@ export const signUp = async (
         },
         email: _user.email,
         token: createAcessToken(_user),
-        hasAccount: false,
       },
     });
   }
