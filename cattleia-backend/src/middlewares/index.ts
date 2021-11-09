@@ -9,7 +9,14 @@ export const validateToken = (
   next: NextFunction
 ) => {
   const token1: string = req.header("Authorization") || "";
-  if (!token1) return res.status(401).json({ ok: false });
+  if (!token1)
+    return res.status(401).json({
+      ok: false,
+      error: {
+        message: "There's no auth token.",
+        code: 9091,
+      },
+    });
   else {
     const [tk, token] = token1.split(" ");
     if (token && tk === "bearer") {
@@ -21,10 +28,20 @@ export const validateToken = (
       } catch (error) {
         return res.status(401).json({
           ok: false,
+          error: {
+            message: "Invalid token.",
+            code: 10190,
+          },
         });
       }
     } else {
-      return res.status(401).json({ ok: false });
+      return res.status(401).json({
+        ok: false,
+        error: {
+          message: "Invalid token.",
+          code: 10190,
+        },
+      });
     }
   }
   next();

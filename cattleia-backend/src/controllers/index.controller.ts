@@ -48,9 +48,16 @@ export const revokeRefreshTokens = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const { id } = req.params;
+  const id = req.id;
   const user: User | null = await UserModel.findById(id);
-  if (!user) return res.json({ ok: false });
+  if (!user)
+    return res.json({
+      ok: false,
+      error: {
+        message: `There's no user with ID <${id}> or the user has no wallet account.`,
+        code: 4040,
+      },
+    });
 
   user.tokenVersion += 1;
   await user.save();
