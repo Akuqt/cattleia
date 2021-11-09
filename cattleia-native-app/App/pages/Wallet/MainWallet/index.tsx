@@ -23,7 +23,7 @@ import {
 } from '../Elements/Wallet';
 
 type ParamList = {
-  MainWallet: {address: string; balance: string};
+  MainWallet: undefined;
   Profile: undefined;
 };
 
@@ -36,7 +36,7 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
 
   const colors = darkTheme ? theme.dark : theme.light;
 
-  const originalAddress = route.params.address;
+  const originalAddress = user.address;
 
   const [, setClipboard] = useClipboard();
 
@@ -57,7 +57,13 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
         <Send />
       </Modal>
       <Section heigth="30%">
-        <Logo source={{uri: 'asset:/images/logo.png'}} />
+        <Logo
+          source={{
+            uri: darkTheme
+              ? 'asset:/images/logo2.png'
+              : 'asset:/images/logo.png',
+          }}
+        />
         <Txt color={colors.fontPrimary}>Account: {user.userName}</Txt>
         <View
           style={{
@@ -93,9 +99,7 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
       <Section heigth="40%" border>
         <Balance>
           <IconM name="ethereum" color={colors.secondary} size={70} />
-          <MainTxt color={colors.fontPrimary}>
-            {route.params.balance} ETH
-          </MainTxt>
+          <MainTxt color={colors.fontPrimary}>{user.balance} ETH</MainTxt>
         </Balance>
         <MainBtns>
           <Option direction="column" width="30%" padding="0px" justify="center">

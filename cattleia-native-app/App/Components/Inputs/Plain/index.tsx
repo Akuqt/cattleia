@@ -4,6 +4,7 @@ import {
   TextInputChangeEventData,
   NativeSyntheticEvent,
   KeyboardTypeOptions,
+  TextInputKeyPressEventData,
 } from 'react-native';
 import {
   Container,
@@ -19,6 +20,7 @@ import {
 
 interface Props {
   handler: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
+  onKeyPress?: (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => void;
   value: string;
   label?: string;
   password?: {
@@ -40,9 +42,11 @@ interface Props {
   fs: string;
   bg: string;
   fontColor: string;
+  labelFontColor: string;
   lableFs?: string;
   length?: number;
   aling?: 'center' | 'left' | 'right';
+  placeholder?: string;
 }
 
 const getKeyboardType = (prop: Props['type']): KeyboardTypeOptions => {
@@ -66,7 +70,7 @@ export const Plain: React.FC<Props> = props => {
   });
   return (
     <Container width={props.width} mg={props.margin}>
-      <Label2 color={props.fontColor} fs={props.lableFs}>
+      <Label2 color={props.labelFontColor} fs={props.lableFs}>
         {props.label}
       </Label2>
       {props.type === 'Password' && (
@@ -86,12 +90,15 @@ export const Plain: React.FC<Props> = props => {
         width={props.width}
         height={props.height}
         fs={props.fs}
+        placeholder={props.placeholder}
+        placeholderTextColor="#808080"
         style={{borderRadius: 5, textAlign: props.aling || 'left'}}
         secureTextEntry={show && props.type === 'Password'}
         onChange={props.handler}
         value={props.value}
         keyboardType={getKeyboardType(props.type)}
         maxLength={props.length || 20}
+        onKeyPress={props.onKeyPress}
       />
       {props.password?.help && (
         <Help onPress={props.password?.help.handler}>

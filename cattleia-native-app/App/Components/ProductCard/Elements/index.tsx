@@ -18,7 +18,7 @@ export const Img = styled.Image`
   border-top-right-radius: 10px;
 `;
 
-export const ImgPriceContainer = styled.View`
+export const ImgPriceContainer = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
   justify-content: center;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Header, Container, Wrapper} from '../Elements';
 import {useSelector, useDispatch} from 'react-redux';
-import {SubmitBtn, PasswordInput, Plain} from '../../../Components';
+import {SubmitBtn, Plain} from '../../../Components';
 import {useInputHandler} from '../../../hooks';
 import {RootState} from '../../../redux/store';
 import {saveUser} from '../../../redux/user';
@@ -30,15 +30,16 @@ export const ImportAccount: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
   return (
     <Container>
-      <Header colors={colors}>Import</Header>
-      <Header colors={colors}>Account</Header>
+      <Header color={colors.primary}>Import</Header>
+      <Header color={colors.primary}>Account</Header>
 
       <Wrapper mt="30px 0px">
         <Plain
           width="330px"
           height="40px"
           bg={colors.inputBg}
-          fontColor={colors.fontPrimary}
+          fontColor={colors.fontPrimaryInput}
+          labelFontColor={colors.fontPrimary}
           fs="16px"
           margin="15px 0px"
           label="Password"
@@ -52,7 +53,8 @@ export const ImportAccount: React.FC<Props> = ({navigation}) => {
           width="330px"
           height="40px"
           bg={colors.inputBg}
-          fontColor={colors.fontPrimary}
+          fontColor={colors.fontPrimaryInput}
+          labelFontColor={colors.fontPrimary}
           fs="16px"
           margin="15px 0px"
           label="Confirm Password"
@@ -66,7 +68,8 @@ export const ImportAccount: React.FC<Props> = ({navigation}) => {
           width="330px"
           height="40px"
           bg={colors.inputBg}
-          fontColor={colors.fontPrimary}
+          fontColor={colors.fontPrimaryInput}
+          labelFontColor={colors.fontPrimary}
           fs="16px"
           margin="15px 0px"
           label="Private Key"

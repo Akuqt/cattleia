@@ -8,6 +8,11 @@ export const Option = styled.TouchableOpacity`
   width: 100%;
 `;
 
+export const Txt = styled.Text<{color: string; fs: string}>`
+  font-size: ${p => p.fs};
+  color: ${p => p.color};
+`;
+
 export const Container = styled.View<{
   m: string;
   bt?: boolean;

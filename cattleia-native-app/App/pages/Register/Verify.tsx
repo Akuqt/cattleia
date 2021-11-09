@@ -4,7 +4,7 @@ import {Container, Img, Txt} from './Elements';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux';
 import {theme} from '../../utils';
-import {Alert, Image} from 'react-native';
+import {Image} from 'react-native';
 import {Code} from '../../Components';
 
 type ParamList = {

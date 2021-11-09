@@ -6,8 +6,8 @@ import {ActivityIndicator, ToastAndroid} from 'react-native';
 import {useBackHandler, useInputHandler} from '../../../../hooks';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useClipboard} from '@react-native-community/clipboard';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../../../redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {removeCartProduct, RootState} from '../../../../redux';
 import {Plain} from '../../../../Components';
 import {Post} from '../../../../services';
 
@@ -50,6 +50,8 @@ export const Crypto: React.FC<Props> = ({
   const [success, setSuccess] = useState(false);
 
   const txValue = (total * 0.000057) / 1000;
+
+  const dispatch = useDispatch();
 
   useBackHandler(() => {
     navigation.navigate('PaymentType', {id: ids.length === 1 ? ids[0] : '-1'});
@@ -104,7 +106,7 @@ export const Crypto: React.FC<Props> = ({
               pt="0px"
               ps="10px"
               width="100%">
-              <Txt fs="16px" color={colors.fontPrimary}>
+              <Txt fs="16px" color={colors.fontPrimaryInput}>
                 {formatAddress('0x9CD1753c43Eb0b586508ADA73aEAa019a1F6BD2a', 6)}
               </Txt>
               <Btn
@@ -121,7 +123,7 @@ export const Crypto: React.FC<Props> = ({
                 }}>
                 <Ionicons
                   name="clipboard-outline"
-                  color={colors.fontPrimary}
+                  color={colors.fontPrimaryInput}
                   size={25}
                 />
               </Btn>
@@ -152,7 +154,7 @@ export const Crypto: React.FC<Props> = ({
               pt="0px"
               ps="10px"
               width="100%">
-              <Txt fs="16px" color={colors.fontPrimary}>
+              <Txt fs="16px" color={colors.fontPrimaryInput}>
                 {txValue.toFixed(8)}
               </Txt>
             </Container>
@@ -174,7 +176,8 @@ export const Crypto: React.FC<Props> = ({
           type="Password"
           bg={colors.inputBg}
           fs="16px"
-          fontColor={colors.fontPrimary}
+          fontColor={colors.fontPrimaryInput}
+          labelFontColor={colors.fontPrimary}
           margin="15px 0px"
         />
       </Container>
@@ -205,20 +208,26 @@ export const Crypto: React.FC<Props> = ({
               'Success -> Use the Tx Hash to see the Tx status! (EtherScan)',
               ToastAndroid.SHORT,
             );
+            ids.forEach(id => {
+              dispatch(removeCartProduct({id}));
+            });
+            setTimeout(() => {
+              navigation.navigate('Shop');
+            }, 4000);
           } else {
             setSuccess(false);
           }
         }}>
         {loading && (
           <ActivityIndicator
-            color={colors.fontPrimary}
+            color={colors.fontPrimaryInput}
             size="small"
             style={{
               marginRight: 10,
             }}
           />
         )}
-        <Txt color={colors.fontPrimary} fs="16px">
+        <Txt color={colors.fontPrimaryInput} fs="16px">
           Pay {moneyFormat(total)}
         </Txt>
       </Btn>

@@ -20,8 +20,8 @@ export const NoWallet: React.FC<Props> = ({navigation}) => {
   const colors = darkTheme ? theme.dark : theme.light;
   return (
     <Container>
-      <Header colors={colors}>Account's</Header>
-      <Header colors={colors}>Wallet</Header>
+      <Header color={colors.primary}>Account's</Header>
+      <Header color={colors.primary}>Wallet</Header>
       <Wrapper mt="30px 0px">
         <SubmitBtn
           alignLabel="start"

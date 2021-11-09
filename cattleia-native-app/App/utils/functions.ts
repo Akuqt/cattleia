@@ -100,3 +100,24 @@ export const newObject = (
 
   return obj;
 };
+
+export const numberFormat = (value: string): string => {
+  let u = value.replace(/(-|,| )/g, '').replace(/[a-zA-Z]/g, '');
+  const i = u.indexOf('.', 3);
+  if (i >= 3) {
+    const l = u.substring(0, i);
+    const r = u.substring(i + 1, u.length);
+    u = l + r;
+  }
+  if (u.startsWith('00')) {
+    u = u.replace(/00/, '0');
+  }
+  if (u.startsWith('.')) {
+    u = u.replace(/./, '');
+  }
+  if (u.includes('..')) {
+    u = u.replace(/..$/, '.');
+  }
+  const res = parseFloat(u).toString();
+  return res === 'NaN' ? '' : res;
+};

@@ -12,21 +12,32 @@ import {
   TextContainer,
 } from './Elements';
 import {User} from '../../types';
+import {TextInput} from 'react-native';
 
 interface Props {
   name: string;
   avatar?: any;
   rank: User['rank'];
   theme: Theme['dark'] | Theme['light'];
+  onUpdate?: (name: string) => void;
 }
 
 export const UserCard: React.FC<Props> = props => {
   const [edit, setEdit] = useState(false);
-  const inputRef = useRef(null);
+  const [name, setName] = useState(props.name);
+  const inputRef = useRef<TextInput>(null);
 
   useEffect(() => {
-    edit && (inputRef.current as any).focus();
-  }, [edit]);
+    edit && inputRef.current?.focus();
+
+    if (!edit) {
+      props.onUpdate && props.onUpdate(name);
+    }
+  }, [edit, props.onUpdate]);
+
+  useEffect(() => {
+    setName(props.name);
+  }, [props.name]);
 
   return (
     <Container>
@@ -37,12 +48,18 @@ export const UserCard: React.FC<Props> = props => {
         <TextContainer>
           <NameContainer>
             <Name
-              value={props.name}
+              value={name}
               editable={edit}
               ref={inputRef}
               selectTextOnFocus
               border={edit}
               fc={props.theme.fontPrimary}
+              onChange={e => {
+                setName(e.nativeEvent.text);
+              }}
+              onEndEditing={() => {
+                setEdit(false);
+              }}
             />
           </NameContainer>
           <EditIcon

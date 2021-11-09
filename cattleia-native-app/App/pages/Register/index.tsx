@@ -35,7 +35,8 @@ export const Register: React.FC<Props> = ({navigation}) => {
         width="330px"
         height="40px"
         bg={colors.inputBg}
-        fontColor={colors.fontPrimary}
+        fontColor={colors.fontPrimaryInput}
+        labelFontColor={colors.fontPrimary}
         fs="16px"
         margin="15px 0px"
         label="Email"
@@ -48,7 +49,8 @@ export const Register: React.FC<Props> = ({navigation}) => {
         width="330px"
         height="40px"
         bg={colors.inputBg}
-        fontColor={colors.fontPrimary}
+        fontColor={colors.fontPrimaryInput}
+        labelFontColor={colors.fontPrimary}
         fs="16px"
         margin="15px 0px"
         label="Name"
@@ -61,7 +63,8 @@ export const Register: React.FC<Props> = ({navigation}) => {
         width="330px"
         height="40px"
         bg={colors.inputBg}
-        fontColor={colors.fontPrimary}
+        fontColor={colors.fontPrimaryInput}
+        labelFontColor={colors.fontPrimary}
         fs="16px"
         margin="15px 0px"
         label="User Name"
@@ -74,7 +77,8 @@ export const Register: React.FC<Props> = ({navigation}) => {
         width="330px"
         height="40px"
         bg={colors.inputBg}
-        fontColor={colors.fontPrimary}
+        fontColor={colors.fontPrimaryInput}
+        labelFontColor={colors.fontPrimary}
         fs="16px"
         margin="15px 0px"
         label="Password"

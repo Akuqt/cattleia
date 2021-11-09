@@ -107,6 +107,9 @@ export const Cart: React.FC<Props> = ({
                   onPress={() => {
                     dispatch(removeCartProduct({id: current.item.id}));
                   }}
+                  onPressImg={() => {
+                    navigation.navigate('Product', {id});
+                  }}
                 />
               </Grid>
             )}
@@ -133,7 +136,7 @@ export const Cart: React.FC<Props> = ({
           }}
           bg={colors.primary}
           width="80px">
-          <Txt color={colors.fontPrimary} fs="15px" bold>
+          <Txt color={colors.fontPrimaryInput} fs="15px" bold>
             Pay
           </Txt>
         </Btn>
@@ -146,7 +149,7 @@ export const Cart: React.FC<Props> = ({
           }}
           bg={colors.gray}
           width="180px">
-          <Txt color={colors.fontPrimary} fs="15px" bold>
+          <Txt color={colors.fontPrimaryInput} fs="15px" bold>
             Continue Shopping
           </Txt>
         </Btn>

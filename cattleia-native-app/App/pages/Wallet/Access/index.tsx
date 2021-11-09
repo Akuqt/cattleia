@@ -11,7 +11,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Alert} from 'react-native';
 
 type ParamList = {
-  MainWallet: {address: string; balance: string};
+  MainWallet: undefined;
   Access: undefined;
 };
 
@@ -24,14 +24,15 @@ export const Access: React.FC<Props> = ({navigation}) => {
   const user = useSelector((state: RootState) => state.userReducer.user);
   return (
     <Container>
-      <Header colors={colors}>Go to your</Header>
-      <Header colors={colors}>Wallet</Header>
+      <Header color={colors.primary}>Go to your</Header>
+      <Header color={colors.primary}>Wallet</Header>
       <Wrapper mt="30px 0px">
         <Plain
           width="330px"
           height="40px"
           bg={colors.inputBg}
-          fontColor={colors.fontPrimary}
+          fontColor={colors.fontPrimaryInput}
+          labelFontColor={colors.fontPrimary}
           fs="16px"
           margin="15px 0px"
           label="Password"
@@ -54,11 +55,7 @@ export const Access: React.FC<Props> = ({navigation}) => {
               balance: string;
               ok: boolean;
             }>('/web3/access', values, user.token);
-            if (res.data.ok)
-              navigation.navigate('MainWallet', {
-                address: res.data.address,
-                balance: res.data.balance,
-              });
+            if (res.data.ok) navigation.navigate('MainWallet');
             else Alert.alert('Invalid');
           }}
         />

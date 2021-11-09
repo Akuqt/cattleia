@@ -4,9 +4,9 @@ import {Txt, Btn, Container, Header, Logo, Img} from '../Elements';
 import {useBackHandler, useInputHandler} from '../../../../hooks';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {moneyFormat, theme} from '../../../../utils';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {Get, Post} from '../../../../services';
-import {RootState} from '../../../../redux';
+import {removeCartProduct, RootState} from '../../../../redux';
 import {Plain} from '../../../../Components';
 import {
   StripeProvider,
@@ -46,6 +46,8 @@ export const CreditCard: React.FC<Props> = ({
 
   const [loading, setLoading] = useState(true);
   const [loader, setLoader] = useState(false);
+
+  const dispatch = useDispatch();
 
   useBackHandler(() => {
     navigation.navigate('PaymentType', {id: ids.length === 1 ? ids[0] : '-1'});
@@ -88,6 +90,11 @@ export const CreditCard: React.FC<Props> = ({
       );
       setLoading(false);
       setLoader(false);
+
+      ids.forEach(id => {
+        dispatch(removeCartProduct({id}));
+      });
+
       setTimeout(() => {
         navigation.navigate('Shop');
       }, 1000);
@@ -126,7 +133,8 @@ export const CreditCard: React.FC<Props> = ({
             width="100%"
             height="40px"
             bg={colors.inputBg}
-            fontColor={colors.fontPrimary}
+            fontColor={colors.fontPrimaryInput}
+            labelFontColor={colors.fontPrimary}
             fs="16px"
             margin="15px 0px"
             label="Email *"
@@ -139,7 +147,8 @@ export const CreditCard: React.FC<Props> = ({
             width="100%"
             height="40px"
             bg={colors.inputBg}
-            fontColor={colors.fontPrimary}
+            fontColor={colors.fontPrimaryInput}
+            labelFontColor={colors.fontPrimary}
             fs="16px"
             margin="15px 0px 20px 0px"
             label="Name *"
@@ -164,8 +173,8 @@ export const CreditCard: React.FC<Props> = ({
               }}
               cardStyle={{
                 backgroundColor: colors.inputBg,
-                textColor: colors.fontPrimary,
-                placeholderColor: colors.fontPrimary,
+                textColor: colors.fontPrimaryInput,
+                placeholderColor: colors.fontPrimaryInput,
                 borderRadius: 5,
               }}
               style={{
@@ -183,14 +192,14 @@ export const CreditCard: React.FC<Props> = ({
             onPress={handleSheet}>
             {loader && (
               <ActivityIndicator
-                color={colors.fontPrimary}
+                color={colors.fontPrimaryInput}
                 size="small"
                 style={{
                   marginRight: 10,
                 }}
               />
             )}
-            <Txt fs="16px" color={colors.fontPrimary}>
+            <Txt fs="16px" color={colors.fontPrimaryInput}>
               {loading
                 ? loader
                   ? 'Processing...'
