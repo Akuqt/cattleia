@@ -1,6 +1,8 @@
 export interface IAuth {
   user: User;
-  ok: boolean;
+}
+
+export interface APIError {
   error: {
     message: string;
     code: number;

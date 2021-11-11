@@ -7,7 +7,7 @@ import {useInputHandler} from '../../hooks';
 import {RootState} from '../../redux/store';
 import {saveUser} from '../../redux';
 import {theme} from '../../utils';
-import {IAuth} from '../../types';
+import {APIError, IAuth} from '../../types';
 import {Post} from '../../services';
 
 type ParamList = {
@@ -43,6 +43,7 @@ export const Register: React.FC<Props> = ({navigation}) => {
         type="Email"
         value={values.email}
         lableFs="15px"
+        length={36}
         handler={handler('email')}
       />
       <Plain
@@ -56,6 +57,7 @@ export const Register: React.FC<Props> = ({navigation}) => {
         label="Name"
         lableFs="15px"
         type="Text"
+        length={36}
         value={values.name}
         handler={handler('name')}
       />
@@ -70,8 +72,10 @@ export const Register: React.FC<Props> = ({navigation}) => {
         label="User Name"
         lableFs="15px"
         type="Text"
+        length={10}
         value={values.userName}
         handler={handler('userName')}
+        format={e => e.replace(/[^\w]/gi, '')}
       />
       <Plain
         width="330px"
@@ -84,6 +88,7 @@ export const Register: React.FC<Props> = ({navigation}) => {
         label="Password"
         type="Password"
         lableFs="15px"
+        length={20}
         value={values.password}
         handler={handler('password')}
         password={{
@@ -100,7 +105,10 @@ export const Register: React.FC<Props> = ({navigation}) => {
         colors={colors}
         label="Sign Up"
         handler={async () => {
-          const res = await Post<IAuth>('/auth/sign-up', values);
+          const res = await Post<IAuth, APIError, {ok: boolean}>(
+            '/auth/sign-up',
+            values,
+          );
           if (res.data.ok) {
             dispatch(saveUser(res.data.user));
             navigation.navigate('Verify');

@@ -15,21 +15,22 @@ export const Send: React.FC = () => {
   const {values, handler} = useInputHandler({
     to: '',
     password: '',
+    value: '',
   });
   const [loading, setLoading] = useState(false);
 
-  const [value, setValue] = useState('');
+  // const [value, setValue] = useState('');
 
-  useEffect(() => {
-    let u = numberFormat(value);
-    if (u !== '' && parseFloat(u) > user.account.balance) {
-      u = user.account.balance + '';
-    }
-    if (u.length > 4 && parseFloat(u) < 0.001) {
-      u = '0.001';
-    }
-    setValue(u);
-  }, [value]);
+  // useEffect(() => {
+  //   let u = numberFormat(value);
+  //   if (u !== '' && parseFloat(u) > user.account.balance) {
+  //     u = user.account.balance + '';
+  //   }
+  //   if (u.length > 4 && parseFloat(u) < 0.001) {
+  //     u = '0.001';
+  //   }
+  //   setValue(u);
+  // }, [value]);
 
   return (
     <Container
@@ -64,10 +65,9 @@ export const Send: React.FC = () => {
           value={values.to}
           clipboard
           disabled
+          differValue
           format={e => {
-            const k = e.startsWith('0x') ? e : '0x' + e;
-            if (k.length > 42) return formatAddress(k.substring(0, 43), 6);
-            else return formatAddress(k, 6);
+            return formatAddress(e, 6);
           }}
           handler={handler('to')}
         />
@@ -83,10 +83,18 @@ export const Send: React.FC = () => {
           placeholder={`0.001 - ${user.account.balance}`}
           type="Number"
           lableFs="15px"
-          value={value}
+          value={values.value}
           length={14}
-          handler={e => {
-            setValue(e.nativeEvent.text);
+          handler={handler('value')}
+          format={e => {
+            let u = numberFormat(e);
+            if (u !== '' && parseFloat(u) > user.account.balance) {
+              u = user.account.balance + '';
+            }
+            if (u.length > 4 && parseFloat(u) < 0.001) {
+              u = '0.001';
+            }
+            return u;
           }}
         />
 
@@ -116,28 +124,33 @@ export const Send: React.FC = () => {
           disabled={loading}
           handler={async () => {
             setLoading(true);
-            const res = await Post<{
-              ok: boolean;
-              status: boolean;
-              hash: string;
-              to: string;
-              error: {message: string; code: number};
-            }>(
-              '/web3/transfer-to',
-              {...values, value: value !== '' ? value : '0.001'},
-              user.token,
-            );
-            if (res.data.ok) {
-              ToastAndroid.show(
-                'Success -> Use the Tx Hash to see the Tx status! (EtherScan)',
-                ToastAndroid.SHORT,
-              );
-            } else {
-              ToastAndroid.show(
-                `Error: ${res.data.error.message} [${res.data.error.code}]`,
-                ToastAndroid.SHORT,
-              );
-            }
+            // const res = await Post<
+            //   {
+            //     ok: boolean;
+            //     status: boolean;
+            //     hash: string;
+            //     to: string;
+            //   },
+            //   {
+            //     error: {message: string; code: number};
+            //   },
+            //   {
+            //     ok: boolean;
+            //   }
+            // >('/web3/transfer-to', values, user.token);
+            // if (res.data.ok) {
+            //   ToastAndroid.show(
+            //     'Success -> Use the Tx Hash to see the Tx status! (EtherScan)',
+            //     ToastAndroid.SHORT,
+            //   );
+            // } else {
+            //   ToastAndroid.show(
+            //     `Error: ${res.data.error.message} [${res.data.error.code}]`,
+            //     ToastAndroid.SHORT,
+            //   );
+            // }
+            console.log(values);
+
             setLoading(false);
           }}
         />
