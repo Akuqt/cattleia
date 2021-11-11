@@ -13,6 +13,10 @@ jobs:
   build:
 
     runs-on: self-hosted
+    
+    defaults:
+      run:
+        working-directory: 'cattleia-backend' # Here the path to the folder where package-lock.json is located.
 
     strategy:
       matrix:
@@ -26,10 +30,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: '**/yarn.lock'
     - run: rm -rf cattleia-native-app
     - run: cd cattleia-backend
-    - run: npm ci
-    - run: npm run build
+    - run: yarn
+    - run: yarn run build
     - run: pm2 stop all
     - run: pm2 delete all
     - run: pm2 save --force
