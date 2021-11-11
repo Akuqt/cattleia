@@ -31,9 +31,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: '**/yarn.lock'
-    - run: cd ..
-    - run: rm -rf cattleia-native-app
-    - run: cd cattleia-backend
     - run: yarn
     - run: yarn run build
     - run: pm2 stop all
