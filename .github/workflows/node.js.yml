@@ -25,11 +25,11 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
+        cache: 'npm'
     - run: rm -rf cattleia-native-app
     - run: cd cattleia-backend
-    - run: yarn
-    - run: yarn build
+    - run: npm ci
+    - run: npm run build
     - run: pm2 stop all
     - run: pm2 delete all
     - run: pm2 save --force
