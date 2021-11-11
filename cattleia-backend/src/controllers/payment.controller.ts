@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
 import Stripe from "stripe";
 import config from "../config";
+import { Request, Response } from "express";
 
 const stripe = new Stripe(config.STRIPE_SECRET, {
   apiVersion: "2020-08-27",

@@ -1,14 +1,15 @@
-import { Request, Response } from "express";
-import { verify } from "jsonwebtoken";
 import config from "../config";
+import { Request, Response } from "express";
+import { UserModel } from "../models";
+import { verify } from "jsonwebtoken";
 import {
+  User,
+  errors,
+  Payload,
   cookieConf,
   createAcessToken,
   createRefreshToken,
-  User,
-  Payload,
 } from "../libs";
-import { UserModel } from "../models";
 
 export const index = (_req: Request, res: Response): Response =>
   res.json({ msg: "Hello" });
@@ -53,10 +54,7 @@ export const revokeRefreshTokens = async (
   if (!user)
     return res.json({
       ok: false,
-      error: {
-        message: `There's no user with ID <${id}> or the user has no wallet account.`,
-        code: 4040,
-      },
+      error: errors.invalidIDorNoWallet(id),
     });
 
   user.tokenVersion += 1;

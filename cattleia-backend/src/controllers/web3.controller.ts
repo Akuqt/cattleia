@@ -1,13 +1,14 @@
 import Web3 from "web3";
-import { Request, Response } from "express";
 import { UserModel, AccountModel } from "../models";
+import { Request, Response } from "express";
 import {
-  Account,
   User,
-  encryptPassword,
-  comparePassword,
+  errors,
+  Account,
   Stacked,
   errorStack,
+  encryptPassword,
+  comparePassword,
 } from "../libs";
 
 const web3 = new Web3(process.env.INFURA_RINKEBY);
@@ -23,7 +24,7 @@ const getNonce = (): string => {
 };
 
 export const access = async (
-  req: Request,
+  req: Request<any, any, { password: string }>,
   res: Response
 ): Promise<Response> => {
   const id = req.id;
@@ -32,18 +33,12 @@ export const access = async (
   if (!_user || !_user.account.payload)
     return res.json({
       ok: false,
-      error: {
-        message: `There's no user with ID <${id}> or the user has no wallet account.`,
-        code: 4040,
-      },
+      error: errors.invalidIDorNoWallet(id),
     });
   if (!(await comparePassword(_user.account.password, password)))
     return res.json({
       ok: false,
-      error: {
-        message: `Invalid wallet password.`,
-        code: 5040,
-      },
+      error: errors.wrongWalletPassword,
     });
   return res.json({
     ok: true,
@@ -51,7 +46,7 @@ export const access = async (
 };
 
 export const createAccount = async (
-  req: Request,
+  req: Request<any, any, { password: string }>,
   res: Response
 ): Promise<Response> => {
   const { password } = req.body;
@@ -63,10 +58,7 @@ export const createAccount = async (
   if (!_user || _user.account.payload)
     return res.json({
       ok: false,
-      error: {
-        message: `There's no user with ID <${_id}> or the user has no wallet account.`,
-        code: 4040,
-      },
+      error: errors.invalidIDorNoWallet(_id),
     });
 
   const account = web3.eth.accounts.create(getNonce());
@@ -80,10 +72,7 @@ export const createAccount = async (
   if (!_account)
     return res.json({
       ok: false,
-      error: {
-        message: `There's no user with ID <${_id}> or the user has no wallet account.`,
-        code: 4040,
-      },
+      error: errors.invalidIDorNoWallet(_id),
     });
 
   _account.password = await encryptPassword(password);
@@ -100,7 +89,7 @@ export const createAccount = async (
 };
 
 export const importAccount = async (
-  req: Request,
+  req: Request<any, any, { privateKey: string; password: string }>,
   res: Response
 ): Promise<Response> => {
   const id = req.id;
@@ -110,15 +99,12 @@ export const importAccount = async (
   if (!_user || _user.account.payload)
     return res.json({
       ok: false,
-      error: {
-        message: `There's no user with ID <${id}> or the user has no wallet account.`,
-        code: 4040,
-      },
+      error: errors.invalidIDorNoWallet(id),
     });
 
   let { privateKey, password } = req.body;
 
-  if (!(privateKey as string).startsWith("0x")) privateKey = "0x" + privateKey;
+  if (!privateKey.startsWith("0x")) privateKey = "0x" + privateKey;
 
   const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 
@@ -131,10 +117,7 @@ export const importAccount = async (
   if (!_account)
     return res.json({
       ok: false,
-      error: {
-        message: "There's no wallet accout for this user.",
-        code: 4050,
-      },
+      error: errors.noWalletAccount,
     });
 
   _account.payload = encryptedKey;
@@ -154,7 +137,7 @@ export const importAccount = async (
 };
 
 export const getPrivateKey = async (
-  req: Request,
+  req: Request<any, any, { password: string }>,
   res: Response
 ): Promise<Response> => {
   const { password } = req.body;
@@ -166,20 +149,14 @@ export const getPrivateKey = async (
   if (!_user || !_user.account.payload) {
     return res.json({
       ok: false,
-      error: {
-        message: `There's no user with ID <${_id}> or the user has no wallet account.`,
-        code: 4040,
-      },
+      error: errors.invalidIDorNoWallet(_id),
     });
   }
 
   if (!(await comparePassword(_user.account.password, password)))
     return res.json({
       ok: false,
-      error: {
-        message: `Invalid wallet password.`,
-        code: 5040,
-      },
+      error: errors.wrongWalletPassword,
     });
 
   const payloadKey = web3.eth.accounts.decrypt(
@@ -205,19 +182,13 @@ export const transferTo = async (
   if (!_user || !_user.account.payload)
     return res.json({
       ok: false,
-      error: {
-        message: `There's no user with ID <${id}> or the user has no wallet account.`,
-        code: 4040,
-      },
+      error: errors.invalidIDorNoWallet(id),
     });
 
   if (!(await comparePassword(_user.account.password, password)))
     return res.json({
       ok: false,
-      error: {
-        message: `Invalid wallet password.`,
-        code: 5040,
-      },
+      error: errors.wrongWalletPassword,
     });
 
   const payloadKey = web3.eth.accounts.decrypt(
