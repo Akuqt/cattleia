@@ -1,14 +1,13 @@
 import React from 'react';
 import {Header, Container, Wrapper} from '../Elements';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Plain, SubmitBtn} from '../../../Components';
 import {useInputHandler} from '../../../hooks';
+import {ToastAndroid} from 'react-native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
 import {theme} from '../../../utils';
 import {Post} from '../../../services';
-
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Alert} from 'react-native';
 
 type ParamList = {
   MainWallet: undefined;
@@ -51,12 +50,19 @@ export const Access: React.FC<Props> = ({navigation}) => {
           lm
           handler={async () => {
             const res = await Post<{
-              address: string;
-              balance: string;
               ok: boolean;
+              error: {
+                message: string;
+                code: number;
+              };
             }>('/web3/access', values, user.token);
             if (res.data.ok) navigation.navigate('MainWallet');
-            else Alert.alert('Invalid');
+            else {
+              ToastAndroid.show(
+                `Error: ${res.data.error.message} [${res.data.error.code}]`,
+                ToastAndroid.SHORT,
+              );
+            }
           }}
         />
       </Wrapper>

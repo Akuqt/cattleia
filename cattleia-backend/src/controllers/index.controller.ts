@@ -1,14 +1,15 @@
-import { Request, Response } from "express";
-import { verify } from "jsonwebtoken";
 import config from "../config";
+import { Request, Response } from "express";
+import { UserModel } from "../models";
+import { verify } from "jsonwebtoken";
 import {
+  User,
+  errors,
+  Payload,
   cookieConf,
   createAcessToken,
   createRefreshToken,
-  User,
-  Payload,
 } from "../libs";
-import { UserModel } from "../models";
 
 export const index = (_req: Request, res: Response): Response =>
   res.json({ msg: "Hello" });
@@ -48,9 +49,13 @@ export const revokeRefreshTokens = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const { id } = req.params;
+  const id = req.id;
   const user: User | null = await UserModel.findById(id);
-  if (!user) return res.json({ ok: false });
+  if (!user)
+    return res.json({
+      ok: false,
+      error: errors.invalidIDorNoWallet(id),
+    });
 
   user.tokenVersion += 1;
   await user.save();

@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { verify } from "jsonwebtoken";
 import config from "../config";
-import { Payload } from "../libs";
+import { NextFunction, Request, Response } from "express";
+import { errors, Payload } from "../libs";
+import { verify } from "jsonwebtoken";
 
 export const validateToken = (
   req: Request,
@@ -9,7 +9,11 @@ export const validateToken = (
   next: NextFunction
 ) => {
   const token1: string = req.header("Authorization") || "";
-  if (!token1) return res.status(401).json({ ok: false });
+  if (!token1)
+    return res.status(401).json({
+      ok: false,
+      error: errors.noAuthToken,
+    });
   else {
     const [tk, token] = token1.split(" ");
     if (token && tk === "bearer") {
@@ -21,10 +25,14 @@ export const validateToken = (
       } catch (error) {
         return res.status(401).json({
           ok: false,
+          error: errors.invalidAuthToken,
         });
       }
     } else {
-      return res.status(401).json({ ok: false });
+      return res.status(401).json({
+        ok: false,
+        error: errors.invalidAuthToken,
+      });
     }
   }
   next();

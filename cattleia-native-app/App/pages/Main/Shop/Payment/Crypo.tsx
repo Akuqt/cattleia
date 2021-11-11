@@ -25,6 +25,10 @@ interface Response {
   status: string;
   hash: string;
   to: string;
+  error: {
+    message: string;
+    code: number;
+  };
 }
 
 export const Crypto: React.FC<Props> = ({
@@ -56,7 +60,9 @@ export const Crypto: React.FC<Props> = ({
   const dispatch = useDispatch();
 
   useBackHandler(() => {
-    navigation.navigate('PaymentType', {id: ids.length === 1 ? ids[0] : '-1'});
+    navigation.navigate('PaymentType', {
+      id: ids.length === 1 ? ids[0] : '-1',
+    });
   });
 
   return (
@@ -215,11 +221,12 @@ export const Crypto: React.FC<Props> = ({
             ids.forEach(id => {
               dispatch(removeCartProduct({id}));
             });
-            // setTimeout(() => {
-            //   navigation.navigate('Shop');
-            // }, 4000);
           } else {
             setSuccess(false);
+            ToastAndroid.show(
+              `Error: ${res.data.error.message} [${res.data.error.code}]`,
+              ToastAndroid.SHORT,
+            );
           }
         }}>
         {loading && (

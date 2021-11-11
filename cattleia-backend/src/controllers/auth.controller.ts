@@ -1,19 +1,20 @@
 import Web3 from "web3";
+import { UserModel, RoleModel, AccountModel, RankModel } from "../models";
+import { getRank, rankColor } from "../libs";
 import { Request, Response } from "express";
 import {
-  User,
-  Role,
   Rank,
+  Role,
+  User,
+  errors,
   cookieConf,
-  createAcessToken,
-  createRefreshToken,
   comparePassword,
   encryptPassword,
+  createAcessToken,
+  createRefreshToken,
 } from "../libs";
-import { getRank, rankColor } from "../libs";
-import { UserModel, RoleModel, AccountModel, RankModel } from "../models";
 
-const web3 = new Web3(process.env.GANACHE);
+const web3 = new Web3(process.env.INFURA_RINKEBY);
 
 export const signIn = async (
   req: Request,
@@ -31,7 +32,10 @@ export const signIn = async (
   if (_user) {
     const matchPass = await comparePassword(_user.password, password);
     if (!matchPass) {
-      return res.json({ ok: false });
+      return res.json({
+        ok: false,
+        error: errors.wrongUserOrPassword,
+      });
     } else {
       res.cookie("jid", createRefreshToken(_user), cookieConf);
 
@@ -76,7 +80,10 @@ export const signIn = async (
       });
     }
   }
-  return res.status(401).json({ ok: false });
+  return res.status(401).json({
+    ok: false,
+    error: errors.wrongUserOrPassword,
+  });
 };
 
 export const signUp = async (
@@ -88,7 +95,10 @@ export const signUp = async (
   const _user2: User | null = await UserModel.findOne({ userName });
 
   if (_user2 && _user2.userName === userName) {
-    return res.json({ ok: false });
+    return res.json({
+      ok: false,
+      error: errors.userAlreadyTaken,
+    });
   } else {
     const _user: User = new UserModel({
       name,

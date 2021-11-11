@@ -5,10 +5,10 @@ import {DrawerContentView} from '../../../Components';
 import {DrawerActions} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
-import {theme} from '../../../utils';
-import {Filter} from './Filter';
-import {Shop} from './Shop';
 import {Product} from '../../../types';
+import {Filter} from './Filter';
+import {theme} from '../../../utils';
+import {Shop} from './Shop';
 
 const DrawerN = createDrawerNavigator();
 

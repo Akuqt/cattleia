@@ -1,9 +1,9 @@
 import config from "../config";
-import { User } from "./interfaces";
-import { sign } from "jsonwebtoken";
+import { RoleModel, RankModel } from "../models";
 import { CookieOptions } from "express";
 import { hash, verify } from "argon2";
-import { RoleModel, RankModel } from "../models";
+import { User } from "./interfaces";
+import { sign } from "jsonwebtoken";
 
 export const createAcessToken = (user: User): string => {
   return sign(

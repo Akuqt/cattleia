@@ -2,11 +2,11 @@ import React, {useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootState} from '../../../redux/store';
+import {saveUser} from '../../../redux';
 import {UserCard} from '../../../Components';
 import {theme} from '../../../utils';
 import {View} from 'react-native';
 import {Tabs} from './Tabs';
-import {saveUser} from '../../../redux';
 
 type Props = NativeStackScreenProps<
   {

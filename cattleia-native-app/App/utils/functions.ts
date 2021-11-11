@@ -64,13 +64,15 @@ export const moneyFormat = (prop: number): string => {
 export const formatAddress = (address: string, lon: number): string => {
   address = address.replace(/[^\w\s]/gi, '');
 
-  if (address.startsWith('0x')) {
-    address = address.slice(2, address.length);
+  // console.log(address.length);
+
+  if (address.length > 42) {
+    address = address.substring(0, 43);
   }
 
-  if (address.length > 40) {
-    return address;
-  }
+  address = address.startsWith('0x')
+    ? address.slice(2, address.length)
+    : address;
 
   if (address.length < 40) {
     for (let i = address.length; i < 40; i++) {

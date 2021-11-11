@@ -9,6 +9,7 @@ interface Props {
   lm?: boolean;
   sec?: boolean;
   alignLabel?: 'start' | 'center' | 'end';
+  disabled?: boolean;
 }
 
 export const SubmitBtn: React.FC<Props> = props => {
@@ -22,6 +23,7 @@ export const SubmitBtn: React.FC<Props> = props => {
         style={{
           borderRadius: 4,
         }}
+        disabled={props.disabled}
         onPress={props.handler}>
         <Label btn colors={props.colors}>
           {props.label}

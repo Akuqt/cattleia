@@ -20,14 +20,14 @@ export const Verify: React.FC<Props> = ({navigation}) => {
   const colors = darkTheme ? theme.dark : theme.light;
   return (
     <Container>
-      <Txt fs="18px" color="#000" bold>
+      <Txt fs="18px" color={colors.fontPrimary} bold>
         Enter your verification code
       </Txt>
-      <Txt fs="14px" color="#000">
+      <Txt fs="14px" color={colors.fontPrimary}>
         We sent the code to your email
       </Txt>
       <Code
-        color={colors.fontPrimary}
+        color={colors.fontPrimaryInput}
         fs="16px"
         bg={colors.inputBg}
         slotWidth="45px"
