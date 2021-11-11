@@ -3,7 +3,7 @@ import IonIcons from 'react-native-vector-icons/Ionicons';
 import {theme, icons} from '../../../utils';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
-import {Alert} from 'react-native';
+import {Alert, Image} from 'react-native';
 import {
   Container,
   Option,
@@ -18,8 +18,24 @@ export const Options: React.FC<any> = ({navigation}) => {
   const colors = darkTheme ? theme.dark : theme.light;
   return (
     <Container>
-      <OptionGroup colors={colors} height="35%"></OptionGroup>
-      <OptionGroup border colors={colors} height="35%"></OptionGroup>
+      <OptionGroup colors={colors} height="35%">
+        <Image
+          style={{width: '70%', height: '70%'}}
+          source={{
+            uri: darkTheme
+              ? 'asset:/images/logo2.png'
+              : 'asset:/images/logo.png',
+          }}
+        />
+      </OptionGroup>
+      <OptionGroup border colors={colors} height="35%">
+        <Txt colors={colors} style={{textAlign: 'justify'}}>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium
+          neque provident saepe ad dolor ducimus aliquid, ab rerum. Earum qui
+          animi iusto debitis quo cum molestias nobis ab nihil cupiditate! Lorem
+          ipsum dolor sit amet consectetur adipisicing.
+        </Txt>
+      </OptionGroup>
       <OptionGroup border colors={colors} height="20%">
         <OptionContainer>
           <Option onPress={() => navigation.navigate('Settings')}>

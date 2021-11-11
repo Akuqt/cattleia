@@ -1,7 +1,7 @@
 import React from 'react';
 import {Header, Container, Wrapper} from '../Elements';
 import {useSelector, useDispatch} from 'react-redux';
-import {PasswordInput, SubmitBtn} from '../../../Components';
+import {SubmitBtn, Plain} from '../../../Components';
 import {useInputHandler} from '../../../hooks';
 import {RootState} from '../../../redux/store';
 import {saveUser} from '../../../redux/user';
@@ -26,14 +26,37 @@ export const CreateAccount: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
   return (
     <Container>
-      <Header colors={colors}>Create</Header>
-      <Header colors={colors}>Account</Header>
+      <Header color={colors.primary}>Create</Header>
+      <Header color={colors.primary}>Account</Header>
       <Wrapper mt="30px 0px">
-        <PasswordInput handler={handler('password')} value={values.password} />
-        <PasswordInput
+        <Plain
+          width="330px"
+          height="40px"
+          bg={colors.inputBg}
+          fontColor={colors.fontPrimaryInput}
+          labelFontColor={colors.fontPrimary}
+          fs="16px"
+          margin="15px 0px"
+          label="Password"
+          type="Password"
+          lableFs="15px"
+          value={values.password}
+          handler={handler('password')}
+        />
+
+        <Plain
+          width="330px"
+          height="40px"
+          bg={colors.inputBg}
+          fontColor={colors.fontPrimaryInput}
+          labelFontColor={colors.fontPrimary}
+          fs="16px"
+          margin="15px 0px"
           label="Confirm Password"
-          handler={handler('password2')}
+          type="Password"
+          lableFs="15px"
           value={values.password2}
+          handler={handler('password2')}
         />
       </Wrapper>
       <Wrapper mt="-10px 0px 0px 0px">
@@ -44,13 +67,22 @@ export const CreateAccount: React.FC<Props> = ({navigation}) => {
           label="Create Account"
           lm
           handler={async () => {
-            const res = await Post<{ok: boolean}>(
-              '/web3/create-account',
-              values,
-              user.token,
-            );
+            const res = await Post<{
+              ok: boolean;
+              balance: number;
+              address: string;
+            }>('/web3/create-account', values, user.token);
             if (res.data.ok) {
-              dispatch(saveUser({...user, hasAccount: true}));
+              dispatch(
+                saveUser({
+                  ...user,
+                  account: {
+                    address: res.data.address,
+                    balance: res.data.balance,
+                    hasAccount: res.data.ok,
+                  },
+                }),
+              );
               navigation.navigate('Access');
             } else Alert.alert('Invalid');
           }}

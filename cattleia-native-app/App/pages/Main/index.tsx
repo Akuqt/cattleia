@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useBackHandler} from '../../hooks';
 import {useSelector} from 'react-redux';
 import {Information} from './Information';
-import {BackHandler} from 'react-native';
 import {RootState} from '../../redux/store';
 import {ShopView} from './Shop';
 import {Profile} from './Profile';
@@ -18,19 +18,10 @@ export const Main: React.FC<any> = ({navigation}) => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
 
-  useEffect(() => {
-    const backAction = () => {
-      navigation.navigate('Main');
-      return true;
-    };
+  useBackHandler(() => {
+    navigation.navigate('Main');
+  });
 
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove();
-  }, []);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({

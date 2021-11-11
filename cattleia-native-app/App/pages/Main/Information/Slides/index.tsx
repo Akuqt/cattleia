@@ -14,6 +14,7 @@ export const Slide1: React.FC<any> = ({navigation}) => {
 
   return (
     <Info
+      img={darkTheme ? 'asset:/images/logo2.png' : 'asset:/images/logo.png'}
       colors={colors}
       mb="20px"
       info={info}
@@ -32,6 +33,7 @@ export const Slide2: React.FC<any> = ({navigation}) => {
 
   return (
     <Info
+      img={darkTheme ? 'asset:/images/logo2.png' : 'asset:/images/logo.png'}
       colors={colors}
       mb="20px"
       info={info}
@@ -53,6 +55,7 @@ export const Slide3: React.FC<any> = ({navigation}) => {
 
   return (
     <Info
+      img={darkTheme ? 'asset:/images/logo2.png' : 'asset:/images/logo.png'}
       colors={colors}
       mb="20px"
       info={info}

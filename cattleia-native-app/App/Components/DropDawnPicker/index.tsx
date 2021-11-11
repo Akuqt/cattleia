@@ -2,7 +2,15 @@ import React, {useState} from 'react';
 import {View, Text} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {icons, Theme} from '../../utils';
-import {Container, Content, Group, Header, Option, Title} from './Elements';
+import {
+  Container,
+  Content,
+  Group,
+  Header,
+  Option,
+  Title,
+  Txt,
+} from './Elements';
 
 interface Props {
   theme: Theme['dark'] | Theme['light'];
@@ -47,7 +55,9 @@ export const DropDawnPicker: React.FC<Props> = props => {
                   props.onChange(op.value);
                   setShow(c => !c);
                 }}>
-                <Text key={i * 2 + 1}>{op.name}</Text>
+                <Txt color={props.theme.fontPrimary} fs="14px" key={i * 2 + 1}>
+                  {op.name}
+                </Txt>
               </Option>
             ))}
           </Content>

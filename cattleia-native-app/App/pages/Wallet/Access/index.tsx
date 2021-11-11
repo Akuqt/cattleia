@@ -1,6 +1,6 @@
 import React from 'react';
 import {Header, Container, Wrapper} from '../Elements';
-import {PasswordInput, SubmitBtn} from '../../../Components';
+import {Plain, SubmitBtn} from '../../../Components';
 import {useInputHandler} from '../../../hooks';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
@@ -11,7 +11,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Alert} from 'react-native';
 
 type ParamList = {
-  MainWallet: {address: string; balance: string};
+  MainWallet: undefined;
   Access: undefined;
 };
 
@@ -24,10 +24,23 @@ export const Access: React.FC<Props> = ({navigation}) => {
   const user = useSelector((state: RootState) => state.userReducer.user);
   return (
     <Container>
-      <Header colors={colors}>Go to your</Header>
-      <Header colors={colors}>Wallet</Header>
+      <Header color={colors.primary}>Go to your</Header>
+      <Header color={colors.primary}>Wallet</Header>
       <Wrapper mt="30px 0px">
-        <PasswordInput handler={handler('password')} value={values.password} />
+        <Plain
+          width="330px"
+          height="40px"
+          bg={colors.inputBg}
+          fontColor={colors.fontPrimaryInput}
+          labelFontColor={colors.fontPrimary}
+          fs="16px"
+          margin="15px 0px"
+          label="Password"
+          type="Password"
+          lableFs="15px"
+          value={values.password}
+          handler={handler('password')}
+        />
       </Wrapper>
       <Wrapper mt="-10px 0px 0px 0px">
         <SubmitBtn
@@ -42,11 +55,7 @@ export const Access: React.FC<Props> = ({navigation}) => {
               balance: string;
               ok: boolean;
             }>('/web3/access', values, user.token);
-            if (res.data.ok)
-              navigation.navigate('MainWallet', {
-                address: res.data.address,
-                balance: res.data.balance,
-              });
+            if (res.data.ok) navigation.navigate('MainWallet');
             else Alert.alert('Invalid');
           }}
         />

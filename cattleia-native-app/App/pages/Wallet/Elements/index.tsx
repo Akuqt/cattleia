@@ -10,8 +10,8 @@ export const Container = styled.View`
   padding: 30px;
 `;
 
-export const Header = styled.Text<{colors: any}>`
-  color: ${p => p.colors.primary};
+export const Header = styled.Text<{color: string}>`
+  color: ${p => p.color};
   font-size: 30px;
   font-weight: bold;
 `;

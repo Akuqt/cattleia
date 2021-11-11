@@ -13,9 +13,11 @@ const initialState: Init = {
     role: '',
     id: '',
     email: '',
-    hasAccount: false,
-    balance: 0,
-    address: '',
+    account: {
+      hasAccount: false,
+      balance: 0,
+      address: '',
+    },
     rank: {
       color: '#000',
       name: '',

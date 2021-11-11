@@ -1,7 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {Container, InputContainer, Txt, Img, Input} from './Elements';
+import React from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useInputHandler} from '../../hooks';
+import {Container, Img, Txt} from './Elements';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux';
+import {theme} from '../../utils';
+import {Image} from 'react-native';
+import {Code} from '../../Components';
 
 type ParamList = {
   Main: undefined;
@@ -9,39 +13,11 @@ type ParamList = {
   Verify: undefined;
 };
 
-type Props = NativeStackScreenProps<ParamList, 'Main'>;
+type Props = NativeStackScreenProps<ParamList, 'Verify'>;
 
 export const Verify: React.FC<Props> = ({navigation}) => {
-  const {handler, values} = useInputHandler({
-    v1: '',
-    v2: '',
-    v3: '',
-    v4: '',
-    v5: '',
-    v6: '',
-  });
-
-  const [info, setInfo] = useState('');
-
-  type Key = Parameters<typeof handler>[0];
-
-  useEffect(() => {
-    let c = '';
-    Object.values(values).forEach(e => {
-      if (e !== '') c += e;
-    });
-    if (c.length === 6) {
-      setInfo('');
-      navigation.navigate('Main');
-    } else {
-      setInfo(
-        `Incorrect code! Need ${6 - c.length} more digit${
-          c.length < 5 ? 's' : ''
-        }`,
-      );
-    }
-  }, [values]);
-
+  const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
+  const colors = darkTheme ? theme.dark : theme.light;
   return (
     <Container>
       <Txt fs="18px" color="#000" bold>
@@ -50,24 +26,28 @@ export const Verify: React.FC<Props> = ({navigation}) => {
       <Txt fs="14px" color="#000">
         We sent the code to your email
       </Txt>
-
-      <InputContainer>
-        {Object.keys(values).map(e => (
-          <Input
-            key={e}
-            keyboardType="number-pad"
-            maxLength={1}
-            value={values[e as Key]}
-            onChange={handler(e as Key)}
-          />
-        ))}
-      </InputContainer>
-
-      <Txt fs="14px" color="red">
-        {info}
-      </Txt>
-
-      <Img />
+      <Code
+        color={colors.fontPrimary}
+        fs="16px"
+        bg={colors.inputBg}
+        slotWidth="45px"
+        slotHeigth="40px"
+        length={6}
+        init={'1'}
+        onComplete={code => {
+          if (code === '123456') navigation.navigate('Main');
+        }}
+      />
+      <Img>
+        <Image
+          source={{
+            uri: darkTheme
+              ? 'asset:/images/logo2.png'
+              : 'asset:/images/logo.png',
+          }}
+          style={{width: '50%', height: '50%'}}
+        />
+      </Img>
     </Container>
   );
 };

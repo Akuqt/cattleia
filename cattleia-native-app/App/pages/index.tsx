@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
+import {PaymentType, CreditCard, Crypto} from './Main/Shop/Payment';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StatusBar, useColorScheme} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {Register, Verify} from './Register';
-import {PaymentType, CreditCard, Crypto} from './Main/Shop/Payment';
 import {RootState} from '../redux/store';
 import {HomePage} from './HomePage';
 import {setMode} from '../redux/theme';
@@ -24,7 +24,7 @@ export const Pages = () => {
   const dispatch = useDispatch();
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   useEffect(() => {
-    dispatch(setMode(colorScheme === 'dark' || darkTheme));
+    dispatch(setMode(colorScheme === 'dark'));
   }, []);
   const colors = darkTheme ? theme.dark : theme.light;
   return (

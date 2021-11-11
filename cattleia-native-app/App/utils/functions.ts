@@ -62,15 +62,78 @@ export const moneyFormat = (prop: number): string => {
 };
 
 export const formatAddress = (address: string, lon: number): string => {
+  address = address.replace(/[^\w\s]/gi, '');
+
   if (address.startsWith('0x')) {
     address = address.slice(2, address.length);
-  } else {
+  }
+
+  if (address.length > 40) {
     return address;
   }
+
+  if (address.length < 40) {
+    for (let i = address.length; i < 40; i++) {
+      address += '0';
+    }
+  }
+
   return (
     '0x' +
     address.slice(0, lon) +
     '...' +
     address.slice(address.length - lon, address.length)
   );
+};
+
+export const newArray = <T>(length: number, init: T): T[] => {
+  const k = Array<T>(length);
+  for (let i = 0; i < k.length; i++) {
+    k[i] = init;
+  }
+  return k;
+};
+
+export const newObject = (
+  keys: number,
+  init: string,
+  base: string,
+  values?: string[],
+): {[k: string]: string} => {
+  const k = newArray(keys, init);
+  const obj = k.reduce(
+    (a, v, i) => ({
+      ...a,
+      [base + i]: values?.length === keys ? values[i] : v,
+    }),
+    {},
+  );
+
+  return obj;
+};
+
+export const numberFormat = (value: string): string => {
+  let u = value.replace(/(-|,| )/g, '').replace(/[a-zA-Z]/g, '');
+  const i = u.indexOf('.', 3);
+  if (i >= 3) {
+    const l = u.substring(0, i);
+    const r = u.substring(i + 1, u.length);
+    u = l + r;
+  }
+  if (u.startsWith('00')) {
+    u = u.replace(/00/, '0');
+  }
+  if (u.startsWith('.')) {
+    u = u.replace(/./, '');
+  }
+  if (u.includes('..')) {
+    u = u.replace(/..$/, '.');
+  }
+  if (u.charAt(0) === '0' && u.charCodeAt(1) > 46) {
+    u = u.substring(1, u.length);
+  }
+
+  return u;
+  // const res = parseFloat(u).toString();
+  // return res === 'NaN' ? '' : res;
 };

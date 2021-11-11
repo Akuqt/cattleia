@@ -12,10 +12,10 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 
-static void InitializeFlipper(UIApplication *application) {
+static void InitializeFlipper(UIApplication *cattleialication) {
   FlipperClient *client = [FlipperClient sharedClient];
-  SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
-  [client addPlugin:[[FlipperKitLayoutPlugin alloc] initWithRootNode:application withDescriptorMapper:layoutDescriptorMapper]];
+  SKDescriptorMcattleiaer *layoutDescriptorMcattleiaer = [[SKDescriptorMcattleiaer alloc] initWithDefaults];
+  [client addPlugin:[[FlipperKitLayoutPlugin alloc] initWithRootNode:cattleialication withDescriptorMcattleiaer:layoutDescriptorMcattleiaer]];
   [client addPlugin:[[FKUserDefaultsPlugin alloc] initWithSuiteName:nil]];
   [client addPlugin:[FlipperKitReactPlugin new]];
   [client addPlugin:[[FlipperKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
@@ -25,15 +25,15 @@ static void InitializeFlipper(UIApplication *application) {
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)cattleialication:(UIApplication *)cattleialication didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 #ifdef FB_SONARKIT_ENABLED
-  InitializeFlipper(application);
+  InitializeFlipper(cattleialication);
 #endif
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"app"
+                                                   moduleName:@"cattleia"
                                             initialProperties:nil];
 
   if (@available(iOS 13.0, *)) {

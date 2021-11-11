@@ -1,4 +1,3 @@
-export * from './EmailInput';
-export * from './PasswordInput';
-export * from './PlainInput';
 export * from './SubmitBtn';
+export * from './Plain';
+export * from './Code';

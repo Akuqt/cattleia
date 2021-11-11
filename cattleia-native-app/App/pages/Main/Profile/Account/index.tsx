@@ -57,8 +57,18 @@ export const Account: React.FC<Props> = ({navigation}) => {
             uri: 'asset:/images/bronze.png',
             width: 22,
             height: 25,
-          }}
-        />
+          }}>
+          <Txt
+            color={theme.fontPrimary}
+            fs="12px"
+            mb="10px"
+            style={{textAlign: 'justify'}}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
+            quia cumque consectetur dolore magni cum, in rerum quae dolorem
+            tempore eos, laborum eligendi dicta ipsam, voluptate sit aliquam
+            perferendis iusto?
+          </Txt>
+        </Accordion>
         <Accordion
           theme={theme}
           margin="0px"
@@ -68,8 +78,18 @@ export const Account: React.FC<Props> = ({navigation}) => {
             uri: 'asset:/images/silver.png',
             width: 22,
             height: 25,
-          }}
-        />
+          }}>
+          <Txt
+            color={theme.fontPrimary}
+            fs="12px"
+            mb="10px"
+            style={{textAlign: 'justify'}}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
+            quia cumque consectetur dolore magni cum, in rerum quae dolorem
+            tempore eos, laborum eligendi dicta ipsam, voluptate sit aliquam
+            perferendis iusto?
+          </Txt>
+        </Accordion>
         <Accordion
           theme={theme}
           margin="0px"
@@ -80,12 +100,26 @@ export const Account: React.FC<Props> = ({navigation}) => {
             uri: 'asset:/images/gold.png',
             width: 22,
             height: 25,
-          }}
-        />
+          }}>
+          <Txt
+            color={theme.fontPrimary}
+            fs="12px"
+            mb="10px"
+            style={{textAlign: 'justify'}}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
+            quia cumque consectetur dolore magni cum, in rerum quae dolorem
+            tempore eos, laborum eligendi dicta ipsam, voluptate sit aliquam
+            perferendis iusto?
+          </Txt>
+        </Accordion>
         <Hero bg="transparent" orientation="column" mt="2px">
           <OptionsContainer onPress={() => navigation.navigate('Wallet')}>
             <Option>
-              <Ionicons name={icons.wallet.outline} size={24} />
+              <Ionicons
+                name={icons.wallet.outline}
+                color={theme.secondary}
+                size={24}
+              />
             </Option>
             <Option ml="10px">
               <Txt color={theme.fontPrimary} fs="12px" bold>
@@ -99,7 +133,11 @@ export const Account: React.FC<Props> = ({navigation}) => {
               navigation.navigate('HomePage');
             }}>
             <Option>
-              <Ionicons name={icons.logOut.outline} size={24} />
+              <Ionicons
+                name={icons.logOut.outline}
+                size={24}
+                color={theme.secondary}
+              />
             </Option>
             <Option ml="10px">
               <Txt color={theme.fontPrimary} fs="12px" bold>

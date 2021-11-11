@@ -1,19 +1,22 @@
 import React, {useState} from 'react';
-import {Txt, Btn, Container, Header, Logo, Img, HeaderBtn} from '../Elements';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {formatAddress, moneyFormat, theme} from '../../../../utils';
-import {useInputHandler} from '../../../../hooks';
-import {PasswordInput} from '../../../../Components';
-import {useClipboard} from '@react-native-community/clipboard';
-import {ActivityIndicator, ToastAndroid} from 'react-native';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../../../redux';
-
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Txt, Btn, Container, Header, Logo, Img, HeaderBtn} from '../Elements';
+import {formatAddress, moneyFormat, theme} from '../../../../utils';
+import {ActivityIndicator, ToastAndroid} from 'react-native';
+import {useBackHandler, useInputHandler} from '../../../../hooks';
+import {removeCartProduct, RootState} from '../../../../redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useClipboard} from '@react-native-community/clipboard';
+import {Plain} from '../../../../Components';
 import {Post} from '../../../../services';
 
 type Props = NativeStackScreenProps<
-  {Crypto: {ids: string[]; total: number}},
+  {
+    Crypto: {ids: string[]; total: number};
+    Shop: undefined;
+    PaymentType: {id: string};
+  },
   'Crypto'
 >;
 
@@ -30,9 +33,9 @@ export const Crypto: React.FC<Props> = ({
     params: {ids, total},
   },
 }) => {
-  const colors = useSelector((state: RootState) => state.themeReducer.dark)
-    ? theme.dark
-    : theme.light;
+  const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
+
+  const colors = darkTheme ? theme.dark : theme.light;
 
   const {handler, values, clearValues} = useInputHandler({password: ''});
 
@@ -48,6 +51,14 @@ export const Crypto: React.FC<Props> = ({
 
   const txValue = (total * 0.000057) / 1000;
 
+  const balance = (user.account.balance * 1).toFixed(4);
+
+  const dispatch = useDispatch();
+
+  useBackHandler(() => {
+    navigation.navigate('PaymentType', {id: ids.length === 1 ? ids[0] : '-1'});
+  });
+
   return (
     <Container
       direction="column"
@@ -58,12 +69,18 @@ export const Crypto: React.FC<Props> = ({
       full>
       <Header>
         <Logo mb="30px">
-          <Img source={{uri: 'asset:/images/logo.png'}} />
+          <Img
+            source={{
+              uri: darkTheme
+                ? 'asset:/images/logo2.png'
+                : 'asset:/images/logo.png',
+            }}
+          />
         </Logo>
         <Container direction="row" justify="center" align="center" pt="0px">
           <HeaderBtn margin="40px 20px 0px 0px" disabled>
             <Txt color={colors.fontPrimary} fs="16px" bold>
-              Balance: {user.balance} ETH
+              Balance: {balance} ETH
             </Txt>
           </HeaderBtn>
         </Container>
@@ -91,8 +108,8 @@ export const Crypto: React.FC<Props> = ({
               pt="0px"
               ps="10px"
               width="100%">
-              <Txt fs="16px" color={colors.fontPrimary}>
-                {formatAddress('0x9CD1753c43Eb0b586508ADA73aEAa019a1F6BD2a', 6)}
+              <Txt fs="16px" color={colors.fontPrimaryInput}>
+                {formatAddress('0x1d7274608c7C8324B33dA0Ff926fe10dAaF896ff', 6)}
               </Txt>
               <Btn
                 bg={colors.inputBg}
@@ -100,7 +117,7 @@ export const Crypto: React.FC<Props> = ({
                 height="auto"
                 width="auto"
                 onPress={() => {
-                  setClipboard('0x9CD1753c43Eb0b586508ADA73aEAa019a1F6BD2a');
+                  setClipboard('0x1d7274608c7C8324B33dA0Ff926fe10dAaF896ff');
                   ToastAndroid.show(
                     'Address copied to clipboard',
                     ToastAndroid.SHORT,
@@ -108,7 +125,7 @@ export const Crypto: React.FC<Props> = ({
                 }}>
                 <Ionicons
                   name="clipboard-outline"
-                  color={colors.fontPrimary}
+                  color={colors.fontPrimaryInput}
                   size={25}
                 />
               </Btn>
@@ -139,7 +156,7 @@ export const Crypto: React.FC<Props> = ({
               pt="0px"
               ps="10px"
               width="100%">
-              <Txt fs="16px" color={colors.fontPrimary}>
+              <Txt fs="16px" color={colors.fontPrimaryInput}>
                 {txValue.toFixed(8)}
               </Txt>
             </Container>
@@ -152,10 +169,18 @@ export const Crypto: React.FC<Props> = ({
         justify="center"
         align="flex-start"
         pt="20px">
-        <PasswordInput
+        <Plain
           value={values.password}
           label="Password *"
           handler={handler('password')}
+          width="330px"
+          height="40px"
+          type="Password"
+          bg={colors.inputBg}
+          fs="16px"
+          fontColor={colors.fontPrimaryInput}
+          labelFontColor={colors.fontPrimary}
+          margin="15px 0px"
         />
       </Container>
 
@@ -164,15 +189,17 @@ export const Crypto: React.FC<Props> = ({
         width="200px"
         height="40px"
         margin="40px 0px"
-        disabled={values.password === '' || user.balance < txValue || success}
+        disabled={
+          values.password === '' || user.account.balance < txValue || success
+        }
         onPress={async () => {
           setLoading(true);
           const res = await Post<Response>(
             '/web3/transfer-to',
             {
               password: values.password,
-              to: '0xded39Ea91488eFfab338CbA3AFFdDd56637cf755',
-              value: txValue.toFixed(8),
+              to: '0x1d7274608c7C8324B33dA0Ff926fe10dAaF896ff',
+              value: txValue.toFixed(16),
             },
             user.token,
           );
@@ -185,20 +212,26 @@ export const Crypto: React.FC<Props> = ({
               'Success -> Use the Tx Hash to see the Tx status! (EtherScan)',
               ToastAndroid.SHORT,
             );
+            ids.forEach(id => {
+              dispatch(removeCartProduct({id}));
+            });
+            // setTimeout(() => {
+            //   navigation.navigate('Shop');
+            // }, 4000);
           } else {
             setSuccess(false);
           }
         }}>
         {loading && (
           <ActivityIndicator
-            color={colors.fontPrimary}
+            color={colors.fontPrimaryInput}
             size="small"
             style={{
               marginRight: 10,
             }}
           />
         )}
-        <Txt color={colors.fontPrimary} fs="16px">
+        <Txt color={colors.fontPrimaryInput} fs="16px">
           Pay {moneyFormat(total)}
         </Txt>
       </Btn>
@@ -207,7 +240,7 @@ export const Crypto: React.FC<Props> = ({
         direction="row"
         justify="flex-start"
         align="center"
-        pt="40px"
+        pt="20px"
         ps="20px"
         width="100%">
         <Txt color={colors.fontPrimary} fs="16px">
@@ -244,6 +277,42 @@ export const Crypto: React.FC<Props> = ({
           {'1,000.00 COP -> 0.000057 ETH'}
         </Txt>
       </Container>
+
+      {success && (
+        <Container
+          direction="row"
+          justify="flex-start"
+          align="center"
+          pt="20px"
+          ps="20px"
+          width="100%">
+          <Btn
+            bg={colors.bgColor}
+            margin="0px"
+            width="100%"
+            height="30px"
+            onPress={() => {
+              navigation.navigate('Shop');
+            }}>
+            <Container
+              direction="row"
+              justify="space-between"
+              align="center"
+              pt="0px"
+              ps="0px"
+              width="100%">
+              <Txt color={colors.fontPrimary} fs="16px" bold>
+                Continue Shopping
+              </Txt>
+              <Ionicons
+                name="chevron-forward"
+                color={colors.fontPrimary}
+                size={20}
+              />
+            </Container>
+          </Btn>
+        </Container>
+      )}
     </Container>
   );
 };

@@ -16,7 +16,8 @@ interface Props {
   description: string;
   price: number;
   image?: string;
-  onPress: () => void;
+  onPress?: () => void;
+  onPressImg?: () => void;
   theme: Theme['dark'] | Theme['light'];
   shop?: boolean;
   centerInfo?: boolean;
@@ -25,8 +26,8 @@ interface Props {
 
 export const ProductCard: React.FC<Props> = props => {
   return (
-    <Container onPress={props.onPress} disabled={props.disabled}>
-      <ImgPriceContainer>
+    <Container disabled={props.disabled} onPress={props.onPress}>
+      <ImgPriceContainer onPress={props.onPressImg} disabled={!props.disabled}>
         <Img source={{uri: props.image}} />
       </ImgPriceContainer>
       <InfoContainer center={props.centerInfo}>

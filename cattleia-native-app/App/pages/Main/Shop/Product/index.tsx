@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Container, Header, Logo, Img, Btn, Txt, HeaderBtn} from '../Elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {setCartProduct} from '../../../../redux';
 import {RootState} from '../../../../redux/store';
 import {theme} from '../../../../utils';
-
-import {Container, Header, Logo, Img, Btn, Txt, HeaderBtn} from '../Elements';
+import {ActivityIndicator, ToastAndroid} from 'react-native';
 
 type Props = NativeStackScreenProps<
   {
@@ -24,17 +24,17 @@ export const Product: React.FC<Props> = ({
   },
   navigation,
 }) => {
-  const colors = useSelector((state: RootState) => state.themeReducer.dark)
-    ? theme.dark
-    : theme.light;
+  const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
+  const colors = darkTheme ? theme.dark : theme.light;
+  const [loading, setLoading] = useState(false);
 
   const cart = useSelector((state: RootState) => state.shopReducer.shop).cart;
-
   const product = useSelector(
     (state: RootState) => state.shopReducer.shop,
   ).products.find(p => p.id === id);
 
   const dispatch = useDispatch();
+
   return (
     <Container
       pt="10px"
@@ -44,7 +44,13 @@ export const Product: React.FC<Props> = ({
       full>
       <Header border>
         <Logo mb="15px">
-          <Img source={{uri: 'asset:/images/logo.png'}} />
+          <Img
+            source={{
+              uri: darkTheme
+                ? 'asset:/images/logo2.png'
+                : 'asset:/images/logo.png',
+            }}
+          />
         </Logo>
 
         <HeaderBtn
@@ -86,9 +92,28 @@ export const Product: React.FC<Props> = ({
             pt="0px"
             justify="flex-start"
             align="center">
+            {loading && (
+              <ActivityIndicator
+                color={colors.fontPrimary}
+                size="small"
+                style={{
+                  marginRight: 10,
+                }}
+              />
+            )}
+
             <Btn
               onPress={() => {
-                navigation.navigate('PaymentType', {id});
+                if (product?.price === 0) {
+                  setLoading(true);
+                  ToastAndroid.show(
+                    'Product added to your collection!',
+                    ToastAndroid.SHORT,
+                  );
+                  navigation.navigate('Shop');
+                } else {
+                  navigation.navigate('PaymentType', {id});
+                }
               }}
               round
               height="22px"
@@ -102,14 +127,19 @@ export const Product: React.FC<Props> = ({
             <Btn
               height="22px"
               round
-              disabled={product?.onCart}
+              disabled={product?.onCart || product?.price === 0}
               bg={colors.inputBg}
               width="100px"
               margin="5px"
               onPress={() => {
                 dispatch(setCartProduct({id}));
               }}>
-              <Txt fs="14px" color={product?.onCart ? '#505050' : '#000'} bold>
+              <Txt
+                fs="14px"
+                color={
+                  product?.onCart || product?.price === 0 ? '#505050' : '#000'
+                }
+                bold>
                 Add to List
               </Txt>
             </Btn>
