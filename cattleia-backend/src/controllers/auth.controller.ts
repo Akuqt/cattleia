@@ -32,7 +32,7 @@ export const signIn = async (
   if (_user) {
     const matchPass = await comparePassword(_user.password, password);
     if (!matchPass) {
-      return res.json({
+      return res.status(401).json({
         ok: false,
         error: errors.wrongUserOrPassword,
       });
@@ -110,7 +110,7 @@ export const signUp = async (
     if (role) {
       const foundRole: Role | null = await RoleModel.findOne({ name: role });
       if (foundRole) _user.role = foundRole;
-      else return res.json({ ok: false });
+      else return res.json({ ok: false, error: errors.invalidRole });
     } else {
       const roleD: Role | null = await RoleModel.findOne({ name: "user" });
       _user.role = roleD!;

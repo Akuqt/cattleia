@@ -24,6 +24,10 @@ export const errors = {
     message: "Invalid auth token.",
     code: 9090,
   },
+  invalidRole: {
+    message: "Invalid role.",
+    code: 8020,
+  },
   userAlreadyTaken: {
     message: "Username already taken.",
     code: 5342,
