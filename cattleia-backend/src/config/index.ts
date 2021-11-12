@@ -6,6 +6,7 @@ export default {
   },
   MONGODB: {
     URI: process.env.MONGODB_URI || "mongodb://localhost/web3",
+    TEST_URI: process.env.MONGODB_URI_TEST || "mongodb://localhost/web33",
   },
   CORS: {
     ORIGIN: ["*"],

@@ -12,6 +12,7 @@ declare namespace NodeJS {
     JWT_ACCESS: string;
     JWT_REFRESH: string;
     MONGODB_URI: string;
+    MONGODB_URI_TEST: string;
     DAPP_TOKEN: string;
     INFURA_MAIN: string;
     INFURA_ROPSTEN: string;
@@ -19,6 +20,7 @@ declare namespace NodeJS {
     GANACHE: string;
     STRIPE_SECRET: string;
     STRIPE_PUBLISHABLE: string;
+    NODE_ENV: "production" | "development" | "test";
   }
 }
 

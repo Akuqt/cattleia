@@ -7,7 +7,12 @@ const dbOptions: ConnectionOptions = {
   useUnifiedTopology: true,
 };
 
-mongoose.connect(config.MONGODB.URI, dbOptions);
+const uri =
+  process.env.NODE_ENV === "test"
+    ? config.MONGODB.TEST_URI
+    : config.MONGODB.URI;
+
+mongoose.connect(uri, dbOptions);
 
 const connection = mongoose.connection;
 

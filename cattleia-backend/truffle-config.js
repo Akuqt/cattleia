@@ -36,7 +36,7 @@ module.exports = {
   contracts_directory: "./src/contracts",
   contracts_build_directory: "./src/abis",
   migrations_directory: "./src/migrations",
-  test_directory: "./src/test",
+  test_directory: "./src/test/truffle",
   networks: {
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
