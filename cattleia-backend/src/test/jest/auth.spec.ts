@@ -1,24 +1,7 @@
-import request from "supertest";
 import mongoose from "mongoose";
-import app from "../../app";
-import { UserModel } from "../../models";
 import { encryptPassword, errors } from "../../libs";
-
-const api = request(app);
-
-const user = {
-  name: "Testing",
-  email: "test@email.com",
-  userName: "test",
-  password: "1234",
-};
-
-const user2 = {
-  name: "Testing2",
-  email: "test2@email.com",
-  userName: "test2",
-  password: "1234",
-};
+import { api, user, user2 } from "./helper";
+import { UserModel } from "../../models";
 
 beforeEach(async () => {
   await UserModel.deleteMany({});
@@ -100,11 +83,9 @@ describe("POST /api/v1/auth/sign-up", () => {
 describe("POST /api/v1/auth/sign-in", () => {
   test("should be able to login.", async () => {
     await api.post("/api/v1/auth/sign-up").send(user);
-
     const res = await api
       .post("/api/v1/auth/sign-in")
       .send({ userName: user.userName, password: user.password });
-
     expect(res.status).toBe(200);
     expect(res.body.ok).toEqual(true);
     expect(res.body.user.id).toBeDefined();
@@ -119,11 +100,9 @@ describe("POST /api/v1/auth/sign-in", () => {
 
   test("shouldn't be able to login with wrong username.", async () => {
     await api.post("/api/v1/auth/sign-up").send(user);
-
     const res = await api
       .post("/api/v1/auth/sign-in")
       .send({ userName: "wrong", password: user.password });
-
     expect(res.status).toBe(401);
     expect(res.body.ok).toEqual(false);
     expect(res.body.error.message).toEqual(errors.wrongUserOrPassword.message);
@@ -132,11 +111,9 @@ describe("POST /api/v1/auth/sign-in", () => {
 
   test("shouldn't be able to login with wrong password.", async () => {
     await api.post("/api/v1/auth/sign-up").send(user);
-
     const res = await api
       .post("/api/v1/auth/sign-in")
       .send({ userName: user.userName, password: "wrong" });
-
     expect(res.status).toBe(401);
     expect(res.body.ok).toEqual(false);
     expect(res.body.error.message).toEqual(errors.wrongUserOrPassword.message);
@@ -145,11 +122,9 @@ describe("POST /api/v1/auth/sign-in", () => {
 
   test("shouldn't be able to login with wrong password and wrong username.", async () => {
     await api.post("/api/v1/auth/sign-up").send(user);
-
     const res = await api
       .post("/api/v1/auth/sign-in")
       .send({ userName: "wrong1", password: "wrong2" });
-
     expect(res.status).toBe(401);
     expect(res.body.ok).toEqual(false);
     expect(res.body.error.message).toEqual(errors.wrongUserOrPassword.message);

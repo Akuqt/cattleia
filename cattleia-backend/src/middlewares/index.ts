@@ -31,7 +31,7 @@ export const validateToken = (
     } else {
       return res.status(401).json({
         ok: false,
-        error: errors.invalidAuthToken,
+        error: errors.noAuthToken,
       });
     }
   }

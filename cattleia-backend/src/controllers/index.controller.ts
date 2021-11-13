@@ -20,17 +20,17 @@ export const refreshToken = async (
 ): Promise<Response> => {
   const token = req.cookies.jid;
   if (!token)
-    return res.json({
+    return res.status(400).json({
       ok: false,
-      accessToken: "",
+      error: errors.noAuthToken,
     });
   try {
     const payload = verify(token, config.JWT.REFRESH) as Payload;
     const user: User | null = await UserModel.findById(payload._id);
     if (!user || user.tokenVersion !== payload.tokenVersion)
-      return res.json({
+      return res.status(400).json({
         ok: false,
-        accessToken: "",
+        error: errors.invalidAuthToken,
       });
     res.cookie("jid", createRefreshToken(user), cookieConf);
     return res.json({
@@ -38,9 +38,9 @@ export const refreshToken = async (
       accessToken: createAcessToken(user),
     });
   } catch (error) {
-    return res.json({
+    return res.status(400).json({
       ok: false,
-      accessToken: "",
+      error: errors.invalidAuthToken,
     });
   }
 };
@@ -52,7 +52,7 @@ export const revokeRefreshTokens = async (
   const id = req.id;
   const user: User | null = await UserModel.findById(id);
   if (!user)
-    return res.json({
+    return res.status(400).json({
       ok: false,
       error: errors.invalidIDorNoWallet(id),
     });

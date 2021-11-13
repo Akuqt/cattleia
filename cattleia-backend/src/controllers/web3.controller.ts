@@ -31,12 +31,12 @@ export const access = async (
   const { password } = req.body;
   const _user: User | null = await UserModel.findById(id).populate("account");
   if (!_user || !_user.account.payload)
-    return res.json({
+    return res.status(400).json({
       ok: false,
       error: errors.invalidIDorNoWallet(id),
     });
   if (!(await comparePassword(_user.account.password, password)))
-    return res.json({
+    return res.status(401).json({
       ok: false,
       error: errors.wrongWalletPassword,
     });
@@ -55,10 +55,16 @@ export const createAccount = async (
 
   const _user = await UserModel.findById(_id).populate("account");
 
-  if (!_user || _user.account.payload)
-    return res.json({
+  if (!_user)
+    return res.status(400).json({
       ok: false,
-      error: errors.invalidIDorNoWallet(_id),
+      error: errors.invalidID(_id),
+    });
+
+  if (_user.account.payload)
+    return res.status(400).json({
+      ok: false,
+      error: errors.hasWalletAccount,
     });
 
   const account = web3.eth.accounts.create(getNonce());
@@ -72,7 +78,7 @@ export const createAccount = async (
   if (!_account)
     return res.json({
       ok: false,
-      error: errors.invalidIDorNoWallet(_id),
+      error: errors.noWalletAccount,
     });
 
   _account.password = await encryptPassword(password);
@@ -96,10 +102,16 @@ export const importAccount = async (
 
   const _user: User | null = await UserModel.findById(id).populate("account");
 
-  if (!_user || _user.account.payload)
-    return res.json({
+  if (!_user)
+    return res.status(400).json({
       ok: false,
-      error: errors.invalidIDorNoWallet(id),
+      error: errors.invalidID(id),
+    });
+
+  if (_user.account.payload)
+    return res.status(400).json({
+      ok: false,
+      error: errors.hasWalletAccount,
     });
 
   let { privateKey, password } = req.body;
@@ -147,14 +159,14 @@ export const getPrivateKey = async (
   const _user = await UserModel.findById(_id).populate("account");
 
   if (!_user || !_user.account.payload) {
-    return res.json({
+    return res.status(400).json({
       ok: false,
       error: errors.invalidIDorNoWallet(_id),
     });
   }
 
   if (!(await comparePassword(_user.account.password, password)))
-    return res.json({
+    return res.status(401).json({
       ok: false,
       error: errors.wrongWalletPassword,
     });
@@ -180,13 +192,13 @@ export const transferTo = async (
   const _user: User | null = await UserModel.findById(id).populate("account");
 
   if (!_user || !_user.account.payload)
-    return res.json({
+    return res.status(400).json({
       ok: false,
       error: errors.invalidIDorNoWallet(id),
     });
 
   if (!(await comparePassword(_user.account.password, password)))
-    return res.json({
+    return res.status(401).json({
       ok: false,
       error: errors.wrongWalletPassword,
     });
@@ -223,7 +235,7 @@ export const transferTo = async (
     errorStack(stack, e);
   }
 
-  return res.json({
+  return res.status(400).json({
     ok: false,
     error: stack[0],
   });

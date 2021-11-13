@@ -11,4 +11,4 @@ const rankSchema = new Schema(
   }
 );
 
-export const RankModel = model<Rank>("Rank", rankSchema, "Rank", true);
+export const RankModel = model<Rank>("Rank", rankSchema);

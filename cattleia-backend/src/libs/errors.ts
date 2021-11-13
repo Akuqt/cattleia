@@ -28,6 +28,10 @@ export const errors = {
     message: "Invalid role.",
     code: 8020,
   },
+  invalidAmount: {
+    message: "Invalid amount, must be greater than 0.5$",
+    code: 6060,
+  },
   userAlreadyTaken: {
     message: "Username already taken.",
     code: 5342,
@@ -41,15 +45,24 @@ export const errors = {
     code: 5040,
   },
   noWalletAccount: {
-    message: "There's no wallet accout for this user.",
-    code: 4050,
+    message: "There's no wallet account for this user.",
+    code: 4065,
+  },
+  hasWalletAccount: {
+    message: "There's already a wallet account for this user.",
+    code: 4055,
   },
   noAdmin: {
     message: "You need to be an admin.",
     code: 4045,
   },
+
+  invalidID: (id: string) => ({
+    message: `There's no user with ID <${id}>.`,
+    code: 4040,
+  }),
   invalidIDorNoWallet: (id: string) => ({
     message: `There's no user with ID <${id}> or the user has no wallet account.`,
-    code: 4040,
+    code: 4020,
   }),
 };
