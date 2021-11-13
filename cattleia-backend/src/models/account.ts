@@ -15,9 +15,4 @@ const accountSchema = new Schema(
   }
 );
 
-export const AccountModel = model<Account>(
-  "Account",
-  accountSchema,
-  "Account",
-  true
-);
+export const AccountModel = model<Account>("Account", accountSchema);

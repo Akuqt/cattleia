@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node dist",
     "dev": "cross-env NODE_ENV=development ts-node-dev --respawn src",
-    "test": "cross-env NODE_ENV=test jest",
+    "test": "cross-env NODE_ENV=test jest --runInBand",
     "build": "tsc"
   },
   "repository": {

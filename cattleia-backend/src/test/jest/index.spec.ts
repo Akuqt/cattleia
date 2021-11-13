@@ -1,8 +1,5 @@
-import request from "supertest";
 import mongoose from "mongoose";
-import app from "../../app";
-
-const api = request(app);
+import { api } from "./helper";
 
 afterEach(() => {
   mongoose.connection.close();

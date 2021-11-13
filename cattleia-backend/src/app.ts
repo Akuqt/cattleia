@@ -1,8 +1,8 @@
+import cookieParser from "cookie-parser";
 import express from "express";
 import morgan from "morgan";
-import cors from "cors";
-import cookieParser from "cookie-parser";
 import config from "./config";
+import cors from "cors";
 import { initRoles, initRanks } from "./libs";
 
 //Inits
@@ -25,7 +25,11 @@ app.use(
     credentials: true,
   })
 );
-app.use(morgan("dev"));
+
+if (config.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
+
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
