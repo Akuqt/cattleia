@@ -27,7 +27,3 @@ jobs:
       - run: cp ~/envs/.env .
       - run: yarn
       - run: yarn build
-      - run: pm2 stop all
-      - run: pm2 delete all
-      - run: pm2 save --force
-      - run: pm2 start dist/index.js --name backend
