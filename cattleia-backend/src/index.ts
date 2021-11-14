@@ -1,7 +1,8 @@
 require("dotenv").config();
 import app from "./app";
+import config from "./config";
 
 //Server Listening
-app.listen(app.get("port"), () => {
-  console.log(`server on port ${app.get("port")}`);
+app.listen(config.PORT, () => {
+  console.log(`server on port ${config.PORT}`);
 });
