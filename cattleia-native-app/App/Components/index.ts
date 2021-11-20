@@ -8,3 +8,4 @@ export * from './UserCard';
 export * from './RankCard';
 export * from './Accordion';
 export * from './DropDawnPicker';
+export * from './QrReader';

@@ -9,7 +9,7 @@ export const Home: React.FC = () => {
   const colors = darkTheme ? theme.dark : theme.light;
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text style={{color: colors.fontPrimary}}>Home!</Text>
+      <Text style={{color: colors.fontPrimary}}>Home</Text>
     </View>
   );
 };

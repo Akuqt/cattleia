@@ -1,7 +1,8 @@
 import axios, {AxiosResponse, AxiosError} from 'axios';
 
 // const base = 'https://akumi.me/api/v1';
-const base = 'http://10.0.2.2:4000/api/v1';
+// const base = 'http://10.0.2.2:4000/api/v1';
+const base = 'http://192.168.1.5:4000/api/v1';
 
 export const Post = async <T, E, K = any>(
   url: string,

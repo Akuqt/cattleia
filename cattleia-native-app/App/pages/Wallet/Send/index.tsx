@@ -1,36 +1,49 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Clipboard from '@react-native-community/clipboard';
 import {formatAddress, numberFormat, theme} from '../../../utils';
-import {ActivityIndicator, ToastAndroid} from 'react-native';
 import {Header, Container, Wrapper} from '../Elements';
-import {SubmitBtn, Plain} from '../../../Components';
+import {SubmitBtn, Plain, QrReader} from '../../../Components';
 import {useInputHandler} from '../../../hooks';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
 import {Post} from '../../../services';
+import {
+  useWindowDimensions,
+  ActivityIndicator,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
+
+const format = (e: string, balance: number) => {
+  let u = numberFormat(e);
+  if (u !== '' && parseFloat(u) > balance) {
+    u = balance + '';
+  }
+  if (u.length > 4 && parseFloat(u) < 0.001) {
+    u = '0.001';
+  }
+  return u;
+};
 
 export const Send: React.FC = () => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
   const colors = darkTheme ? theme.dark : theme.light;
   const user = useSelector((state: RootState) => state.userReducer.user);
-  const {values, handler} = useInputHandler({
+  const [showQR, setShowQR] = useState(false);
+  const {values, handler, clearValues} = useInputHandler({
     to: '',
     password: '',
     value: '',
   });
+
+  const [fromQR, setFromQR] = useState<{to: string}>({
+    to: '',
+  });
+
   const [loading, setLoading] = useState(false);
 
-  // const [value, setValue] = useState('');
-
-  // useEffect(() => {
-  //   let u = numberFormat(value);
-  //   if (u !== '' && parseFloat(u) > user.account.balance) {
-  //     u = user.account.balance + '';
-  //   }
-  //   if (u.length > 4 && parseFloat(u) < 0.001) {
-  //     u = '0.001';
-  //   }
-  //   setValue(u);
-  // }, [value]);
+  const {width} = useWindowDimensions();
 
   return (
     <Container
@@ -48,7 +61,45 @@ export const Send: React.FC = () => {
             }}
           />
         )}
+        {!loading && (
+          <TouchableOpacity
+            onPress={() => {
+              clearValues();
+              setFromQR({to: ''});
+              setShowQR(c => !c);
+            }}>
+            <Ionicons
+              name="qr-code-outline"
+              size={25}
+              color={colors.fontPrimary}
+            />
+          </TouchableOpacity>
+        )}
       </Header>
+
+      <QrReader
+        width={width}
+        bg={colors.bgColor}
+        onRead={e => {
+          try {
+            const k = JSON.parse(e.data);
+            if (k.to && k.value) {
+              setFromQR(k.to);
+              handler('value')(
+                null as any,
+                format(k.value, user.account.balance),
+              );
+            } else {
+              ToastAndroid.show('Invalid Information!', ToastAndroid.SHORT);
+            }
+          } catch (error) {
+            ToastAndroid.show('Invalid Information!', ToastAndroid.SHORT);
+          }
+        }}
+        setShow={setShowQR}
+        show={showQR}
+      />
+
       <Wrapper mt="20px 0px">
         <Plain
           width="330px"
@@ -66,9 +117,8 @@ export const Send: React.FC = () => {
           clipboard
           disabled
           differValue
-          format={e => {
-            return formatAddress(e, 6);
-          }}
+          txt={fromQR.to}
+          format={e => formatAddress(e, 6)}
           handler={handler('to')}
         />
         <Plain
@@ -84,18 +134,9 @@ export const Send: React.FC = () => {
           type="Number"
           lableFs="15px"
           value={values.value}
-          length={14}
+          length={30}
           handler={handler('value')}
-          format={e => {
-            let u = numberFormat(e);
-            if (u !== '' && parseFloat(u) > user.account.balance) {
-              u = user.account.balance + '';
-            }
-            if (u.length > 4 && parseFloat(u) < 0.001) {
-              u = '0.001';
-            }
-            return u;
-          }}
+          format={e => format(e, user.account.balance)}
         />
 
         <Plain
@@ -114,7 +155,7 @@ export const Send: React.FC = () => {
           handler={handler('password')}
         />
       </Wrapper>
-      <Wrapper mt="0px 0px 0px 0px">
+      <Wrapper mt="0px">
         <SubmitBtn
           alignLabel="center"
           colors={colors}
@@ -124,32 +165,32 @@ export const Send: React.FC = () => {
           disabled={loading}
           handler={async () => {
             setLoading(true);
-            // const res = await Post<
-            //   {
-            //     ok: boolean;
-            //     status: boolean;
-            //     hash: string;
-            //     to: string;
-            //   },
-            //   {
-            //     error: {message: string; code: number};
-            //   },
-            //   {
-            //     ok: boolean;
-            //   }
-            // >('/web3/transfer-to', values, user.token);
-            // if (res.data.ok) {
-            //   ToastAndroid.show(
-            //     'Success -> Use the Tx Hash to see the Tx status! (EtherScan)',
-            //     ToastAndroid.SHORT,
-            //   );
-            // } else {
-            //   ToastAndroid.show(
-            //     `Error: ${res.data.error.message} [${res.data.error.code}]`,
-            //     ToastAndroid.SHORT,
-            //   );
-            // }
-            console.log(values);
+            const res = await Post<
+              {
+                ok: boolean;
+                status: boolean;
+                hash: string;
+                to: string;
+              },
+              {
+                error: {message: string; code: number};
+              },
+              {
+                ok: boolean;
+              }
+            >('/web3/transfer-to', values, user.token);
+            if (res.data.ok) {
+              Clipboard.setString(res.data.hash);
+              ToastAndroid.show(
+                'Success -> Use the Tx Hash copied in your clipboard to see the Tx status! (EtherScan)',
+                ToastAndroid.LONG,
+              );
+            } else {
+              ToastAndroid.show(
+                `Error: ${res.data.error.message} [${res.data.error.code}]`,
+                ToastAndroid.SHORT,
+              );
+            }
 
             setLoading(false);
           }}

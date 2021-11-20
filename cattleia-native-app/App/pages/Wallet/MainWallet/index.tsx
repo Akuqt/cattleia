@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconI from 'react-native-vector-icons/Ionicons';
-import {Modal, ToastAndroid, View} from 'react-native';
+import {Linking, Modal, ToastAndroid, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {formatAddress, theme} from '../../../utils';
 import {useBackHandler} from '../../../hooks';
@@ -21,6 +21,7 @@ import {
   Logo,
   Btn,
 } from '../Elements/Wallet';
+import {Receive} from '../Receive';
 
 type ParamList = {
   MainWallet: undefined;
@@ -29,7 +30,7 @@ type ParamList = {
 
 type Props = NativeStackScreenProps<ParamList, 'MainWallet'>;
 
-export const MainWallet: React.FC<Props> = ({route, navigation}) => {
+export const MainWallet: React.FC<Props> = ({navigation}) => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
 
   const user = useSelector((state: RootState) => state.userReducer.user);
@@ -41,6 +42,7 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
   const [, setClipboard] = useClipboard();
 
   const [show, setShow] = useState(false);
+  const [show2, setShow2] = useState(false);
 
   useBackHandler(() => {
     navigation.navigate('Profile');
@@ -55,6 +57,14 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
           setShow(false);
         }}>
         <Send />
+      </Modal>
+      <Modal
+        animationType="slide"
+        visible={show2}
+        onRequestClose={() => {
+          setShow2(false);
+        }}>
+        <Receive />
       </Modal>
       <Section heigth="30%">
         <Logo
@@ -78,7 +88,7 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
           </Txt>
           <Btn
             bg={colors.bgColor}
-            margin="0px 0px 10px 10px"
+            margin="0px 0px 20px 10px"
             width="auto"
             height="auto"
             onPress={() => {
@@ -104,7 +114,16 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
           </MainTxt>
         </Balance>
         <MainBtns>
-          <Option direction="column" width="30%" padding="0px" justify="center">
+          <Option
+            direction="column"
+            width="30%"
+            padding="0px"
+            justify="center"
+            onPress={() => {
+              Linking.openURL(
+                'https://buy.moonpay.com/?apiKey=pk_live_qiJRayRj9iKRUWCfaWX5Vo6Sn0rnNsj&defaultCurrencyCode=ETH',
+              );
+            }}>
             <IconM
               name="arrow-collapse-down"
               color={colors.secondary}
@@ -128,9 +147,14 @@ export const MainWallet: React.FC<Props> = ({route, navigation}) => {
             />
             <Txt color={colors.fontPrimary}>Send</Txt>
           </Option>
-          <Option direction="column" width="30%" padding="0px" justify="center">
-            <IconM name="cached" color={colors.secondary} size={45} />
-            <Txt color={colors.fontPrimary}>Exchange</Txt>
+          <Option
+            direction="column"
+            width="30%"
+            padding="0px"
+            justify="center"
+            onPress={() => setShow2(true)}>
+            <IconI name="qr-code-outline" color={colors.secondary} size={45} />
+            <Txt color={colors.fontPrimary}>Receive</Txt>
           </Option>
         </MainBtns>
       </Section>
