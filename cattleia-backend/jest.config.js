@@ -4,8 +4,11 @@ require("dotenv").config();
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  rootDir: "./src/test/jest",
+  rootDir: "./src/",
   verbose: true,
   silent: true,
   detectOpenHandles: false,
+  reporters: ["default", "jest-junit"],
+  coverageDirectory: "../coverage",
+  collectCoverage: true,
 };

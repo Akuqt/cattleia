@@ -11,7 +11,7 @@ import {
   createRefreshToken,
 } from "../libs";
 
-import WebSocket from "../websocket/core";
+import WebSocket from "../websocket";
 
 export const index = (_req: Request, res: Response): Response => {
   WebSocket.emit("pong", { msg: "test" });

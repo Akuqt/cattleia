@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { api, app } from "./helper";
-import { wsreq } from "../../websocket/wstest";
+import { wsrequest } from "wsreq";
 
 afterEach(() => {
   mongoose.connection.close();
@@ -21,21 +21,18 @@ describe("GET /api/v1", () => {
 
 describe("WS /api/v1/ws", () => {
   test("should respond with msg.", async () => {
-    const res = await wsreq(app, "/api/v1/ws")
-      .emit("ping", { msg: "ping" })
-      .on<object>("pong")
-      .catch((e: Error) => {
-        console.log(e.message);
-        return { msg: e.message };
-      });
+    const conn = await wsrequest({ path: "/api/v1/ws" }).local(app);
+    const res = await conn.emit("ping", { msg: "ping" }).on("pong");
     expect(res).toEqual({ msg: "test" });
+    conn.close();
   });
   test("should respond with msg (with http request).", async () => {
-    const res = await wsreq(app, "/api/v1/ws")
-      .onWithHttp<object>("pong", { url: "/api/v1/", method: "get" })
-      .catch((e: Error) => {
-        return { msg: e.message };
-      });
+    const conn = await wsrequest({ path: "/api/v1/ws" }).local(app);
+    const res = await conn.onWithHttp<object>("pong", {
+      url: "/api/v1/",
+      method: "get",
+    });
     expect(res).toEqual({ msg: "test" });
+    conn.close();
   });
 });
