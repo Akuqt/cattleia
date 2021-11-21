@@ -6,8 +6,21 @@ on:
 
 jobs:
   test:
-    runs-on: self-hosted
-
+    runs-on: ubuntu-latest
+    
+    environment: TEST
+    
+    env: 
+      PORT: ${{ secrets.PORT }}
+      JWT_ACCESS: ${{ secrets.JWT_ACCESS }}
+      JWT_REFRESH: ${{ secrets.JWT_REFRESH }}
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      MONGODB_URI_TEST: ${{ secrets.MONGODB_URI_TEST }}
+      INFURA_RINKEBY: ${{ secrets.INFURA_RINKEBY }}
+      STRIPE_PUBLISHABLE: ${{ secrets.STRIPE_PUBLISHABLE }}
+      STRIPE_SECRET: ${{ secrets.STRIPE_SECRET }}
+      TEST_PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
+    
     defaults:
       run:
         working-directory: "cattleia-backend"
@@ -24,6 +37,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
           cache-dependency-path: "**/yarn.lock"
-      - run: cp ~/envs/.env .
       - run: yarn
       - run: yarn test
