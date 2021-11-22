@@ -1,6 +1,7 @@
 import request from "supertest";
-import app from "../../app";
+import app_ from "../../app";
 
+export const app = app_;
 export const api = request(app);
 
 const baseUrl = "/api/v1";

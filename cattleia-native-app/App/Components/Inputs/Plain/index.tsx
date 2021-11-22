@@ -1,74 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import IonIcons from 'react-native-vector-icons/Ionicons';
-import {
-  TextInputChangeEventData,
-  NativeSyntheticEvent,
-  KeyboardTypeOptions,
-  TextInputKeyPressEventData,
-} from 'react-native';
-import {
-  Container,
-  Input2,
-  IconP,
-  Label2,
-  Help,
-  HelpTxt,
-  PolicyTxt,
-  Policy,
-  PolicyTxt2,
-} from '../Elements';
 import Clipboard from '@react-native-community/clipboard';
-
-interface Props {
-  handler: (
-    e: NativeSyntheticEvent<TextInputChangeEventData>,
-    txt?: string,
-  ) => void;
-  onKeyPress?: (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => void;
-  format?: (txt: string) => string;
-  value: string;
-  label?: string;
-  password?: {
-    help?: {
-      color: string;
-      handler: () => void;
-    };
-    policy?: {
-      color1: string;
-      color2: string;
-      terms: () => void;
-      notice: () => void;
-    };
-  };
-  type: 'Password' | 'Text' | 'Number' | 'Email';
-  width: string;
-  height: string;
-  margin: string;
-  fs: string;
-  bg: string;
-  fontColor: string;
-  labelFontColor: string;
-  lableFs?: string;
-  length?: number;
-  aling?: 'center' | 'left' | 'right';
-  placeholder?: string;
-  clipboard?: boolean;
-  disabled?: boolean;
-  differValue?: boolean;
-}
-
-const getKeyboardType = (prop: Props['type']): KeyboardTypeOptions => {
-  switch (prop) {
-    case 'Text':
-      return 'default';
-    case 'Password':
-      return 'default';
-    case 'Email':
-      return 'email-address';
-    case 'Number':
-      return 'number-pad';
-  }
-};
+import {getKeyboardType, Props} from './util';
+import {
+  PolicyTxt2,
+  PolicyTxt,
+  Container,
+  HelpTxt,
+  Input2,
+  Label2,
+  Policy,
+  IconP,
+  Help,
+} from '../Elements';
 
 export const Plain: React.FC<Props> = props => {
   const [show, setShow] = useState(true);
@@ -79,9 +23,12 @@ export const Plain: React.FC<Props> = props => {
 
   const [text, setText] = useState('');
 
-  // useEffect(() => {
-  //   if (props.differValue) props.handler(null as any, text);
-  // }, [text, props.differValue]);
+  useEffect(() => {
+    if (props.txt) {
+      setText(props.format ? props.format(props.txt) : props.txt);
+      props.handler(null as any, props.txt);
+    }
+  }, [props.txt]);
 
   return (
     <Container width={props.width} mg={props.margin}>
@@ -129,12 +76,6 @@ export const Plain: React.FC<Props> = props => {
         keyboardType={getKeyboardType(props.type)}
         maxLength={props.length || 20}
         onKeyPress={e => {
-          // if (!props.differValue) {
-          //   if (e.nativeEvent.key === 'Backspace') {
-          //     setText(c => c.substring(0, c.length - 1));
-          //   }
-          // }
-
           props.onKeyPress && props.onKeyPress(e);
         }}
         onChange={e => {

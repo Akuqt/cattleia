@@ -1,8 +1,11 @@
 import cookieParser from "cookie-parser";
+import WebSocket from "./websocket/core";
 import express from "express";
 import morgan from "morgan";
+import events from "./websocket";
 import config from "./config";
 import cors from "cors";
+import http from "http";
 import { initRoles, initRanks } from "./libs";
 
 //Inits
@@ -14,9 +17,6 @@ initRanks();
 
 //import Routes
 import routes from "./routes";
-
-//settings
-app.set("port", config.PORT);
 
 //Middlewares
 app.use(
@@ -37,4 +37,14 @@ app.use(express.json());
 //Routes
 app.use("/api/v1", routes);
 
-export default app;
+// HTTP Server
+const httpServer = http.createServer(app);
+
+// WebSocket
+const socket = new WebSocket(httpServer, {
+  cors: { origin: "*" },
+  path: "/api/v1/ws",
+});
+socket.init(events);
+
+export default httpServer;

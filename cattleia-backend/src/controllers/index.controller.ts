@@ -11,8 +11,12 @@ import {
   createRefreshToken,
 } from "../libs";
 
-export const index = (_req: Request, res: Response): Response =>
-  res.json({ msg: "Hello" });
+import WebSocket from "../websocket/core";
+
+export const index = (_req: Request, res: Response): Response => {
+  WebSocket.emit("pong", { msg: "test" });
+  return res.json({ msg: "Hello" });
+};
 
 export const refreshToken = async (
   req: Request,

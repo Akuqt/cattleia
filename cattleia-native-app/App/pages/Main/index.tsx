@@ -40,7 +40,7 @@ export const Main: React.FC<any> = ({navigation}) => {
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.secondary,
       })}
-      initialRouteName="Profile"
+      initialRouteName="Home"
       backBehavior="order"
       sceneContainerStyle={{
         backgroundColor: colors.bgColor,
