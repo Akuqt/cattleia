@@ -7,7 +7,7 @@ beforeAll(async () => {
   await connect();
 });
 
-afterAll(async () => {
+afterEach(async () => {
   await mongoose.connection.close(true);
 });
 

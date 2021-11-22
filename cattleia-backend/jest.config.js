@@ -6,7 +6,7 @@ module.exports = {
   testEnvironment: "node",
   rootDir: "./src/",
   verbose: true,
-  silent: false,
+  silent: true,
   detectOpenHandles: false,
   reporters: ["default", "jest-junit"],
   coverageDirectory: "../coverage",
