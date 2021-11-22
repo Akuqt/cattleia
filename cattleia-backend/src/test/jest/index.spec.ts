@@ -1,9 +1,14 @@
 import mongoose from "mongoose";
 import { api, app } from "./helper";
 import { wsrequest } from "wsreq";
+import { connect } from "../../database";
 
-afterEach(() => {
-  mongoose.connection.close();
+beforeAll(async () => {
+  await connect();
+});
+
+afterEach(async () => {
+  await mongoose.connection.close(true);
 });
 
 describe("GET /api/v1", () => {

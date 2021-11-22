@@ -2,6 +2,15 @@ import mongoose from "mongoose";
 import { encryptPassword, errors } from "../../libs";
 import { api, user, user2 } from "./helper";
 import { UserModel } from "../../models";
+import { connect } from "../../database";
+
+beforeAll(async () => {
+  await connect();
+});
+
+afterAll(async () => {
+  await mongoose.connection.close(true);
+});
 
 beforeEach(async () => {
   await UserModel.deleteMany({});
@@ -10,10 +19,6 @@ beforeEach(async () => {
     password: await encryptPassword(user2.password),
   });
   await _user.save();
-});
-
-afterAll(() => {
-  mongoose.connection.close();
 });
 
 describe("POST /api/v1/auth/sign-up", () => {

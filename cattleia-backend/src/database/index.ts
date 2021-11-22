@@ -1,5 +1,6 @@
-import mongoose, { ConnectionOptions } from "mongoose";
 import config from "../config";
+import mongoose, { ConnectionOptions } from "mongoose";
+import { initRanks, initRoles } from "../libs";
 
 const dbOptions: ConnectionOptions = {
   useNewUrlParser: true,
@@ -12,8 +13,6 @@ const uri =
     ? config.MONGODB.TEST_URI
     : config.MONGODB.URI;
 
-mongoose.connect(uri, dbOptions);
-
 const connection = mongoose.connection;
 
 connection.once("open", () => {
@@ -24,3 +23,9 @@ connection.on("error", (err) => {
   console.log("Mongodb connection error:", err);
   process.exit(0);
 });
+
+export const connect = async () => {
+  await mongoose.connect(uri, dbOptions);
+  await initRoles();
+  await initRanks();
+};

@@ -6,14 +6,9 @@ import events from "./events";
 import config from "./config";
 import cors from "cors";
 import http from "http";
-import { initRoles, initRanks } from "./libs";
 
 //Inits
 const app = express();
-import "./database";
-
-initRoles();
-initRanks();
 
 //import Routes
 import routes from "./routes";
