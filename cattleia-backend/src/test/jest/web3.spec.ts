@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { AccountModel, UserModel } from "../../models";
+import { connect } from "../../database";
 import { errors } from "../../libs";
 import {
   user,
@@ -11,12 +12,13 @@ import {
 } from "./helper";
 
 beforeAll(async () => {
+  await connect();
   await AccountModel.deleteMany({});
   await UserModel.deleteMany({});
 });
 
 afterAll(async () => {
-  await mongoose.connection.close();
+  await mongoose.connection.close(true);
 });
 
 describe("POST /api/v1/web3/create-account", () => {

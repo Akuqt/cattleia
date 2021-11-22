@@ -1,10 +1,15 @@
 import mongoose from "mongoose";
 import config from "../../config";
+import { connect } from "../../database";
 import { errors } from "../../libs";
 import { api } from "./helper";
 
-afterEach(async () => {
-  await mongoose.connection.close();
+beforeAll(async () => {
+  await connect();
+});
+
+afterAll(async () => {
+  await mongoose.connection.close(true);
 });
 
 describe("GET /api/v1/payment/get-publishable-key", () => {

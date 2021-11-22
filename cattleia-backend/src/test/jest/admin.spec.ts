@@ -1,9 +1,14 @@
 import mongoose from "mongoose";
+import { connect } from "../../database";
 import { errors } from "../../libs";
 import { api } from "./helper";
 
-afterEach(() => {
-  mongoose.connection.close();
+beforeAll(async () => {
+  await connect();
+});
+
+afterEach(async () => {
+  await mongoose.connection.close(true);
 });
 
 describe("GET /api/v1/admin", () => {

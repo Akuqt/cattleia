@@ -1,19 +1,14 @@
 import cookieParser from "cookie-parser";
-import WebSocket from "./websocket/core";
+import WebSocket from "./websocket";
 import express from "express";
 import morgan from "morgan";
-import events from "./websocket";
+import events from "./events";
 import config from "./config";
 import cors from "cors";
 import http from "http";
-import { initRoles, initRanks } from "./libs";
 
 //Inits
 const app = express();
-import "./database";
-
-initRoles();
-initRanks();
 
 //import Routes
 import routes from "./routes";
