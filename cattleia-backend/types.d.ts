@@ -22,6 +22,7 @@ declare namespace NodeJS {
     STRIPE_PUBLISHABLE: string;
     NODE_ENV: "production" | "development" | "test";
     TEST_PRIVATE_KEY: string;
+    TRUFFLE_KEY: string;
   }
 }
 
