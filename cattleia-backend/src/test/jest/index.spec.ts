@@ -1,13 +1,21 @@
 import mongoose from "mongoose";
-import { api, app } from "./helper";
+import { api, app, postWithToken, simplePost, user } from "./helper";
 import { wsrequest } from "wsreq";
 import { connect } from "../../database";
+import { errors } from "../../libs";
+import { UserModel } from "../../models";
+
+jest.setTimeout(20000);
 
 beforeAll(async () => {
   await connect();
 });
 
-afterEach(async () => {
+beforeEach(async () => {
+  await UserModel.deleteMany({});
+});
+
+afterAll(async () => {
   await mongoose.connection.close(true);
 });
 
@@ -39,5 +47,45 @@ describe("WS /api/v1/ws", () => {
     });
     expect(res).toEqual({ msg: "test" });
     conn.close();
+  });
+});
+
+describe("POST /api/v1/refresh_token", () => {
+  test("should respond with no token error.", async () => {
+    const res = await simplePost("/refresh_token", {});
+    expect(res.body.ok).toEqual(false);
+    expect(res.body.error.message).toEqual(errors.noAuthToken.message);
+    expect(res.body.error.code).toEqual(errors.noAuthToken.code);
+  });
+  test("should respond with invalid token error.", async () => {
+    const res = await api
+      .post("/api/v1/refresh_token")
+      .set("Cookie", ["jid=invalid"])
+      .send({});
+    expect(res.body.ok).toEqual(false);
+    expect(res.body.error.message).toEqual(errors.invalidAuthToken.message);
+    expect(res.body.error.code).toEqual(errors.invalidAuthToken.code);
+  });
+  test("should respond with token.", async () => {
+    const res1 = await api.post("/api/v1/auth/sign-up").send(user);
+    const jid = (res1.headers["set-cookie"][0] as string).split(";")[0];
+    const res = await api
+      .post("/api/v1/refresh_token")
+      .set("Cookie", [jid])
+      .send({});
+    expect(res.body.ok).toEqual(true);
+    expect(res.body.token).toBeDefined();
+  });
+});
+
+describe("POST /api/v1/revoke_token", () => {
+  test("should respond with ok.", async () => {
+    const { res } = await postWithToken(
+      "/auth/sign-up",
+      "/revoke_token",
+      user,
+      {}
+    );
+    expect(res.body.ok).toEqual(true);
   });
 });

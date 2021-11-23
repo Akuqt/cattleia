@@ -4,6 +4,8 @@ import { api, user, user2 } from "./helper";
 import { UserModel } from "../../models";
 import { connect } from "../../database";
 
+jest.setTimeout(20000);
+
 beforeAll(async () => {
   await connect();
 });

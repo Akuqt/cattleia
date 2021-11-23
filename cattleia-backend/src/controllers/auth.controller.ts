@@ -129,19 +129,9 @@ export const signUp = async (
 
     _user.rank = _ranks[0];
 
-    let balance = "";
-
-    let address = "";
-
-    if (_user.account.payload) {
-      const balanceWeis = await web3.eth.getBalance(
-        _user.account.payload.address
-      );
-      balance = web3.utils.fromWei(balanceWeis, "ether");
-      address = _user.account.payload.address;
-    }
-
     await _user.save();
+
+    res.cookie("jid", createRefreshToken(_user), cookieConf);
 
     return res.json({
       ok: true,
@@ -152,8 +142,8 @@ export const signUp = async (
         role: _user.role.name,
         account: {
           hasAccount: false,
-          balance,
-          address,
+          balance: "",
+          address: "",
         },
         rank: {
           color: rankColor(_user.rank.name),

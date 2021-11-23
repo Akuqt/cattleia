@@ -44,3 +44,18 @@ export interface Payload {
   iat: number;
   exp: number;
 }
+
+interface Traits {
+  display_types?: string;
+  trait_type: string;
+  value: string | number;
+}
+
+export interface Meta extends Document {
+  nft: string;
+  name: string;
+  description: string;
+  image?: string;
+  external_url?: string;
+  attributes?: Traits[];
+}

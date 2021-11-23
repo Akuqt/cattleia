@@ -11,6 +11,8 @@ import {
   simplePost,
 } from "./helper";
 
+jest.setTimeout(35000);
+
 beforeAll(async () => {
   await connect();
   await AccountModel.deleteMany({});
@@ -221,8 +223,6 @@ describe("POST /api/v1/web3/get-key", () => {
     );
   });
 });
-
-jest.setTimeout(30000);
 
 describe("POST /api/v1/web3/transfer-to", () => {
   test("shouldn't be able to transfer eth (token error).", async () => {

@@ -27,6 +27,25 @@ export const user3 = {
   password: "1234",
 };
 
+export const meta = {
+  nft: "0",
+  name: "NFT Name",
+  description: "Meta description",
+  image: "http://some-uri/image.png",
+  external_url: "http://external.com",
+  attributes: [
+    {
+      trait_type: "level",
+      value: 5,
+    },
+    {
+      display_type: "boost_number",
+      trait_type: "aqua power",
+      value: 40,
+    },
+  ],
+};
+
 export const invalidToken = async (
   url: string,
   token: boolean
@@ -55,6 +74,40 @@ export const postWithToken = async (
     .post(baseUrl + url2)
     .set({ Authorization: `bearer ${res1.body.user.token}` })
     .send(data2);
+
+  return {
+    res,
+    res1,
+  };
+};
+
+export const putWithToken = async (
+  url1: string,
+  url2: string,
+  data1: object,
+  data2: object
+): Promise<{ res: request.Response; res1: request.Response }> => {
+  const res1 = await api.post(baseUrl + url1).send(data1);
+  const res = await api
+    .put(baseUrl + url2)
+    .set({ Authorization: `bearer ${res1.body.user.token}` })
+    .send(data2);
+
+  return {
+    res,
+    res1,
+  };
+};
+
+export const gettWithToken = async (
+  url1: string,
+  url2: string,
+  data1: object
+): Promise<{ res: request.Response; res1: request.Response }> => {
+  const res1 = await api.post(baseUrl + url1).send(data1);
+  const res = await api
+    .get(baseUrl + url2)
+    .set({ Authorization: `bearer ${res1.body.user.token}` });
 
   return {
     res,
