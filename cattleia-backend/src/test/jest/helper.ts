@@ -46,6 +46,15 @@ export const meta = {
   ],
 };
 
+export const product = {
+  name: "Product1",
+  description1: "Product description1",
+  description2: "Product description2",
+  image: "http://some-uri/image.png",
+  price: 1000,
+  amount: 10,
+};
+
 export const invalidToken = async (
   url: string,
   token: boolean

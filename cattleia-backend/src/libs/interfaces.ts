@@ -59,3 +59,13 @@ export interface Meta extends Document {
   external_url?: string;
   attributes?: Traits[];
 }
+
+export interface Product extends Document {
+  _id?: mongoose.ObjectId;
+  name: string;
+  description1: string;
+  description2?: string;
+  image?: string;
+  price: number;
+  amount: number;
+}
