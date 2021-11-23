@@ -2,7 +2,7 @@ export interface Stacked {
   message: string;
   code: number;
 }
-
+/* istanbul ignore next */
 export const errorStack = (stack: Stacked[], e: Error) => {
   if (
     e.message.includes("is invalid, the capitalization checksum test failed")
@@ -27,6 +27,14 @@ export const errors = {
   invalidRole: {
     message: "Invalid role.",
     code: 8020,
+  },
+  metadataAlreadyExist: {
+    message: "The metadata for this NFT already exist.",
+    code: 7001,
+  },
+  metadataDoesntExist: {
+    message: "The metadata for this NFT doesn't exist.",
+    code: 7004,
   },
   invalidAmount: {
     message: "Invalid amount, must be greater than 0.5$",

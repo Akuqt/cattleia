@@ -4,6 +4,8 @@ import { connect } from "../../database";
 import { errors } from "../../libs";
 import { api } from "./helper";
 
+jest.setTimeout(20000);
+
 beforeAll(async () => {
   await connect();
 });
@@ -11,6 +13,8 @@ beforeAll(async () => {
 afterAll(async () => {
   await mongoose.connection.close(true);
 });
+
+jest.setTimeout(20000);
 
 describe("GET /api/v1/payment/get-publishable-key", () => {
   test("should respond with a stripe publishableKey.", async () => {

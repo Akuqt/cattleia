@@ -47,6 +47,8 @@
     "wsreq": "^1.1.2"
   },
   "dependencies": {
+    "@openzeppelin/contracts": "^4.3.3",
+    "@truffle/hdwallet-provider": "^1.7.0",
     "argon2": "^0.28.2",
     "axios": "^0.24.0",
     "cookie-parser": "^1.4.5",

@@ -37,3 +37,16 @@ export const validateToken = (
   }
   next();
 };
+
+export const validateAdmin = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.role !== "admin")
+    return res.status(401).json({
+      ok: false,
+      error: errors.noAdmin,
+    });
+  next();
+};

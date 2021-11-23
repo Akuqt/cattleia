@@ -23,6 +23,7 @@ export const refreshToken = async (
   res: Response
 ): Promise<Response> => {
   const token = req.cookies.jid;
+
   if (!token)
     return res.status(400).json({
       ok: false,
@@ -39,7 +40,7 @@ export const refreshToken = async (
     res.cookie("jid", createRefreshToken(user), cookieConf);
     return res.json({
       ok: true,
-      accessToken: createAcessToken(user),
+      token: createAcessToken(user),
     });
   } catch (error) {
     return res.status(400).json({
@@ -58,7 +59,7 @@ export const revokeRefreshTokens = async (
   if (!user)
     return res.status(400).json({
       ok: false,
-      error: errors.invalidIDorNoWallet(id),
+      error: errors.invalidID(id),
     });
 
   user.tokenVersion += 1;
