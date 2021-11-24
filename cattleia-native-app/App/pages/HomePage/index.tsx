@@ -47,17 +47,6 @@ export const HomePage: React.FC<Props> = ({navigation}) => {
         label="Sign In"
         alignLabel="start"
       />
-      <SubmitBtn
-        lm
-        sec
-        width="170px"
-        handler={() => {
-          navigation.navigate('Main');
-        }}
-        colors={colors}
-        label="Profile"
-        alignLabel="start"
-      />
     </Container>
   );
 };

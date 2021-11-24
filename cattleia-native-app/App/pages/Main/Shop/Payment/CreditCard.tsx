@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, ActivityIndicator, ToastAndroid} from 'react-native';
+import {removeCartProduct, RootState, addHistory} from '../../../../redux';
 import {Txt, Btn, Container, Header, Logo, Img} from '../Elements';
 import {useBackHandler, useInputHandler} from '../../../../hooks';
+import {useSelector, useDispatch} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {moneyFormat, theme} from '../../../../utils';
-import {useSelector, useDispatch} from 'react-redux';
 import {Get, Post} from '../../../../services';
-import {removeCartProduct, RootState} from '../../../../redux';
 import {Plain} from '../../../../Components';
 import {
   StripeProvider,
@@ -55,11 +55,11 @@ export const CreditCard: React.FC<Props> = ({
 
   useEffect(() => {
     (async () => {
-      const res_t = await Get<{publishableKey: string}>(
+      const res_t = await Get<{publishableKey: string}, {}>(
         '/payment/get-publishable-key',
       );
       setPublishableKey(res_t.data.publishableKey);
-      const res = await Post<{clientSecret: string; ok: boolean}>(
+      const res = await Post<{clientSecret: string}, {}, {ok: boolean}>(
         '/payment/create-payment-intent',
         {
           amount: total * 100,
@@ -94,6 +94,14 @@ export const CreditCard: React.FC<Props> = ({
       ids.forEach(id => {
         dispatch(removeCartProduct({id}));
       });
+
+      dispatch(
+        addHistory({
+          date: new Date().toLocaleString(),
+          method: 'Credit Card',
+          total,
+        }),
+      );
 
       setTimeout(() => {
         navigation.navigate('Shop');
@@ -169,12 +177,12 @@ export const CreditCard: React.FC<Props> = ({
             <CardField
               postalCodeEnabled={false}
               placeholder={{
-                number: '4242 4242 4242 4242',
+                number: 'XXXX XXXX XXXX XXXX',
               }}
               cardStyle={{
                 backgroundColor: colors.inputBg,
                 textColor: colors.fontPrimaryInput,
-                placeholderColor: colors.fontPrimaryInput,
+                placeholderColor: colors.gray,
                 borderRadius: 5,
               }}
               style={{

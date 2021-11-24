@@ -23,7 +23,16 @@ export const allProducts = async (
   _req: Request,
   res: Response
 ): Promise<Response> => {
-  const products = await ProductModel.find();
+  const products_ = await ProductModel.find();
+
+  const products = products_.map((p) => ({
+    id: p._id,
+    name: p.name,
+    price: p.price,
+    description1: p.description1,
+    description2: p.description2,
+    img: p.image,
+  }));
 
   return res.json({ ok: true, products });
 };

@@ -3,7 +3,7 @@ import IonIcons from 'react-native-vector-icons/Ionicons';
 import {theme, icons} from '../../../utils';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
-import {Alert, Image} from 'react-native';
+import {Alert, Image, Linking} from 'react-native';
 import {
   Container,
   Option,
@@ -62,7 +62,7 @@ export const Options: React.FC<any> = ({navigation}) => {
           </Option>
         </OptionContainer>
         <OptionContainer>
-          <Option onPress={() => Alert.alert('Help')}>
+          <Option onPress={() => Linking.openURL('https://google.com')}>
             <IconContainer>
               <IonIcons
                 name={icons.help.filled}

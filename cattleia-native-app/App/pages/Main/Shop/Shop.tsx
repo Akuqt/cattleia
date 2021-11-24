@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {theme, getProductFilter} from '../../../utils';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DrawerActions} from '@react-navigation/native';
 import {ProductCard} from '../../../Components';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
 import {FlatList} from 'react-native';
 import {
@@ -18,6 +18,8 @@ import {
   SafeArea,
 } from './Elements';
 import {Product} from '../../../types';
+import {Get} from '../../../services';
+import {setProducts} from '../../../redux';
 
 type Nav = NativeStackScreenProps<
   {
@@ -42,6 +44,18 @@ export const Shop: React.FC<Props & Nav> = ({navigation, filter, type}) => {
     (state: RootState) => state.shopReducer.shop,
   ).products;
   const cart = useSelector((state: RootState) => state.shopReducer.shop).cart;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      const res = await Get<{products: Product[]}, {}, {ok: boolean}>(
+        '/product/all',
+      );
+      if (res.data.ok) {
+        dispatch(setProducts(res.data.products));
+      }
+    })();
+  }, []);
 
   return (
     <Container

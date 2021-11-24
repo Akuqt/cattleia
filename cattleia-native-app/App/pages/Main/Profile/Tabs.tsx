@@ -3,7 +3,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
 import {Account} from './Account';
-import {Orders} from './Orders';
+import {History} from './History';
 import {theme} from '../../../utils';
 
 const Tab = createMaterialTopTabNavigator();
@@ -36,7 +36,7 @@ export const Tabs: React.FC = () => {
         backgroundColor: colors.bgColor,
       }}>
       <Tab.Screen name="Account" component={Account} />
-      <Tab.Screen name="Orders" component={Orders} />
+      <Tab.Screen name="History" component={History} />
     </Tab.Navigator>
   );
 };

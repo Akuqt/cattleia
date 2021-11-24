@@ -6,7 +6,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useBackHandler} from '../../../../hooks';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../../redux/store';
-import {theme} from '../../../../utils';
+import {moneyFormat, theme} from '../../../../utils';
 
 type Props = NativeStackScreenProps<
   {
@@ -152,7 +152,7 @@ export const PaymentType: React.FC<Props> = ({
           pt="0px"
           width="100%">
           <Txt color={colors.fontPrimary} fs="14px" bold>
-            Total: {total} COP
+            Total: {moneyFormat(total)}
           </Txt>
         </Container>
       </Option>

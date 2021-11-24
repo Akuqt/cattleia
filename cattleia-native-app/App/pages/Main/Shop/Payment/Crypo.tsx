@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Txt, Btn, Container, Header, Logo, Img, HeaderBtn} from '../Elements';
+import {removeCartProduct, RootState, addHistory} from '../../../../redux';
 import {formatAddress, moneyFormat, theme} from '../../../../utils';
 import {ActivityIndicator, ToastAndroid} from 'react-native';
 import {useBackHandler, useInputHandler} from '../../../../hooks';
-import {removeCartProduct, RootState} from '../../../../redux';
 import {useDispatch, useSelector} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useClipboard} from '@react-native-community/clipboard';
@@ -21,14 +21,9 @@ type Props = NativeStackScreenProps<
 >;
 
 interface Response {
-  ok: boolean;
   status: string;
   hash: string;
   to: string;
-  error: {
-    message: string;
-    code: number;
-  };
 }
 
 export const Crypto: React.FC<Props> = ({
@@ -200,7 +195,16 @@ export const Crypto: React.FC<Props> = ({
         }
         onPress={async () => {
           setLoading(true);
-          const res = await Post<Response>(
+          const res = await Post<
+            Response,
+            {
+              error: {
+                message: string;
+                code: number;
+              };
+            },
+            {ok: boolean}
+          >(
             '/web3/transfer-to',
             {
               password: values.password,
@@ -214,6 +218,13 @@ export const Crypto: React.FC<Props> = ({
             setLoading(false);
             setSuccess(true);
             clearValues();
+            dispatch(
+              addHistory({
+                date: new Date().toLocaleString(),
+                method: 'Crypto',
+                total,
+              }),
+            );
             ToastAndroid.show(
               'Success -> Use the Tx Hash to see the Tx status! (EtherScan)',
               ToastAndroid.SHORT,
