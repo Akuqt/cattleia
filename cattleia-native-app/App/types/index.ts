@@ -51,3 +51,9 @@ export interface User {
     };
   };
 }
+
+export interface History {
+  date: string;
+  total: number;
+  method: string;
+}

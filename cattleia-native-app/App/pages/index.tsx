@@ -34,7 +34,7 @@ export const Pages = () => {
         barStyle={!darkTheme ? 'dark-content' : 'light-content'}
       />
       <Stack.Navigator
-        initialRouteName="Main"
+        initialRouteName="HomePage"
         screenOptions={{
           headerShown: false,
           animation: 'slide_from_right',

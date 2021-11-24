@@ -37,9 +37,7 @@ export const Send: React.FC = () => {
     value: '',
   });
 
-  const [fromQR, setFromQR] = useState<{to: string}>({
-    to: '',
-  });
+  const [fromQR, setFromQR] = useState<string>('');
 
   const [loading, setLoading] = useState(false);
 
@@ -65,7 +63,7 @@ export const Send: React.FC = () => {
           <TouchableOpacity
             onPress={() => {
               clearValues();
-              setFromQR({to: ''});
+              setFromQR('');
               setShowQR(c => !c);
             }}>
             <Ionicons
@@ -83,6 +81,8 @@ export const Send: React.FC = () => {
         onRead={e => {
           try {
             const k = JSON.parse(e.data);
+            console.log(k);
+
             if (k.to && k.value) {
               setFromQR(k.to);
               handler('value')(
@@ -117,7 +117,7 @@ export const Send: React.FC = () => {
           clipboard
           disabled
           differValue
-          txt={fromQR.to}
+          txt={fromQR}
           format={e => formatAddress(e, 6)}
           handler={handler('to')}
         />
@@ -191,8 +191,9 @@ export const Send: React.FC = () => {
                 ToastAndroid.SHORT,
               );
             }
-
             setLoading(false);
+            clearValues();
+            setFromQR('');
           }}
         />
       </Wrapper>

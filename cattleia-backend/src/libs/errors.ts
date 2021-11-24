@@ -28,6 +28,14 @@ export const errors = {
     message: "Invalid role.",
     code: 8020,
   },
+  productAlreadyExist: {
+    message: "The product this this ID already exist.",
+    code: 7201,
+  },
+  productDoesntExist: {
+    message: "The product this this ID doesn't exist.",
+    code: 7204,
+  },
   metadataAlreadyExist: {
     message: "The metadata for this NFT already exist.",
     code: 7001,

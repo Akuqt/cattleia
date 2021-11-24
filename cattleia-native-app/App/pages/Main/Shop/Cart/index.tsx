@@ -6,7 +6,7 @@ import {useBackHandler} from '../../../../hooks';
 import {ProductCard} from '../../../../Components';
 import {RootState} from '../../../../redux/store';
 import {FlatList} from 'react-native';
-import {theme} from '../../../../utils';
+import {moneyFormat, theme} from '../../../../utils';
 import {
   Grid,
   SafeArea,
@@ -76,12 +76,12 @@ export const Cart: React.FC<Props> = ({
           pt="0px">
           <HeaderBtn margin="20px 20px 0px 0px" disabled>
             <Txt color={colors.fontPrimary} fs="16px" bold>
-              {cart.count} Items
+              {cart.count === 1 ? `${cart.count} Item` : `${cart.count} Items`}
             </Txt>
           </HeaderBtn>
           <HeaderBtn margin="20px 20px 0px 0px" disabled>
             <Txt color={colors.fontPrimary} fs="15px" bold>
-              Total: {cart.total ? cart.total : 0} COP
+              Total: {cart.total ? moneyFormat(cart.total) : '0.00 COP'}
             </Txt>
           </HeaderBtn>
         </Container>
