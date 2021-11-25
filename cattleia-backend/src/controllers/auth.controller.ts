@@ -1,4 +1,5 @@
 import Web3 from "web3";
+import config from "../config";
 import { UserModel, RoleModel, AccountModel, RankModel } from "../models";
 import { getRank, rankColor } from "../libs";
 import { Request, Response } from "express";
@@ -14,7 +15,7 @@ import {
   createRefreshToken,
 } from "../libs";
 
-const web3 = new Web3(process.env.INFURA_RINKEBY);
+const web3 = new Web3(config.NETWORK);
 
 export const signIn = async (
   req: Request,

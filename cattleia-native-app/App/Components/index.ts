@@ -9,3 +9,4 @@ export * from './RankCard';
 export * from './Accordion';
 export * from './DropDawnPicker';
 export * from './QrReader';
+export * from './NFTCard';

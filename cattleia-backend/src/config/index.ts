@@ -14,4 +14,6 @@ export default {
   },
   STRIPE_SECRET: process.env.STRIPE_SECRET,
   STRIPE_PUBLISHABLE: process.env.STRIPE_PUBLISHABLE,
+
+  NETWORK: process.env.INFURA_RINKEBY,
 };

@@ -87,15 +87,19 @@ export const ImportAccount: React.FC<Props> = ({navigation}) => {
           label="Import Account"
           lm
           handler={async () => {
-            const res = await Post<{
-              ok: boolean;
-              balance: number;
-              address: string;
-              error: {
-                message: string;
-                code: number;
-              };
-            }>('/web3/import-account', values, user.token);
+            const res = await Post<
+              {
+                balance: number;
+                address: string;
+              },
+              {
+                error: {
+                  message: string;
+                  code: number;
+                };
+              },
+              {ok: boolean}
+            >('/web3/import-account', values, user.token);
             if (res.data.ok) {
               dispatch(
                 saveUser({
@@ -103,7 +107,7 @@ export const ImportAccount: React.FC<Props> = ({navigation}) => {
                   account: {
                     hasAccount: res.data.ok,
                     address: res.data.address,
-                    balance: res.data.balance,
+                    balance: {ctt: 0, eth: 0, nft: {tokens: [], total: 0}},
                   },
                 }),
               );

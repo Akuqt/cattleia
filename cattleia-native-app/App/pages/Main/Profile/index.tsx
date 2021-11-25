@@ -35,6 +35,7 @@ export const Profile: React.FC<Props> = ({navigation}) => {
         theme={colors}
         name={user.name}
         rank={user.rank}
+        avatar={`https://avatars.dicebear.com/api/identicon/${user.id}.svg`}
         onUpdate={onUpdate}
       />
       <Tabs />

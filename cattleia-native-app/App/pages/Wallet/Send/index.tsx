@@ -87,7 +87,7 @@ export const Send: React.FC = () => {
               setFromQR(k.to);
               handler('value')(
                 null as any,
-                format(k.value, user.account.balance),
+                format(k.value, user.account.balance.eth),
               );
             } else {
               ToastAndroid.show('Invalid Information!', ToastAndroid.SHORT);
@@ -130,13 +130,13 @@ export const Send: React.FC = () => {
           fs="16px"
           margin="15px 0px"
           label="Value *"
-          placeholder={`0.001 - ${user.account.balance}`}
+          placeholder={`0.001 - ${user.account.balance.eth}`}
           type="Number"
           lableFs="15px"
           value={values.value}
           length={30}
           handler={handler('value')}
-          format={e => format(e, user.account.balance)}
+          format={e => format(e, user.account.balance.eth)}
         />
 
         <Plain

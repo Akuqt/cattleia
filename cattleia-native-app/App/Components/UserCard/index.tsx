@@ -14,6 +14,9 @@ import {
 import {User} from '../../types';
 import {TextInput} from 'react-native';
 
+// @ts-ignore
+import Image from 'react-native-remote-svg';
+
 interface Props {
   name: string;
   avatar?: any;
@@ -42,7 +45,7 @@ export const UserCard: React.FC<Props> = props => {
   return (
     <Container>
       <AvatarContainer bc={props.theme.fontPrimary}>
-        <Text>Avatar</Text>
+        <Image source={{uri: props.avatar}} style={{width: 600, height: 60}} />
       </AvatarContainer>
       <InfoContainer>
         <TextContainer>
