@@ -38,5 +38,4 @@ jobs:
           cache: "npm"
           cache-dependency-path: "**/yarn.lock"
       - run: yarn
-      - run: npx truffle compile
       - run: yarn test
