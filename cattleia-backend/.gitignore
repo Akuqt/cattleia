@@ -1,7 +1,13 @@
 node_modules/
 coverage/
 dist/
-src/abis/**.json
+src/abis/A**.json
+src/abis/I**.json
+src/abis/E**.json
+src/abis/M**.json
+src/abis/P**.json
+src/abis/S**.json
+src/abis/Co**.json
 junit.xml
 .env
 .secret
