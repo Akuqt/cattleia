@@ -1,4 +1,5 @@
 import Web3 from "web3";
+import config from "../config";
 import { UserModel, RoleModel, AccountModel, RankModel } from "../models";
 import { getRank, rankColor } from "../libs";
 import { Request, Response } from "express";
@@ -14,7 +15,7 @@ import {
   createRefreshToken,
 } from "../libs";
 
-const web3 = new Web3(process.env.INFURA_RINKEBY);
+const web3 = new Web3(config.NETWORK);
 
 export const signIn = async (
   req: Request,
@@ -160,4 +161,27 @@ export const signUp = async (
       },
     });
   }
+};
+
+export const changeName = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const id = req.id;
+  const { name } = req.body;
+
+  const _user: User | null = await UserModel.findById(id);
+
+  if (!_user) {
+    return res.status(401).json({
+      ok: false,
+      error: errors.invalidID(id),
+    });
+  }
+
+  _user.name = name;
+
+  await _user.save();
+
+  return res.json({ ok: true });
 };

@@ -3,6 +3,8 @@ declare namespace Express {
     userName: string;
     id: string;
     role: string;
+    privateKey: string;
+    address: string;
   }
 }
 
@@ -23,6 +25,8 @@ declare namespace NodeJS {
     NODE_ENV: "production" | "development" | "test";
     TEST_PRIVATE_KEY: string;
     TRUFFLE_KEY: string;
+    ECR20_ADDRESS: string;
+    ECR721_ADDRESS: string;
   }
 }
 

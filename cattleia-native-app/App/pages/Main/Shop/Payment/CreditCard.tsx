@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, ActivityIndicator, ToastAndroid} from 'react-native';
-import {removeCartProduct, RootState, addHistory} from '../../../../redux';
+import {
+  removeCartProduct,
+  RootState,
+  addHistory,
+  saveUser,
+} from '../../../../redux';
 import {Txt, Btn, Container, Header, Logo, Img} from '../Elements';
 import {useBackHandler, useInputHandler} from '../../../../hooks';
 import {useSelector, useDispatch} from 'react-redux';
@@ -95,11 +100,28 @@ export const CreditCard: React.FC<Props> = ({
         dispatch(removeCartProduct({id}));
       });
 
+      const history = {
+        date: new Date().toLocaleString(),
+        method: 'Credit Card',
+        total,
+      };
+
+      dispatch(addHistory(history));
+
+      const _ = await Post('/history/add', history, user.token);
+
+      const points = (total * 2) / 1000;
+
+      const res_ = await Post<
+        {rank: typeof user.rank},
+        {error: any},
+        {ok: boolean}
+      >('/rank/update', {points}, user.token);
+
       dispatch(
-        addHistory({
-          date: new Date().toLocaleString(),
-          method: 'Credit Card',
-          total,
+        saveUser({
+          ...user,
+          rank: res_.data.rank,
         }),
       );
 

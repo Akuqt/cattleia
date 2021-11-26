@@ -49,7 +49,6 @@ describe("POST /api/v1/web3/create-account", () => {
     expect(res.status).toBe(200);
     expect(res.body.ok).toEqual(true);
     expect(res.body.address).toBeDefined();
-    expect(res.body.balance).toBeDefined();
   });
 
   test("shouldn't be able to create a wallet (user already has one).", async () => {
@@ -92,7 +91,6 @@ describe("POST /api/v1/web3/import-account", () => {
     expect(res.status).toBe(200);
     expect(res.body.ok).toEqual(true);
     expect(res.body.address).toBeDefined();
-    expect(res.body.balance).toBeDefined();
   });
 
   test("shouldn't be able to import a wallet (user already has one).", async () => {

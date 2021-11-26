@@ -1,9 +1,10 @@
-import React from 'react';
-import {View, Text} from 'react-native';
-import {useSelector} from 'react-redux';
-import {Accordion} from '../../../Components';
-import {RootState} from '../../../redux';
+import React, {useEffect} from 'react';
 import {moneyFormat, theme as colors} from '../../../utils';
+import {View, Text, ToastAndroid, ScrollView} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState, setHistory} from '../../../redux';
+import {Accordion} from '../../../Components';
+import {Get} from '../../../services';
 
 export const History: React.FC = () => {
   const theme = useSelector((state: RootState) => state.themeReducer.dark)
@@ -13,20 +14,64 @@ export const History: React.FC = () => {
   const history = useSelector(
     (state: RootState) => state.historyReducer.history,
   );
+
+  const user = useSelector((state: RootState) => state.userReducer.user);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      const res = await Get<
+        {
+          history: typeof history;
+        },
+        {
+          error: {
+            message: string;
+            code: number;
+          };
+        },
+        {ok: boolean}
+      >('/history/get', user.token);
+
+      if (res.data.ok) dispatch(setHistory(res.data.history));
+      else {
+        ToastAndroid.show(
+          `Erorr: ${res.data.error.message} [${res.data.error.code}]`,
+          ToastAndroid.SHORT,
+        );
+      }
+    })();
+  }, []);
   return (
-    <View style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center'}}>
-      {history.map((h, i) => (
-        <Accordion
-          title={`Date: ${h.date}`}
-          key={i}
-          margin="10px 0px"
-          theme={theme}>
-          <Text style={{color: theme.fontPrimary}}>Metod: {h.method}</Text>
-          <Text style={{color: theme.fontPrimary}}>
-            Total: {moneyFormat(h.total)}
+    <ScrollView>
+      <View
+        style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center'}}>
+        {history.length > 0 ? (
+          history.map((h, i) => (
+            <Accordion
+              title={`Date: ${h.date}`}
+              key={i}
+              margin="10px 0px"
+              theme={theme}>
+              <Text style={{color: theme.fontPrimary}}>Method: {h.method}</Text>
+              <Text style={{color: theme.fontPrimary, marginTop: 10}}>
+                Total: {moneyFormat(h.total)}
+              </Text>
+            </Accordion>
+          ))
+        ) : (
+          <Text
+            style={{
+              color: theme.fontPrimary,
+              fontWeight: 'bold',
+              fontSize: 15,
+              marginTop: 40,
+            }}>
+            There's no history to show!
           </Text>
-        </Accordion>
-      ))}
-    </View>
+        )}
+      </View>
+    </ScrollView>
   );
 };

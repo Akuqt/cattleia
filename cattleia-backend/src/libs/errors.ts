@@ -81,4 +81,8 @@ export const errors = {
     message: `There's no user with ID <${id}> or the user has no wallet account.`,
     code: 4020,
   }),
+  invalidPoints: {
+    message: "Invalid points, must be a number greater than 0.",
+    code: 3032,
+  },
 };

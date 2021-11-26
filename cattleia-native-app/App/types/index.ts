@@ -37,7 +37,14 @@ export interface User {
   role: string;
   account: {
     hasAccount: boolean;
-    balance: number;
+    balance: {
+      nft: {
+        tokens: string[];
+        total: number;
+      };
+      eth: number;
+      ctt: number;
+    };
     address: string;
   };
   rank: {

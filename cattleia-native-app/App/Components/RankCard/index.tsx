@@ -18,6 +18,7 @@ interface Props {
 }
 
 export const RankCard: React.FC<Props> = props => {
+  const progress = props.rank.points / props.rank.next.points;
   return (
     <Container>
       <Information>
@@ -41,7 +42,8 @@ export const RankCard: React.FC<Props> = props => {
             Next Level
           </Txt>
           <Txt color={props.rank.next.color} fs="14px" italic>
-            {props.rank.next.name}
+            {props.rank.next.name.charAt(0).toUpperCase() +
+              props.rank.next.name.slice(1)}
           </Txt>
           <Txt color="#808080" fs="12px" italic>
             {props.rank.next.points} Points
@@ -49,14 +51,14 @@ export const RankCard: React.FC<Props> = props => {
         </Goal>
       </Information>
       <Progress>
-        <Circle radius={12} />
+        <Circle radius={12} color={props.rank.color} />
         <ProgressIndicator>
           <Line
-            progress={(props.rank.points / props.rank.next.points) * 100 + '%'}
+            progress={(progress > 1 ? 1 : progress) * 100 + '%'}
             color={props.rank.next.color}
           />
         </ProgressIndicator>
-        <Circle radius={45}>
+        <Circle radius={45} color={props.rank.next.color}>
           <Image
             source={{uri: 'asset:/images/rank-base.png'}}
             style={{

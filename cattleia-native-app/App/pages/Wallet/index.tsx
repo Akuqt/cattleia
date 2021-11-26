@@ -9,6 +9,7 @@ import {RootState} from '../../redux/store';
 import {NoWallet} from './NoWallet';
 import {Access} from './Access';
 import {theme} from '../../utils';
+import {NFT} from './NFT';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,7 @@ export const Wallet: React.FC<any> = ({navigation}) => {
         },
       }}>
       <Stack.Screen name="Access" component={Access} />
+      <Stack.Screen name="NFT" component={NFT} />
       <Stack.Screen name="MainWallet" component={MainWallet} />
       <Stack.Screen name="NoWallet" component={NoWallet} />
       <Stack.Screen name="ImportAccount" component={ImportAccount} />

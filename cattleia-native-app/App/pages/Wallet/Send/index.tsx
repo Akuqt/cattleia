@@ -5,15 +5,16 @@ import {formatAddress, numberFormat, theme} from '../../../utils';
 import {Header, Container, Wrapper} from '../Elements';
 import {SubmitBtn, Plain, QrReader} from '../../../Components';
 import {useInputHandler} from '../../../hooks';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
-import {Post} from '../../../services';
+import {Get, Post} from '../../../services';
 import {
   useWindowDimensions,
   ActivityIndicator,
   TouchableOpacity,
   ToastAndroid,
 } from 'react-native';
+import {saveUser} from '../../../redux';
 
 const format = (e: string, balance: number) => {
   let u = numberFormat(e);
@@ -42,6 +43,8 @@ export const Send: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const {width} = useWindowDimensions();
+
+  const dispatch = useDispatch();
 
   return (
     <Container
@@ -76,6 +79,7 @@ export const Send: React.FC = () => {
       </Header>
 
       <QrReader
+        border={colors.primary}
         width={width}
         bg={colors.bgColor}
         onRead={e => {
@@ -87,7 +91,7 @@ export const Send: React.FC = () => {
               setFromQR(k.to);
               handler('value')(
                 null as any,
-                format(k.value, user.account.balance),
+                format(k.value, user.account.balance.eth),
               );
             } else {
               ToastAndroid.show('Invalid Information!', ToastAndroid.SHORT);
@@ -130,13 +134,18 @@ export const Send: React.FC = () => {
           fs="16px"
           margin="15px 0px"
           label="Value *"
-          placeholder={`0.001 - ${user.account.balance}`}
+          placeholder={`${
+            user.account.balance.eth <= 0
+              ? '0'
+              : `0.001 - ${user.account.balance.eth}`
+          }`}
           type="Number"
           lableFs="15px"
           value={values.value}
           length={30}
           handler={handler('value')}
-          format={e => format(e, user.account.balance)}
+          disabled={user.account.balance.eth <= 0}
+          format={e => format(e, user.account.balance.eth)}
         />
 
         <Plain
@@ -162,7 +171,7 @@ export const Send: React.FC = () => {
           width="330px"
           label="Send"
           lm
-          disabled={loading}
+          disabled={loading || values.value == ''}
           handler={async () => {
             setLoading(true);
             const res = await Post<
@@ -184,6 +193,16 @@ export const Send: React.FC = () => {
               ToastAndroid.show(
                 'Success -> Use the Tx Hash copied in your clipboard to see the Tx status! (EtherScan)',
                 ToastAndroid.LONG,
+              );
+
+              const res_ = await Get(
+                `/web3/balance/${'0x' + user.account.address}`,
+              );
+              dispatch(
+                saveUser({
+                  ...user,
+                  account: {...user.account, balance: res_.data.balance},
+                }),
               );
             } else {
               ToastAndroid.show(

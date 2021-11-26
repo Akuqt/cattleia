@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {View, Modal, Button} from 'react-native';
 import {BarCodeReadEvent} from 'react-native-camera';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface Props {
   width: number;
@@ -9,6 +11,7 @@ interface Props {
   show: boolean;
   setShow: (v: boolean) => void;
   onRead: (e: BarCodeReadEvent) => void;
+  border: string;
 }
 
 export const QrReader: React.FC<Props> = props => {
@@ -33,7 +36,13 @@ export const QrReader: React.FC<Props> = props => {
         }}
         topContent={
           <View>
-            <Button title="rotate" onPress={() => setCameraSide(c => !c)} />
+            <TouchableOpacity onPress={() => setCameraSide(c => !c)}>
+              <Ionicons
+                name="camera-reverse-outline"
+                color={props.border}
+                size={50}
+              />
+            </TouchableOpacity>
           </View>
         }
         bottomViewStyle={{
@@ -43,7 +52,7 @@ export const QrReader: React.FC<Props> = props => {
         fadeIn
         showMarker
         markerStyle={{
-          borderTopColor: 'red',
+          borderColor: props.border,
         }}
       />
     </Modal>

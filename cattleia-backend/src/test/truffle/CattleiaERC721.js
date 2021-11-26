@@ -18,7 +18,7 @@ contract("CattleiaERC721", (accounts) => {
     const balance = (
       await this.CattleiaERC721.balanceOf(accounts[0])
     ).toString();
-    assert.equal(balance, "1");
+    assert.equal(balance, "5");
   });
 
   it("should be able to change the base uri", async () => {
@@ -29,14 +29,24 @@ contract("CattleiaERC721", (accounts) => {
   });
 
   it("should be able to transfer", async () => {
-    await this.CattleiaERC721.transferFrom(accounts[0], accounts[1], 0);
+    await this.CattleiaERC721.transfer(accounts[0], accounts[1], 0);
     const balance1 = (
       await this.CattleiaERC721.balanceOf(accounts[0])
     ).toString();
     const balance2 = (
       await this.CattleiaERC721.balanceOf(accounts[1])
     ).toString();
-    assert.equal(balance1, "0");
+    assert.equal(balance1, "4");
     assert.equal(balance2, "1");
+  });
+
+  it("should return an array of tokens", async () => {
+    const balance = (
+      await this.CattleiaERC721.balanceOf(accounts[0])
+    ).toString();
+    const res = (await this.CattleiaERC721.tokensOf(accounts[0]))
+      .toString()
+      .split(",");
+    assert.equal(res.length, parseInt(balance));
   });
 });

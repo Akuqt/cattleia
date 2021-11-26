@@ -19,7 +19,7 @@ module.exports = {
         return new HDWalletProvider(mnemonic, rinkebyEndpoint);
       },
       network_id: 4,
-      gas: 4500000,
+      gas: 29970677,
       gasPrice: 10000000000,
     },
   },
@@ -35,7 +35,7 @@ module.exports = {
       version: "0.8.0", // Fetch exact version from solc-bin (default: truffle's version)
       settings: {
         optimizer: {
-          enabled: false,
+          enabled: true,
           runs: 200,
         },
       },

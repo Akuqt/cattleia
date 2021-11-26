@@ -1,15 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Txt, Btn, Container, Header, Logo, Img, HeaderBtn} from '../Elements';
-import {removeCartProduct, RootState, addHistory} from '../../../../redux';
+import {
+  addHistory,
+  removeCartProduct,
+  RootState,
+  saveUser,
+} from '../../../../redux';
 import {formatAddress, moneyFormat, theme} from '../../../../utils';
-import {ActivityIndicator, ToastAndroid} from 'react-native';
+import {ActivityIndicator, Switch, ToastAndroid} from 'react-native';
 import {useBackHandler, useInputHandler} from '../../../../hooks';
 import {useDispatch, useSelector} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useClipboard} from '@react-native-community/clipboard';
 import {Plain} from '../../../../Components';
-import {Post} from '../../../../services';
+import {Get, Post} from '../../../../services';
 
 type Props = NativeStackScreenProps<
   {
@@ -42,15 +47,18 @@ export const Crypto: React.FC<Props> = ({
 
   const [, setClipboard] = useClipboard();
 
-  const [txHash, setTxHash] = useState('Pending...');
+  const [txHash, setTxHash] = useState('0');
 
   const [loading, setLoading] = useState(false);
 
   const [success, setSuccess] = useState(false);
 
-  const txValue = (total * 0.000057) / 1000;
+  const [ctt, setCtt] = useState(false);
 
-  const balance = (user.account.balance * 1).toFixed(4);
+  const txValue = (total * 0.000056) / 1000;
+  const txValue2 = total;
+
+  const balance = (user.account.balance.eth * 1).toFixed(4);
 
   const dispatch = useDispatch();
 
@@ -59,6 +67,18 @@ export const Crypto: React.FC<Props> = ({
       id: ids.length === 1 ? ids[0] : '-1',
     });
   });
+
+  useEffect(() => {
+    (async () => {
+      const res = await Get(`/web3/balance/${'0x' + user.account.address}`);
+      dispatch(
+        saveUser({
+          ...user,
+          account: {...user.account, balance: res.data.balance},
+        }),
+      );
+    })();
+  }, []);
 
   return (
     <Container
@@ -81,7 +101,10 @@ export const Crypto: React.FC<Props> = ({
         <Container direction="row" justify="center" align="center" pt="0px">
           <HeaderBtn margin="40px 20px 0px 0px" disabled>
             <Txt color={colors.fontPrimary} fs="16px" bold>
-              Balance: {balance} ETH
+              ETH: {balance}
+            </Txt>
+            <Txt color={colors.fontPrimary} fs="16px" bold>
+              CTT: {(user.account.balance.ctt * 1).toFixed(0)}
             </Txt>
           </HeaderBtn>
         </Container>
@@ -94,7 +117,7 @@ export const Crypto: React.FC<Props> = ({
           pt="0px"
           width="100%">
           <Txt fs="14px" color={colors.fontPrimary}>
-            Contract Address
+            Cattleia's Address
           </Txt>
           <Btn
             bg={colors.inputBg}
@@ -110,7 +133,7 @@ export const Crypto: React.FC<Props> = ({
               ps="10px"
               width="100%">
               <Txt fs="16px" color={colors.fontPrimaryInput}>
-                {formatAddress('0x1d7274608c7C8324B33dA0Ff926fe10dAaF896ff', 6)}
+                {formatAddress('0x7B063AaEbD3Aa4698ECDFfA3f20A804A1965eEf1', 6)}
               </Txt>
               <Btn
                 bg={colors.inputBg}
@@ -118,7 +141,7 @@ export const Crypto: React.FC<Props> = ({
                 height="auto"
                 width="auto"
                 onPress={() => {
-                  setClipboard('0x1d7274608c7C8324B33dA0Ff926fe10dAaF896ff');
+                  setClipboard('0x7B063AaEbD3Aa4698ECDFfA3f20A804A1965eEf1');
                   ToastAndroid.show(
                     'Address copied to clipboard',
                     ToastAndroid.SHORT,
@@ -152,14 +175,29 @@ export const Crypto: React.FC<Props> = ({
             disabled>
             <Container
               direction="row"
-              justify="flex-start"
+              justify="space-between"
               align="center"
               pt="0px"
               ps="10px"
               width="100%">
               <Txt fs="16px" color={colors.fontPrimaryInput}>
-                {txValue.toFixed(8)}
+                {ctt ? txValue2 : txValue.toFixed(8)}
               </Txt>
+              <Container
+                direction="row"
+                justify="center"
+                align="center"
+                pt="0px">
+                <Switch
+                  trackColor={{false: colors.secondary, true: colors.primary}}
+                  thumbColor={ctt ? colors.secondary : colors.primary}
+                  onValueChange={() => setCtt(c => !c)}
+                  value={ctt}
+                />
+                <Txt fs="16px" color={colors.fontPrimaryInput}>
+                  {ctt ? 'CTT' : 'ETH'}
+                </Txt>
+              </Container>
             </Container>
           </Btn>
         </Container>
@@ -191,7 +229,9 @@ export const Crypto: React.FC<Props> = ({
         height="40px"
         margin="40px 0px"
         disabled={
-          values.password === '' || user.account.balance < txValue || success
+          values.password === '' ||
+          user.account.balance.eth < txValue ||
+          success
         }
         onPress={async () => {
           setLoading(true);
@@ -205,11 +245,13 @@ export const Crypto: React.FC<Props> = ({
             },
             {ok: boolean}
           >(
-            '/web3/transfer-to',
+            `/web3/${ctt ? 'transfer-tokens' : 'transfer-to'}`,
             {
               password: values.password,
-              to: '0x1d7274608c7C8324B33dA0Ff926fe10dAaF896ff',
-              value: txValue.toFixed(16),
+              to: '0x7B063AaEbD3Aa4698ECDFfA3f20A804A1965eEf1',
+              value: ctt
+                ? txValue2.toString() + '000000000000000000'
+                : txValue.toFixed(16),
             },
             user.token,
           );
@@ -218,13 +260,17 @@ export const Crypto: React.FC<Props> = ({
             setLoading(false);
             setSuccess(true);
             clearValues();
-            dispatch(
-              addHistory({
-                date: new Date().toLocaleString(),
-                method: 'Crypto',
-                total,
-              }),
-            );
+
+            const history = {
+              date: new Date().toLocaleString(),
+              method: 'Crypto',
+              total,
+            };
+
+            dispatch(addHistory(history));
+
+            await Post('/history/add', history, user.token);
+
             ToastAndroid.show(
               'Success -> Use the Tx Hash to see the Tx status! (EtherScan)',
               ToastAndroid.SHORT,
@@ -232,6 +278,25 @@ export const Crypto: React.FC<Props> = ({
             ids.forEach(id => {
               dispatch(removeCartProduct({id}));
             });
+
+            const points = (total * 2) / 1000;
+
+            const _res_ = await Post<
+              {rank: typeof user.rank},
+              {error: any},
+              {ok: boolean}
+            >('/rank/update', {points}, user.token);
+
+            const res__ = await Get(
+              `/web3/balance/${'0x' + user.account.address}`,
+            );
+            dispatch(
+              saveUser({
+                ...user,
+                rank: _res_.data.rank,
+                account: {...user.account, balance: res__.data.balance},
+              }),
+            );
           } else {
             setSuccess(false);
             ToastAndroid.show(
@@ -285,14 +350,17 @@ export const Crypto: React.FC<Props> = ({
       </Container>
 
       <Container
-        direction="row"
-        justify="flex-start"
-        align="center"
+        direction="column"
+        justify="center"
+        align="flex-start"
         pt="20px"
         ps="20px"
         width="100%">
         <Txt color={colors.fontPrimary} fs="16px">
-          {'1,000.00 COP -> 0.000057 ETH'}
+          {'1,000.00 COP -> 0.000056 ETH'}
+        </Txt>
+        <Txt color={colors.fontPrimary} fs="16px">
+          {'1,000.00 COP -> 1000 CTT'}
         </Txt>
       </Container>
 

@@ -1,4 +1,5 @@
 import Web3 from "web3";
+import config from "../config";
 import { UserModel, AccountModel } from "../models";
 import { Request, Response } from "express";
 import {
@@ -7,11 +8,14 @@ import {
   Account,
   Stacked,
   errorStack,
+  transferToken,
   encryptPassword,
-  comparePassword,
 } from "../libs";
 
-const web3 = new Web3(process.env.INFURA_RINKEBY);
+import contractData20 from "../abis/CattleiaERC20.json";
+import contractData721 from "../abis/CattleiaERC721.json";
+
+const web3 = new Web3(config.NETWORK);
 
 const getNonce = (): string => {
   let text = "";
@@ -24,22 +28,9 @@ const getNonce = (): string => {
 };
 
 export const access = async (
-  req: Request<any, any, { password: string }>,
+  _req: Request,
   res: Response
 ): Promise<Response> => {
-  const id = req.id;
-  const { password } = req.body;
-  const _user: User | null = await UserModel.findById(id).populate("account");
-  if (!_user || !_user.account.payload)
-    return res.status(400).json({
-      ok: false,
-      error: errors.invalidIDorNoWallet(id),
-    });
-  if (!(await comparePassword(_user.account.password, password)))
-    return res.status(401).json({
-      ok: false,
-      error: errors.wrongWalletPassword,
-    });
   return res.json({
     ok: true,
   });
@@ -91,7 +82,7 @@ export const createAccount = async (
 
   _user.save();
 
-  return res.json({ ok: true, address: _account.payload.address, balance: 0 });
+  return res.json({ ok: true, address: _account.payload.address });
 };
 
 export const importAccount = async (
@@ -142,41 +133,14 @@ export const importAccount = async (
 
   await _user.save();
 
-  const balanceWeis = await web3.eth.getBalance(_user.account.payload.address);
-  const balance = web3.utils.fromWei(balanceWeis, "ether");
-
-  return res.json({ ok: true, address: _account.payload.address, balance });
+  return res.json({ ok: true, address: _account.payload.address });
 };
 
 export const getPrivateKey = async (
   req: Request<any, any, { password: string }>,
   res: Response
 ): Promise<Response> => {
-  const { password } = req.body;
-
-  const _id = req.id;
-
-  const _user = await UserModel.findById(_id).populate("account");
-
-  if (!_user || !_user.account.payload) {
-    return res.status(400).json({
-      ok: false,
-      error: errors.invalidIDorNoWallet(_id),
-    });
-  }
-
-  if (!(await comparePassword(_user.account.password, password)))
-    return res.status(401).json({
-      ok: false,
-      error: errors.wrongWalletPassword,
-    });
-
-  const payloadKey = web3.eth.accounts.decrypt(
-    _user.account.payload as any,
-    password
-  );
-
-  return res.json({ ok: true, privateKey: payloadKey.privateKey });
+  return res.json({ ok: true, privateKey: req.privateKey });
 };
 
 export const transferTo = async (
@@ -184,30 +148,7 @@ export const transferTo = async (
   res: Response
 ): Promise<Response> => {
   const stack: Stacked[] = [];
-
-  const id = req.id;
-
-  const { password, to, value } = req.body;
-
-  const _user: User | null = await UserModel.findById(id).populate("account");
-
-  if (!_user || !_user.account.payload)
-    return res.status(400).json({
-      ok: false,
-      error: errors.invalidIDorNoWallet(id),
-    });
-
-  if (!(await comparePassword(_user.account.password, password)))
-    return res.status(401).json({
-      ok: false,
-      error: errors.wrongWalletPassword,
-    });
-
-  const payloadKey = web3.eth.accounts.decrypt(
-    _user.account.payload as any,
-    password
-  );
-
+  const { to, value } = req.body;
   try {
     const txConfig = {
       to,
@@ -218,7 +159,7 @@ export const transferTo = async (
 
     const tx = await web3.eth.accounts.signTransaction(
       txConfig,
-      payloadKey.privateKey
+      req.privateKey
     );
 
     const raw = tx.rawTransaction || "";
@@ -238,5 +179,120 @@ export const transferTo = async (
   return res.status(400).json({
     ok: false,
     error: stack[0],
+  });
+};
+
+/* istanbul ignore next */
+export const transferTokens = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const stack: Stacked[] = [];
+
+  const contractAddress = process.env.ECR20_ADDRESS;
+
+  const { to, value } = req.body;
+
+  try {
+    const result = await transferToken(
+      web3,
+      contractData20.abi,
+      contractAddress,
+      to,
+      value,
+      req.privateKey
+    );
+
+    return res.json({
+      ok: true,
+      status: result.status,
+      hash: result.transactionHash,
+      to: result.to,
+    });
+  } catch (e: any) {
+    errorStack(stack, e);
+  }
+
+  return res.status(400).json({
+    ok: false,
+    error: stack[0],
+  });
+};
+
+/* istanbul ignore next */
+export const transferNFTs = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const stack: Stacked[] = [];
+
+  const contractAddress = process.env.ECR721_ADDRESS;
+
+  const { to, tokenId } = req.body;
+
+  try {
+    const result = await transferToken(
+      web3,
+      contractData721.abi,
+      contractAddress,
+      to,
+      tokenId,
+      req.privateKey
+    );
+
+    return res.json({
+      ok: true,
+      status: result.status,
+      hash: result.transactionHash,
+      to: result.to,
+    });
+  } catch (e: any) {
+    errorStack(stack, e);
+  }
+
+  return res.status(400).json({
+    ok: false,
+    error: stack[0],
+  });
+};
+
+/* istanbul ignore next */
+export const fullBalance = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { address } = req.params;
+
+  const balanceWeis = await web3.eth.getBalance(address);
+  const eth = web3.utils.fromWei(balanceWeis, "ether");
+
+  const contractAddress20 = process.env.ECR20_ADDRESS;
+  const contractAddress721 = process.env.ECR721_ADDRESS;
+
+  const contract20 = new web3.eth.Contract(
+    contractData20.abi as any,
+    contractAddress20
+  );
+
+  const contract721 = new web3.eth.Contract(
+    contractData721.abi as any,
+    contractAddress721
+  );
+
+  const ctt_t = await contract20.methods.balanceOf(address).call();
+  const ctt = web3.utils.fromWei(ctt_t, "ether");
+  const total_tokens = await contract721.methods.balanceOf(address).call();
+  const tokens = await contract721.methods.tokensOf(address).call();
+
+  return res.json({
+    ok: true,
+    balance: {
+      eth,
+      ctt,
+      nft: {
+        total: total_tokens,
+        tokens,
+      },
+    },
   });
 };
