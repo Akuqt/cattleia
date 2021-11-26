@@ -136,6 +136,13 @@ export const numberFormat = (value: string): string => {
   }
 
   return u;
-  // const res = parseFloat(u).toString();
-  // return res === 'NaN' ? '' : res;
+};
+
+export const formatUser = (e: string) => {
+  let u = e.replace(/[^\w]/gi, '');
+  if (u.startsWith('.')) {
+    console.log(u);
+    u = u.slice(1);
+  }
+  return u;
 };

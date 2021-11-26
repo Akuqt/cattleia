@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {View, ScrollView, Text} from 'react-native';
+import {View, ScrollView, Text, Linking} from 'react-native';
 import {useBackHandler} from '../../../hooks';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux';
@@ -17,6 +17,7 @@ interface Response {
   name: string;
   image: string;
   description: string;
+  id?: string;
 }
 
 type Props = NativeStackScreenProps<ParamList, 'NFT'>;
@@ -39,7 +40,7 @@ export const NFT: React.FC<Props> = ({navigation}) => {
       const data: Response[] = [];
       for (const nft of user.account.balance.nft.tokens) {
         const res = await Get<Response, {}, {}>(`/nft/metadata/${nft}`);
-        data.push(res.data);
+        data.push({...res.data, id: nft});
       }
       setNfts(data);
     })();
@@ -82,6 +83,11 @@ export const NFT: React.FC<Props> = ({navigation}) => {
       </View>
       {nfts.map((e, i) => (
         <NFTCard
+          handler={() => {
+            Linking.openURL(
+              `https://testnets.opensea.io/assets/0x896074f5c262ae1db1e4a04127dda6c1a052a9f7/${e.id}`,
+            );
+          }}
           theme={colors}
           key={i}
           name={e.name}

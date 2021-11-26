@@ -2,12 +2,12 @@ import React from 'react';
 import {useBackHandler, useInputHandler} from '../../hooks';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ToastAndroid, View} from 'react-native';
+import {formatUser, theme} from '../../utils';
 import {SubmitBtn, Plain} from '../../Components';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import {saveUser} from '../../redux/user';
-import {theme} from '../../utils';
 import {APIError, IAuth} from '../../types';
 import {Post} from '../../services';
 
@@ -47,6 +47,7 @@ export const Login: React.FC<Props> = ({navigation}) => {
         value={values.userName}
         handler={handler('userName')}
         length={10}
+        format={formatUser}
       />
       <Plain
         width="330px"

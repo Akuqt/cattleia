@@ -8,5 +8,6 @@ export * from './UserCard';
 export * from './RankCard';
 export * from './Accordion';
 export * from './DropDawnPicker';
+export * from './FeedCard';
 export * from './QrReader';
 export * from './NFTCard';

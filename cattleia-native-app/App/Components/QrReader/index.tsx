@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {View, Modal, Button} from 'react-native';
+import {View, Modal, TouchableOpacity} from 'react-native';
 import {BarCodeReadEvent} from 'react-native-camera';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 

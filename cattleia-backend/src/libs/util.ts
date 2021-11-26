@@ -20,6 +20,10 @@ export const rankColor = (name: string) => {
 export const getRank = async (points: number) => {
   const _ranks: Rank[] = await RankModel.find();
 
+  _ranks.sort((a, b) => {
+    return a.points < b.points ? -1 : b.points < a.points ? 1 : 0;
+  });
+
   const next = _ranks.filter((r) => {
     if (points < r.points) {
       return r;

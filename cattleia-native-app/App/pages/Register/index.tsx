@@ -2,12 +2,12 @@ import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ToastAndroid, View} from 'react-native';
+import {formatUser, theme} from '../../utils';
 import {Plain, SubmitBtn} from '../../Components';
+import {APIError, IAuth} from '../../types';
 import {useInputHandler} from '../../hooks';
 import {RootState} from '../../redux/store';
 import {saveUser} from '../../redux';
-import {theme} from '../../utils';
-import {APIError, IAuth} from '../../types';
 import {Post} from '../../services';
 
 type ParamList = {
@@ -75,7 +75,7 @@ export const Register: React.FC<Props> = ({navigation}) => {
         length={10}
         value={values.userName}
         handler={handler('userName')}
-        format={e => e.replace(/[^\w]/gi, '')}
+        format={formatUser}
       />
       <Plain
         width="330px"
@@ -105,18 +105,26 @@ export const Register: React.FC<Props> = ({navigation}) => {
         colors={colors}
         label="Sign Up"
         handler={async () => {
-          const res = await Post<IAuth, APIError, {ok: boolean}>(
-            '/auth/sign-up',
-            values,
-          );
-          if (res.data.ok) {
-            dispatch(saveUser(res.data.user));
-            navigation.navigate('Verify');
-          } else {
-            ToastAndroid.show(
-              `Error: ${res.data.error.message} [${res.data.error.code}]`,
-              ToastAndroid.SHORT,
+          if (
+            values.email.match(
+              /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            )
+          ) {
+            const res = await Post<IAuth, APIError, {ok: boolean}>(
+              '/auth/sign-up',
+              values,
             );
+            if (res.data.ok) {
+              dispatch(saveUser(res.data.user));
+              navigation.navigate('Verify');
+            } else {
+              ToastAndroid.show(
+                `Error: ${res.data.error.message} [${res.data.error.code}]`,
+                ToastAndroid.SHORT,
+              );
+            }
+          } else {
+            ToastAndroid.show('Invalid email, try again!', ToastAndroid.SHORT);
           }
         }}
       />

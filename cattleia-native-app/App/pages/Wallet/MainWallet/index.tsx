@@ -130,7 +130,7 @@ export const MainWallet: React.FC<Props> = ({navigation}) => {
                 size={20}
               />
             ) : (
-              <ActivityIndicator color={colors.fontPrimaryInput} size="small" />
+              <ActivityIndicator color={colors.fontPrimary} size="small" />
             )}
           </Btn>
         </AccWrapper>

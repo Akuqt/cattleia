@@ -1,4 +1,5 @@
 import React from 'react';
+import {TouchableOpacity} from 'react-native';
 import {Theme} from '../../utils';
 import {Container, Txt, Img} from './Elements';
 
@@ -7,6 +8,7 @@ interface Props {
   name: string;
   description: string;
   theme: Theme['dark'] | Theme['light'];
+  handler: () => void;
 }
 
 export const NFTCard: React.FC<Props> = props => {
@@ -30,7 +32,9 @@ export const NFTCard: React.FC<Props> = props => {
           justify="flex-start"
           direction="row"
           pt="0px">
-          <Img source={{uri: props.img}} />
+          <TouchableOpacity onPress={props.handler}>
+            <Img source={{uri: props.img}} />
+          </TouchableOpacity>
         </Container>
       </Container>
       <Container
