@@ -24,6 +24,9 @@ export const getRank = async (points: number) => {
     if (points < r.points) {
       return r;
     }
+    if (points >= 1000 && r.points === 1000) {
+      return r;
+    }
   })[0];
 
   const current = _ranks

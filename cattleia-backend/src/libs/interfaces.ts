@@ -24,6 +24,13 @@ export interface Account extends Document {
   password: string;
 }
 
+export interface History extends Document {
+  _id?: mongoose.ObjectId;
+  date: string;
+  method: string;
+  total: number;
+}
+
 export interface User extends Document {
   _id?: mongoose.ObjectId;
   email: string;
@@ -33,6 +40,7 @@ export interface User extends Document {
   role: Role;
   rank: Rank;
   account: Account;
+  history: History[];
   tokenVersion: number;
 }
 

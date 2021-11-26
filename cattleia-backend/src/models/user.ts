@@ -37,6 +37,13 @@ const userSchema: Schema = new Schema(
       type: Schema.Types.ObjectId,
     },
 
+    history: [
+      {
+        ref: "History",
+        type: Schema.Types.ObjectId,
+      },
+    ],
+
     tokenVersion: {
       type: Number,
       default: 0,

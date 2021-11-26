@@ -17,7 +17,7 @@ export const theme = {
   light: {
     primary: '#E885B6',
     secondary: '#282828',
-    gray: '#c4c4c4',
+    gray: '#a4a4a4',
     inputBg: '#c4c4c4',
     fontPrimary: '#181818',
     fontPrimaryInput: '#181818',

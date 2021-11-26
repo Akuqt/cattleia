@@ -162,3 +162,26 @@ export const signUp = async (
     });
   }
 };
+
+export const changeName = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const id = req.id;
+  const { name } = req.body;
+
+  const _user: User | null = await UserModel.findById(id);
+
+  if (!_user) {
+    return res.status(401).json({
+      ok: false,
+      error: errors.invalidID(id),
+    });
+  }
+
+  _user.name = name;
+
+  await _user.save();
+
+  return res.json({ ok: true });
+};

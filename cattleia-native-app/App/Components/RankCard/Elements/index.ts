@@ -46,14 +46,14 @@ export const Txt = styled.Text<{
   font-style: ${p => (p.italic ? 'italic' : 'normal')};
 `;
 
-export const Circle = styled.View<{radius: number}>`
+export const Circle = styled.View<{radius: number; color: string}>`
   height: ${p => p.radius + 'px'};
   width: ${p => p.radius + 'px'};
   border-top-right-radius: ${p => p.radius / 2 + 'px'};
   border-top-left-radius: ${p => p.radius / 2 + 'px'};
   border-bottom-right-radius: ${p => p.radius / 2 + 'px'};
   border-bottom-left-radius: ${p => p.radius / 2 + 'px'};
-  background-color: #e885b6;
+  background-color: ${p => p.color};
   display: flex;
   justify-content: center;
   align-items: center;

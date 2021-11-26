@@ -16,11 +16,14 @@ export const historySlice = createSlice({
   initialState,
   reducers: {
     addHistory: (state, action: PayloadAction<History>) => {
-      state.history.push(action.payload);
+      state.history.unshift(action.payload);
+    },
+    setHistory: (state, action: PayloadAction<History[]>) => {
+      state.history = action.payload;
     },
   },
 });
 
-export const {addHistory} = historySlice.actions;
+export const {addHistory, setHistory} = historySlice.actions;
 
 export default historySlice.reducer;

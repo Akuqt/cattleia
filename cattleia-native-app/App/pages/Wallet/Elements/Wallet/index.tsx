@@ -7,6 +7,22 @@ export const Container = styled.View<{color: string}>`
   background-color: ${p => p.color};
 `;
 
+export const InfoWrapper = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+
+export const AccWrapper = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+`;
+
 export const Section = styled.View<{heigth: string; border?: boolean}>`
   display: flex;
   flex-direction: column;

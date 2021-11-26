@@ -80,7 +80,9 @@ export const UserCard: React.FC<Props> = props => {
             )}
           </EditIcon>
         </TextContainer>
-        <Text style={{color: props.theme.fontPrimary}}>{props.rank.name}</Text>
+        <Text style={{color: props.theme.fontPrimary}}>
+          {props.rank.name.charAt(0).toUpperCase() + props.rank.name.slice(1)}
+        </Text>
       </InfoContainer>
     </Container>
   );

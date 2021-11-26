@@ -279,7 +279,8 @@ export const fullBalance = async (
     contractAddress721
   );
 
-  const ctt = await contract20.methods.balanceOf(address).call();
+  const ctt_t = await contract20.methods.balanceOf(address).call();
+  const ctt = web3.utils.fromWei(ctt_t, "ether");
   const total_tokens = await contract721.methods.balanceOf(address).call();
   const tokens = await contract721.methods.tokensOf(address).call();
 

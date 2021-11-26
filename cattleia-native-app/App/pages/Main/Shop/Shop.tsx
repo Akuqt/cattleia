@@ -104,25 +104,38 @@ export const Shop: React.FC<Props & Nav> = ({navigation, filter, type}) => {
         style={{
           flex: 1,
         }}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={getProductFilter(filter, products, type)}
-          renderItem={current => (
-            <Grid>
-              <ProductCard
-                theme={colors}
-                name={current.item.name}
-                description={current.item.description1}
-                price={current.item.price}
-                image={current.item.img}
-                onPress={() => {
-                  navigation.navigate('Product', {id: current.item.id});
-                }}
-                shop
-              />
-            </Grid>
-          )}
-        />
+        {products.length > 0 ? (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={getProductFilter(filter, products, type)}
+            renderItem={current => (
+              <Grid>
+                <ProductCard
+                  theme={colors}
+                  name={current.item.name}
+                  description={current.item.description1}
+                  price={current.item.price}
+                  image={current.item.img}
+                  onPress={() => {
+                    navigation.navigate('Product', {id: current.item.id});
+                  }}
+                  shop
+                />
+              </Grid>
+            )}
+          />
+        ) : (
+          <Container
+            direction="row"
+            justify="center"
+            align="center"
+            pt="30px"
+            width="100%">
+            <Txt fs="15px" color={colors.fontPrimary} bold>
+              Our shop is currently empty :(
+            </Txt>
+          </Container>
+        )}
       </SafeArea>
     </Container>
   );

@@ -7,6 +7,7 @@ import {useBackHandler} from '../../../../hooks';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../../redux/store';
 import {moneyFormat, theme} from '../../../../utils';
+import {ToastAndroid} from 'react-native';
 
 type Props = NativeStackScreenProps<
   {
@@ -26,6 +27,8 @@ export const PaymentType: React.FC<Props> = ({
   },
 }) => {
   const darkTheme = useSelector((state: RootState) => state.themeReducer.dark);
+
+  const user = useSelector((state: RootState) => state.userReducer.user);
 
   const colors = darkTheme ? theme.dark : theme.light;
 
@@ -117,7 +120,14 @@ export const PaymentType: React.FC<Props> = ({
         bt
         margin="0px"
         onPress={() => {
-          navigation.navigate('Crypto', {ids, total});
+          if (user.account.hasAccount) {
+            navigation.navigate('Crypto', {ids, total});
+          } else {
+            ToastAndroid.show(
+              'You need to create a wallet!',
+              ToastAndroid.LONG,
+            );
+          }
         }}>
         <Container direction="row" justify="flex-start" align="center" pt="0px">
           <IconM

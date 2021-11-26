@@ -7,6 +7,7 @@ import {UserCard} from '../../../Components';
 import {theme} from '../../../utils';
 import {View} from 'react-native';
 import {Tabs} from './Tabs';
+import {Post} from '../../../services';
 
 type Props = NativeStackScreenProps<
   {
@@ -22,8 +23,9 @@ export const Profile: React.FC<Props> = ({navigation}) => {
   const user = useSelector((state: RootState) => state.userReducer.user);
   const dispatch = useDispatch();
 
-  const onUpdate = useCallback((name: string) => {
+  const onUpdate = useCallback(async (name: string) => {
     dispatch(saveUser({...user, name}));
+    await Post('/auth/change-name', {name}, user.token);
   }, []);
 
   return (
