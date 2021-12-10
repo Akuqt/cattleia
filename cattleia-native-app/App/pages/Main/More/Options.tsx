@@ -1,9 +1,9 @@
 import React from 'react';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import {Image, Linking} from 'react-native';
 import {theme, icons} from '../../../utils';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
-import {Alert, Image, Linking} from 'react-native';
 import {
   Container,
   Option,
@@ -62,7 +62,10 @@ export const Options: React.FC<any> = ({navigation}) => {
           </Option>
         </OptionContainer>
         <OptionContainer>
-          <Option onPress={() => Linking.openURL('https://google.com')}>
+          <Option
+            onPress={() => {
+              Linking.openURL('https://google.com');
+            }}>
             <IconContainer>
               <IonIcons
                 name={icons.help.filled}

@@ -24,8 +24,8 @@ export const Profile: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
 
   const onUpdate = useCallback(async (name: string) => {
-    dispatch(saveUser({...user, name}));
     await Post('/auth/change-name', {name}, user.token);
+    dispatch(saveUser({...user, name}));
   }, []);
 
   return (

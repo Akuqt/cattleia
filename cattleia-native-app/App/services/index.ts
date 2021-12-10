@@ -1,8 +1,5 @@
 import axios, {AxiosResponse, AxiosError} from 'axios';
-
-const base = 'https://api.aku-mi.xyz/api/v1';
-// const base = 'http://10.0.2.2:4000/api/v1';
-// const base = 'http://192.168.1.6:4000/api/v1';
+import {constants} from '../utils';
 
 export const Post = async <T, E, K = any>(
   url: string,
@@ -13,7 +10,7 @@ export const Post = async <T, E, K = any>(
     .post(url, body, {
       withCredentials: true,
       timeout: 2000,
-      baseURL: base,
+      baseURL: constants.baseUri + '/api/v1',
       headers: {
         Authorization: `bearer ${token}`,
       },
@@ -31,7 +28,7 @@ export const Get = async <T, E, K = any>(
     .get(url, {
       withCredentials: true,
       timeout: 2000,
-      baseURL: base,
+      baseURL: constants.baseUri + '/api/v1',
       headers: {
         Authorization: `bearer ${token}`,
       },
