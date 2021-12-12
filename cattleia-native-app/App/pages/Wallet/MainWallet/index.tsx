@@ -1,18 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconI from 'react-native-vector-icons/Ionicons';
-import {
-  ActivityIndicator,
-  Linking,
-  Modal,
-  ToastAndroid,
-  View,
-} from 'react-native';
+import {ActivityIndicator, Linking, Modal, ToastAndroid} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {formatAddress, theme} from '../../../utils';
 import {useBackHandler} from '../../../hooks';
 import {useClipboard} from '@react-native-community/clipboard';
-import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
 import {Send} from '../Send';
 import {
@@ -73,7 +67,7 @@ export const MainWallet: React.FC<Props> = ({navigation}) => {
         }),
       );
     })();
-  }, []);
+  }, [dispatch, user]);
 
   return (
     <Container color={colors.bgColor}>

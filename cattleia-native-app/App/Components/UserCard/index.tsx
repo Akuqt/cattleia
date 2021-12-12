@@ -36,7 +36,7 @@ export const UserCard: React.FC<Props> = props => {
     if (!edit) {
       props.onUpdate && props.onUpdate(name);
     }
-  }, [edit, props.onUpdate]);
+  }, [edit, props.onUpdate, name, props]);
 
   useEffect(() => {
     setName(props.name);

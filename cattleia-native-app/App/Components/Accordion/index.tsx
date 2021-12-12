@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Container, Header, Title, Content, Group, Img} from './Elements';
 import {icons, Theme} from '../../utils';

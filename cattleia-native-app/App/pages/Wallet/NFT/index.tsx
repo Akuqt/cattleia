@@ -44,7 +44,7 @@ export const NFT: React.FC<Props> = ({navigation}) => {
       }
       setNfts(data);
     })();
-  }, []);
+  }, [user.account.balance.nft.tokens]);
 
   return (
     <ScrollView

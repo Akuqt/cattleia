@@ -35,7 +35,9 @@ export const Verify: React.FC<Props> = ({navigation}) => {
         length={6}
         init={'1'}
         onComplete={code => {
-          if (code === '123456') navigation.navigate('Main');
+          if (code === '123456') {
+            navigation.navigate('Main');
+          }
         }}
       />
       <Img>

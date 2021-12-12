@@ -1,4 +1,4 @@
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
 export const Container = styled.View`
   display: flex;
@@ -38,11 +38,11 @@ export const InfoContainer = styled.View`
   padding: 0px 50px;
 `;
 
-export const InfoTxt = styled.Text<{ mb: string; colors: any }>`
-  color: ${(p) => p.colors.fontPrimary};
+export const InfoTxt = styled.Text<{mb: string; colors: any}>`
+  color: ${p => p.colors.fontPrimary};
   font-size: 18px;
   text-align: center;
-  margin-bottom: ${(p) => p.mb};
+  margin-bottom: ${p => p.mb};
 `;
 
 export const BtnContainer = styled.View`
@@ -56,7 +56,7 @@ export const Btn = styled.TouchableOpacity`
   margin: 20px 40px;
 `;
 
-export const BtnTxt = styled.Text<{ colors: any }>`
-  color: ${(p) => p.colors.primary};
+export const BtnTxt = styled.Text<{colors: any}>`
+  color: ${p => p.colors.primary};
   font-size: 24px;
 `;

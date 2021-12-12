@@ -3,11 +3,11 @@ import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Container, Txt, Img, Logo, Header, Option} from '../Elements';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {moneyFormat, theme} from '../../../../utils';
 import {useBackHandler} from '../../../../hooks';
+import {ToastAndroid} from 'react-native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../../redux/store';
-import {moneyFormat, theme} from '../../../../utils';
-import {ToastAndroid} from 'react-native';
 
 type Props = NativeStackScreenProps<
   {
@@ -55,7 +55,7 @@ export const PaymentType: React.FC<Props> = ({
       const _ids = shop.cart.products.map(p => p.id);
       setIds(_ids);
     }
-  }, [id]);
+  }, [id, shop.cart.total, shop.cart.products, shop.products]);
 
   return (
     <Container

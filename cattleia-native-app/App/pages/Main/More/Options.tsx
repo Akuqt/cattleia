@@ -77,7 +77,7 @@ export const Options: React.FC<any> = ({navigation}) => {
           </Option>
         </OptionContainer>
       </OptionGroup>
-      <OptionGroup colors={colors} height="10%"></OptionGroup>
+      <OptionGroup colors={colors} height="10%" />
     </Container>
   );
 };

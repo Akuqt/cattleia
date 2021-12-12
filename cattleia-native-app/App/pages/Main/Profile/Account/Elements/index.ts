@@ -18,7 +18,7 @@ export const Hero = styled.View<{
   flex-direction: ${p => (p.orientation ? p.orientation : 'row')};
   align-items: ${p => (p.orientation === 'column' ? 'flex-start' : 'center')};
   justify-content: ${p =>
-    p.orientation === 'row' || !!!p.orientation ? 'space-between' : 'center'};
+    p.orientation === 'row' || !p.orientation ? 'space-between' : 'center'};
   width: 100%;
   background-color: ${p => p.bg};
   padding: 10px 20px;

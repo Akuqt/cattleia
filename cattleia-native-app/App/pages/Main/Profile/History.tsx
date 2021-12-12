@@ -34,15 +34,16 @@ export const History: React.FC = () => {
         {ok: boolean}
       >('/history/get', user.token);
 
-      if (res.data.ok) dispatch(setHistory(res.data.history));
-      else {
+      if (res.data.ok) {
+        dispatch(setHistory(res.data.history));
+      } else {
         ToastAndroid.show(
           `Erorr: ${res.data.error.message} [${res.data.error.code}]`,
           ToastAndroid.SHORT,
         );
       }
     })();
-  }, []);
+  }, [dispatch, user.token]);
   return (
     <ScrollView>
       <View

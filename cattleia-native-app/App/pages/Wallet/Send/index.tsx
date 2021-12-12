@@ -171,7 +171,7 @@ export const Send: React.FC = () => {
           width="330px"
           label="Send"
           lm
-          disabled={loading || values.value == ''}
+          disabled={loading || values.value === ''}
           handler={async () => {
             setLoading(true);
             const res = await Post<

@@ -78,7 +78,7 @@ export const Crypto: React.FC<Props> = ({
         }),
       );
     })();
-  }, []);
+  }, [dispatch, user]);
 
   return (
     <Container

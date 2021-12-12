@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {icons, Theme} from '../../utils';
+import {View} from 'react-native';
 import {
   Container,
   Content,

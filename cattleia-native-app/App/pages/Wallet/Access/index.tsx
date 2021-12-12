@@ -56,8 +56,9 @@ export const Access: React.FC<Props> = ({navigation}) => {
                 code: number;
               };
             }>('/web3/access', values, user.token);
-            if (res.data.ok) navigation.navigate('MainWallet');
-            else {
+            if (res.data.ok) {
+              navigation.navigate('MainWallet');
+            } else {
               ToastAndroid.show(
                 `Error: ${res.data.error.message} [${res.data.error.code}]`,
                 ToastAndroid.SHORT,

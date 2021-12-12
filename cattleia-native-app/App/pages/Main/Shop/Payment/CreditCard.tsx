@@ -74,7 +74,7 @@ export const CreditCard: React.FC<Props> = ({
         setKey(res.data.clientSecret);
       }
     })();
-  }, []);
+  }, [total]);
 
   const handleSheet = async () => {
     setLoader(true);
@@ -108,7 +108,7 @@ export const CreditCard: React.FC<Props> = ({
 
       dispatch(addHistory(history));
 
-      const _ = await Post('/history/add', history, user.token);
+      await Post('/history/add', history, user.token);
 
       const points = (total * 2) / 1000;
 

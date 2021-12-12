@@ -61,14 +61,14 @@ export const Info: React.FC<Props> = props => {
               <BtnTxt colors={props.colors}>Back</BtnTxt>
             </Btn>
           ) : (
-            <BtnTxt colors={props.colors}></BtnTxt>
+            <BtnTxt colors={props.colors} />
           )}
           {!props.last ? (
             <Btn onPress={props.next}>
               <BtnTxt colors={props.colors}>Next</BtnTxt>
             </Btn>
           ) : (
-            <BtnTxt colors={props.colors}></BtnTxt>
+            <BtnTxt colors={props.colors} />
           )}
         </BtnContainer>
       </Container>

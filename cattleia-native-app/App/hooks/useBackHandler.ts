@@ -14,5 +14,5 @@ export const useBackHandler = (handler: () => void) => {
     );
 
     return () => backHandler.remove();
-  }, []);
+  }, [handler]);
 };

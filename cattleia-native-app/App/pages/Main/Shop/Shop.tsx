@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {theme, getProductFilter} from '../../../utils';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -55,7 +55,7 @@ export const Shop: React.FC<Props & Nav> = ({navigation, filter, type}) => {
         dispatch(setProducts(res.data.products));
       }
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container

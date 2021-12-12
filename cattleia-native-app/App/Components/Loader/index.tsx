@@ -12,7 +12,7 @@ export const Load: React.FC<Props> = ({dark}) => {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: dark ? '#000' : '#fff',
+        backgroundColor: dark ? '#171717' : '#fff',
       }}>
       <ActivityIndicator size="large" color={dark ? '#fff' : '#000'} />
     </View>

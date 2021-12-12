@@ -28,7 +28,7 @@ export const Plain: React.FC<Props> = props => {
       setText(props.format ? props.format(props.txt) : props.txt);
       props.handler(null as any, props.txt);
     }
-  }, [props.txt]);
+  }, [props]);
 
   return (
     <Container width={props.width} mg={props.margin}>
@@ -51,7 +51,7 @@ export const Plain: React.FC<Props> = props => {
           onPress={async () => {
             const clip = await Clipboard.getString();
 
-            if (!!props.format) {
+            if (props.format) {
               setText(props.format(clip));
               props.handler(null as any, clip);
             } else {
@@ -71,7 +71,7 @@ export const Plain: React.FC<Props> = props => {
         placeholderTextColor="#808080"
         style={{borderRadius: 5, textAlign: props.aling || 'left'}}
         secureTextEntry={show && props.type === 'Password'}
-        editable={!!!props.disabled}
+        editable={!props.disabled}
         value={props.differValue ? text : props.value}
         keyboardType={getKeyboardType(props.type)}
         maxLength={props.length || 20}
@@ -79,8 +79,11 @@ export const Plain: React.FC<Props> = props => {
           props.onKeyPress && props.onKeyPress(e);
         }}
         onChange={e => {
-          if (props.format) setText(props.format(e.nativeEvent.text));
-          else props.handler(e);
+          if (props.format) {
+            setText(props.format(e.nativeEvent.text));
+          } else {
+            props.handler(e);
+          }
 
           if (props.differValue) {
             props.handler(e);

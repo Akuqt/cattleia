@@ -37,7 +37,7 @@ export const ProductCard: React.FC<Props> = props => {
         <Txt
           color={props.theme.fontPrimary}
           fs={props.shop ? '18px' : '15px'}
-          bold={!!!props.shop}>
+          bold={!props.shop}>
           {props.price === 0 ? 'free' : `$${props.price}`}
         </Txt>
         {!!props.shop && (
@@ -46,7 +46,7 @@ export const ProductCard: React.FC<Props> = props => {
           </Txt>
         )}
       </InfoContainer>
-      {!!!props.shop && (
+      {!props.shop && (
         <BtnContainer>
           <Btn onPress={props.onPress}>
             <Ionicons

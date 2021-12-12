@@ -48,12 +48,14 @@ export const Code: React.FC<Props> = ({length, onComplete, ...props}) => {
     if (props.init !== '' && props.init?.length === length) {
       setValues(newObject(length, '', 'v', props.init?.split('')));
     }
-  }, [props.init]);
+  }, [props.init, length]);
 
   useEffect(() => {
     let c = '';
     Object.values(values).forEach(e => {
-      if (e !== '') c += e;
+      if (e !== '') {
+        c += e;
+      }
     });
     if (c.length === length) {
       setInfo('');
@@ -65,7 +67,7 @@ export const Code: React.FC<Props> = ({length, onComplete, ...props}) => {
         }`,
       );
     }
-  }, [values]);
+  }, [values, length, onComplete]);
 
   return (
     <CodeContainer>

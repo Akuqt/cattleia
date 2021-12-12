@@ -52,7 +52,7 @@ export const Receive: React.FC = () => {
           fs="16px"
           margin="15px 0px"
           label="Value *"
-          placeholder={`0.001`}
+          placeholder={'0.001'}
           type="Number"
           lableFs="15px"
           value={values.value}
