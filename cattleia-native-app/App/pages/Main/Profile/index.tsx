@@ -28,7 +28,7 @@ export const Profile: React.FC<Props> = () => {
       await Post('/auth/change-name', {name}, user.token);
       dispatch(saveUser({...user, name}));
     },
-    [dispatch, user],
+    [user, dispatch],
   );
 
   return (

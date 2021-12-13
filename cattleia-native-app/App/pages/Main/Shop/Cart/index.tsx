@@ -108,7 +108,7 @@ export const Cart: React.FC<Props> = ({
                     dispatch(removeCartProduct({id: current.item.id}));
                   }}
                   onPressImg={() => {
-                    navigation.navigate('Product', {id});
+                    navigation.navigate('Product', {id: current.item.id});
                   }}
                 />
               </Grid>

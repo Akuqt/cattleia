@@ -6,8 +6,10 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {moneyFormat, theme} from '../../../../utils';
 import {useBackHandler} from '../../../../hooks';
 import {ToastAndroid} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../redux/store';
+import {Get} from '../../../../services';
+import {saveUser} from '../../../../redux';
 
 type Props = NativeStackScreenProps<
   {
@@ -38,6 +40,8 @@ export const PaymentType: React.FC<Props> = ({
 
   const [total, setTotal] = useState(0);
 
+  const dispatch = useDispatch();
+
   useBackHandler(() => {
     if (id === '-1') {
       navigation.navigate('Cart', {id: '-1'});
@@ -45,6 +49,19 @@ export const PaymentType: React.FC<Props> = ({
       navigation.navigate('Product', {id});
     }
   });
+
+  useEffect(() => {
+    (async () => {
+      const res = await Get(`/web3/balance/${'0x' + user.account.address}`);
+      dispatch(
+        saveUser({
+          ...user,
+          account: {...user.account, balance: res.data.balance},
+        }),
+      );
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   useEffect(() => {
     if (id !== '-1') {

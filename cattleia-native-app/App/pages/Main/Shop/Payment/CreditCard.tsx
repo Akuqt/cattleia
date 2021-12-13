@@ -88,9 +88,7 @@ export const CreditCard: React.FC<Props> = ({
 
     if (!error) {
       ToastAndroid.show(
-        `Received payment - Billed for ${moneyFormat(
-          paymentIntent?.amount || 0,
-        )}`,
+        `Billed for ${moneyFormat((paymentIntent?.amount || 0) / 100)}`,
         ToastAndroid.SHORT,
       );
       setLoading(false);

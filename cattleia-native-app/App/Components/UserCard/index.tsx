@@ -1,5 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import SvgImage from '../RemoteSvg';
 import {Theme} from '../../utils';
 import {Text} from 'react-native';
 import {
@@ -13,10 +14,6 @@ import {
 } from './Elements';
 import {User} from '../../types';
 import {TextInput} from 'react-native';
-
-// @ts-ignore
-import Image from 'react-native-remote-svg';
-
 interface Props {
   name: string;
   avatar?: any;
@@ -32,20 +29,15 @@ export const UserCard: React.FC<Props> = props => {
 
   useEffect(() => {
     edit && inputRef.current?.focus();
-
-    if (!edit) {
-      props.onUpdate && props.onUpdate(name);
-    }
-  }, [edit, props.onUpdate, name, props]);
-
-  useEffect(() => {
-    setName(props.name);
-  }, [props.name]);
+  }, [edit]);
 
   return (
     <Container>
       <AvatarContainer bc={props.theme.fontPrimary}>
-        <Image source={{uri: props.avatar}} style={{width: 600, height: 60}} />
+        <SvgImage
+          source={{uri: props.avatar}}
+          style={{width: 60, height: 60}}
+        />
       </AvatarContainer>
       <InfoContainer>
         <TextContainer>
@@ -61,6 +53,7 @@ export const UserCard: React.FC<Props> = props => {
                 setName(e.nativeEvent.text);
               }}
               onEndEditing={() => {
+                props.onUpdate && props.onUpdate(name);
                 setEdit(false);
               }}
             />

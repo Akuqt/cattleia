@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Txt, Btn, Container, Header, Logo, Img, HeaderBtn} from '../Elements';
+import {ActivityIndicator, Switch, ToastAndroid} from 'react-native';
+import {formatAddress, moneyFormat, theme} from '../../../../utils';
+import {useBackHandler, useInputHandler} from '../../../../hooks';
+import {useDispatch, useSelector} from 'react-redux';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useClipboard} from '@react-native-community/clipboard';
+import {Get, Post} from '../../../../services';
+import {Plain} from '../../../../Components';
 import {
   addHistory,
   removeCartProduct,
   RootState,
   saveUser,
 } from '../../../../redux';
-import {formatAddress, moneyFormat, theme} from '../../../../utils';
-import {ActivityIndicator, Switch, ToastAndroid} from 'react-native';
-import {useBackHandler, useInputHandler} from '../../../../hooks';
-import {useDispatch, useSelector} from 'react-redux';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useClipboard} from '@react-native-community/clipboard';
-import {Plain} from '../../../../Components';
-import {Get, Post} from '../../../../services';
 
 type Props = NativeStackScreenProps<
   {
@@ -67,18 +67,6 @@ export const Crypto: React.FC<Props> = ({
       id: ids.length === 1 ? ids[0] : '-1',
     });
   });
-
-  useEffect(() => {
-    (async () => {
-      const res = await Get(`/web3/balance/${'0x' + user.account.address}`);
-      dispatch(
-        saveUser({
-          ...user,
-          account: {...user.account, balance: res.data.balance},
-        }),
-      );
-    })();
-  }, [dispatch, user]);
 
   return (
     <Container

@@ -67,7 +67,8 @@ export const MainWallet: React.FC<Props> = ({navigation}) => {
         }),
       );
     })();
-  }, [dispatch, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   return (
     <Container color={colors.bgColor}>
