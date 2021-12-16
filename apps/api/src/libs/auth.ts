@@ -2,7 +2,7 @@ import config from "../config";
 import { RoleModel, RankModel } from "../models";
 import { CookieOptions } from "express";
 import { hash, verify } from "argon2";
-import { User } from "./interfaces";
+import { User } from "types/api";
 import { sign } from "jsonwebtoken";
 
 export const createAcessToken = (user: User): string => {
