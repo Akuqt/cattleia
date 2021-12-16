@@ -49,6 +49,8 @@
     "socket.io": "^4.3.2",
     "stripe": "^8.186.1",
     "web3": "^1.5.2",
-    "contracts": "*"
+    "contracts": "*",
+    "types": "*",
+    "utils": "*"
   }
 }

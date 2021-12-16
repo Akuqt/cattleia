@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import { RankModel } from "../models";
-import { Rank } from "./interfaces";
+import { Rank } from "types/api";
 
 export const rankColor = (name: string) => {
   switch (name) {
