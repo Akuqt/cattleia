@@ -147,7 +147,7 @@ export const CreditCard: React.FC<Props> = ({
           ps="20px"
           full>
           <Header>
-            <Logo mb="20px">
+            <Logo mb="20px" style={{marginLeft: 0}}>
               <Img source={darkTheme ? logo2 : logo} />
             </Logo>
           </Header>

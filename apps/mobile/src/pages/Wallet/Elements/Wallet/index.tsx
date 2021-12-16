@@ -35,8 +35,8 @@ export const Section = styled.View<{heigth: string; border?: boolean}>`
 `;
 
 export const Logo = styled.Image`
-  width: 117px;
-  height: 111px;
+  width: 90px;
+  height: 120px;
   margin: 5px 0px;
 `;
 

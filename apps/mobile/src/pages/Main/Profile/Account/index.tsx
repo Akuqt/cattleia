@@ -20,16 +20,20 @@ type Props = NativeStackScreenProps<
 
 export const Account: React.FC<Props> = ({navigation}) => {
   const user = useSelector((state: RootState) => state.userReducer.user);
-  const theme = useSelector((state: RootState) => state.themeReducer.dark)
-    ? colors.dark
-    : colors.light;
+  const darkMode = useSelector((state: RootState) => state.themeReducer.dark);
+
+  const theme = darkMode ? colors.dark : colors.light;
 
   const dispatch = useDispatch();
 
   return (
     <ScrollView>
       <Container>
-        <RankCard rank={user.rank} />
+        <RankCard
+          rank={user.rank}
+          indicatorColor={theme.primary}
+          dark={darkMode}
+        />
         <Hero bg="#c4c4c466" mt="10px">
           <Txt fs="14px" color={theme.fontPrimary} bold>
             HOW TO EARN POINTS?

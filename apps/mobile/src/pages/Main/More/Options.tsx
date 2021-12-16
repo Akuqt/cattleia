@@ -21,7 +21,7 @@ export const Options: React.FC<any> = ({navigation}) => {
     <Container>
       <OptionGroup colors={colors} height="35%">
         <Image
-          style={{width: '70%', height: '70%'}}
+          style={{width: 140, height: 190}}
           source={darkTheme ? logo2 : logo}
         />
       </OptionGroup>

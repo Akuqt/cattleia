@@ -1,5 +1,5 @@
 import React from "react";
-import { rankBase } from "assets";
+import { rankBase1, rankBase2 } from "assets";
 import { Image } from "react-native";
 import { User } from "types";
 import {
@@ -16,6 +16,8 @@ import {
 
 interface Props {
   rank: User["rank"];
+  indicatorColor: string;
+  dark?: boolean;
 }
 
 export const RankCard: React.FC<Props> = (props) => {
@@ -54,7 +56,7 @@ export const RankCard: React.FC<Props> = (props) => {
       </Information>
       <Progress>
         <Circle radius={12} color={props.rank.color} />
-        <ProgressIndicator>
+        <ProgressIndicator color={props.indicatorColor}>
           <Line
             progress={(progress > 1 ? 1 : progress) * 100 + "%"}
             color={props.rank.next.color}
@@ -62,10 +64,10 @@ export const RankCard: React.FC<Props> = (props) => {
         </ProgressIndicator>
         <Circle radius={45} color={props.rank.next.color}>
           <Image
-            source={rankBase}
+            source={props.dark ? rankBase2 : rankBase1}
             style={{
-              width: 25,
-              height: 29,
+              width: 26,
+              height: 30,
             }}
           />
         </Circle>

@@ -58,8 +58,8 @@ export const Logo = styled.View<{mb: string}>`
 `;
 
 export const Img = styled.Image<{round?: boolean}>`
-  width: 117px;
-  height: 111px;
+  width: 82px;
+  height: 110px;
 
   border-bottom-left-radius: ${p => (p.round ? '20px' : '0px')};
   border-bottom-right-radius: ${p => (p.round ? '20px' : '0px')};

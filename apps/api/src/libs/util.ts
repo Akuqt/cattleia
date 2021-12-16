@@ -11,7 +11,7 @@ export const rankColor = (name: string) => {
     case "silver":
       return "#C0C0C0";
     case "gold":
-      return "#FFD700";
+      return "#EFDF00";
     default:
       return "#DF569A";
   }
