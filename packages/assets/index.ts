@@ -1,0 +1,11 @@
+export { default as logo } from "./images/logo.png";
+export { default as logo2 } from "./images/logo2.png";
+export { default as base } from "./images/base.png";
+export { default as base1 } from "./images/base-1.png";
+export { default as base2 } from "./images/base-2.png";
+export { default as base3 } from "./images/base-3.png";
+export { default as base4 } from "./images/base-4.png";
+export { default as bronze } from "./images/bronze.png";
+export { default as silver } from "./images/silver.png";
+export { default as gold } from "./images/gold.png";
+export { default as rankBase } from "./images/rank-base.png";

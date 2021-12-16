@@ -1,0 +1,94 @@
+{
+  "name": "react-native-turborepo",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "scripts/*"
+  ],
+  "scripts": {
+    "ios": "cd apps/mobile && yarn ios",
+    "android": "cd apps/mobile && yarn android",
+    "start:rn": "cd apps/mobile && yarn start",
+    "build:rn": "turbo run build:rn",
+    "extract:apk": "turbo run extract",
+    "start": "turbo run start",
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build --parallel",
+    "test": "cd apps/api && yarn test",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akuqt/cattleia.git"
+  },
+  "keywords": [
+    "api",
+    "eth",
+    "app",
+    "web",
+    "dapp",
+    "web3",
+    "react",
+    "mobile",
+    "express",
+    "monorepo",
+    "truborepo",
+    "socket.io",
+    "websockets",
+    "http-server",
+    "react-native"
+  ],
+  "author": "Akuqt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Akuqt/cattleia/issues"
+  },
+  "homepage": "https://github.com/Akuqt/cattleia#readme",
+  "devDependencies": {
+    "prettier": "^2.5.1",
+    "turbo": "latest"
+  },
+  "turbo": {
+    "pipeline": {
+      "start": {
+        "dependsOn": [
+          "^start"
+        ]
+      },
+      "dev": {
+        "dependsOn": [
+          "^dev"
+        ],
+        "cache": false
+      },
+      "build": {
+        "dependsOn": [
+          "^build"
+        ]
+      },
+      "build:rn": {
+        "dependsOn": [
+          "^build:rn"
+        ]
+      },
+      "extract": {
+        "dependsOn": [
+          "^extract"
+        ],
+        "outputs": [
+          "out/**"
+        ]
+      },
+      "lint": {
+        "outputs": []
+      }
+    }
+  },
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=14.0.0"
+  }
+}

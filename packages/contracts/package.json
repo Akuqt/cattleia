@@ -1,0 +1,22 @@
+{
+  "name": "contracts",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "abis/CattleiaERC20.json",
+    "abis/CattleiaERC721.json"
+  ],
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.3.3",
+    "@truffle/hdwallet-provider": "^2.0.0",
+    "dotenv": "^10.0.0"
+  },
+  "workspaces": {
+    "nohoist": [
+      "@truffle/hdwallet-provider",
+      "@truffle/hdwallet-provider/**",
+      "@openzeppelin/contracts",
+      "@openzeppelin/contracts/**"
+    ]
+  }
+}

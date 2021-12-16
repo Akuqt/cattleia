@@ -1,0 +1,28 @@
+{
+  "name": "components",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.tsx",
+  "types": "index.tsx",
+  "dependencies": {
+    "@react-native-community/clipboard": "^1.5.1",
+    "@react-navigation/drawer": "^6.1.8",
+    "react-native-camera": "^4.2.1",
+    "react-native-permissions": "^3.2.0",
+    "react-native-qrcode-scanner": "^1.5.4",
+    "react-native-qrcode-svg": "^6.1.2",
+    "react-native-swipe-gestures": "^1.0.5",
+    "react-native-vector-icons": "^9.0.0",
+    "react-native-webview": "^11.15.0",
+    "react-persist": "^1.0.2",
+    "styled-components": "^5.3.3",
+    "types": "*",
+    "utils": "*",
+    "config": "*"
+  },
+  "devDependencies": {
+    "@types/react-native-vector-icons": "^6.4.10",
+    "@types/styled-components": "^5.1.18",
+    "@types/styled-components-react-native": "^5.1.3"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "build-mobile",
+  "version": "0.0.1",
+  "private": true,
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build:rn": "node index.js"
+  },
+  "author": "Akuqt",
+  "license": "MIT"
+}

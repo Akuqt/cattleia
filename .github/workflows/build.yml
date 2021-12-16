@@ -6,25 +6,22 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    
-    environment: STAGING
+    runs-on: ${{ matrix.os }}
 
-    defaults:
-      run:
-        working-directory: "cattleia-backend"
+    environment: STAGING
 
     strategy:
       matrix:
-        node-version: [15.x]
+        node: [16.x]
+        os: [ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2
-      - name: Building using Node.js ${{ matrix.node-version }}
+      - name: Using Node.js ${{ matrix.node }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: "yarn"
-          cache-dependency-path: "**/yarn.lock"
-      - run: yarn
-      - run: yarn build
+          node-version: ${{ matrix.node }}
+      - name: Install dependencies
+        run: yarn
+      - name: Build
+        run: yarn build

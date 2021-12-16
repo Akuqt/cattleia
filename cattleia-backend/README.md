@@ -1,2 +1,0 @@
-# backend
-Cattleia's Backend

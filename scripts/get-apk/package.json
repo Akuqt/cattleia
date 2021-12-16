@@ -1,0 +1,21 @@
+{
+  "name": "get-apk",
+  "version": "0.0.1",
+  "main": "index.js",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "extract": "node index.js"
+  },
+  "author": "Akuqt",
+  "license": "MIT",
+  "dependencies": {
+    "extract-zip": "^2.0.1"
+  },
+  "workspaces": {
+    "nohoist": [
+      "extract-zip",
+      "extract-zip/**"
+    ]
+  }
+}
